@@ -1,9 +1,9 @@
 {
-    "name": "root/phplab",
+    "name": "ender9108/enderlab",
     "authors": [
         {
             "name": "Alexandre Berthelot",
-            "email": "alexandre.berthelot@donzat.fr"
+            "email": "alexandreberthelot9108@gmail.com"
         }
     ],
     "autoload": {
