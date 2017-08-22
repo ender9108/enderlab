@@ -22,7 +22,7 @@ $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate
 \Http\Response\send($app->run());
 ```
 
-### Requirements
+## Requirements
 
 - psr/http-message
 - guzzlehttp/psr7
@@ -32,6 +32,6 @@ $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate
 - psr/container
 - monolog/monolog
 
-### Author
+## Author
 
 Alexandre Berthelot <alexandreberthelot9108@gmail.com>
