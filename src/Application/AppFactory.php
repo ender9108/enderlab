@@ -18,7 +18,7 @@ final class AppFactory
      * @return App
      */
     public static function create(
-        /*string $configPath,*/
+        string $configPath,
         ContainerInterface $container = null,
         Dispatcher $dispatcher = null,
         Router $router = null,

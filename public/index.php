@@ -5,7 +5,7 @@ use EnderLab\Application\AppFactory;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-$app = AppFactory::create();
+$app = AppFactory::create('../config/config.php');
 $app->pipe(new \Middlewares\Whoops());
 $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate) {
     //$a = 3/ 0;
