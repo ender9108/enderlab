@@ -79,13 +79,13 @@ class App extends MiddlewareBuilder
      */
     public function pipe($path, $middlewares = null, string $env = null): App
     {
-        if( is_null($middlewares) && true === $this->isAdmissibleMiddlewares($path) )
+        if( is_null($middlewares) )
         {
             $middlewares = $this->buildMiddleware($path);
             $path = '*';
         }
 
-        if( $this->isAdmissibleMiddlewares($middlewares) && !$middlewares instanceof MiddlewareInterface )
+        if( !$middlewares instanceof MiddlewareInterface )
         {
             $middlewares = $this->buildMiddleware($middlewares);
         }

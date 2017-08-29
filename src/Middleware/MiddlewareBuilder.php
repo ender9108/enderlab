@@ -131,6 +131,25 @@ class MiddlewareBuilder
             $method = array_shift($middleware);
             $reflection = new \ReflectionMethod($class, $method);
         }
+        elseif( is_string($middleware) )
+        {
+            if( !class_exists($middleware) )
+            {
+                return false;
+            }
+
+            $reflection = new ReflectionClass($middleware);
+
+            if( $reflection->implementsInterface('Interop\\Http\\ServerMiddleware\\MiddlewareInterface') )
+            {
+                return true;
+            }
+
+            if( !$reflection->getMethod('process') && !$reflection->getMethod('__invoke') )
+            {
+                return false;
+            }
+        }
         elseif( $middleware instanceof \Closure || false === is_object($middleware) )
         {
             $reflection = new \ReflectionFunction($middleware);
