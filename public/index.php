@@ -14,9 +14,12 @@ $app->pipe('App\\MyMiddleware');
     return $response;
 });*/
 
-$app->addRoute('/blog', [
-    'App\\MyMiddlewareInvokable',
-    new \App\MyMiddleware()
-], 'GET', 'first_route_test');
+$app->addRoute(
+    '/blog/:id',
+    ['App\\MyMiddlewareInvokable', new \App\MyMiddleware()],
+    'GET',
+    'first_route_test',
+    array('id' => '\\d+')
+);
 
 \Http\Response\send($app->run());

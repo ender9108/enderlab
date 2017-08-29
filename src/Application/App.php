@@ -42,10 +42,11 @@ class App extends MiddlewareBuilder
      * @param null $middlewares
      * @param string|null $method
      * @param string|null $name
+     * @param array $params
      * @return Route
      * @throws \Exception
      */
-    public function addRoute(string $path, $middlewares = null, string $method = null, string $name = null): Route
+    public function addRoute(string $path, $middlewares = null, string $method = null, string $name = null, array $params = array()): Route
     {
         if( !$path instanceof Route && is_null($middlewares) )
         {
@@ -62,8 +63,7 @@ class App extends MiddlewareBuilder
         if( false === isset($route) )
         {
             $middlewares = $this->buildMiddleware($middlewares);
-
-            $route = new Route($path, $middlewares, $method, $name);
+            $route = new Route($path, $middlewares, $method, $name, $params);
         }
 
         $this->router->addRoute($route);

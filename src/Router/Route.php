@@ -42,13 +42,19 @@ class Route
      * @param callable|MiddlewareInterface $middlewares
      * @param null|string $method
      * @param null|string $name
+     * @param array $params
      */
-    public function __construct(string $path, $middlewares, string $method = null, string $name = null)
+    public function __construct(string $path, $middlewares, string $method = null, string $name = null, array $params = array())
     {
         $this->path = trim($path, '/');
         $this->method = $method;
         $this->middlewares = $middlewares;
         $this->name = $name ?: $this->buildDefaultRouteName();
+
+        foreach( $params as $param => $regex )
+        {
+            $this->with($param, $regex);
+        }
     }
 
     /**
