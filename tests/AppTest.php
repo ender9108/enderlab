@@ -6,26 +6,22 @@ use PHPUnit\Framework\TestCase;
 
 class AppTest extends TestCase
 {
-    private function makeInstanceApp()
-    {
+    private function makeInstanceApp() {
         return AppFactory::create();
     }
 
-    public function testCreateAppObject()
-    {
+    public function testCreateAppObject() {
         $app = $this->makeInstanceApp();
         $this->assertInstanceOf(App::class, $app);
     }
 
-    public function testPipeWithInvalidMiddleware()
-    {
+    public function testPipeWithInvalidMiddleware() {
         $app = $this->makeInstanceApp();
         $this->expectException(\InvalidArgumentException::class);
         $app->pipe('CoucouMiddleware');
     }
 
-    public function testPipeWithValidMiddleware()
-    {
+    public function testPipeWithValidMiddleware() {
         $app = $this->makeInstanceApp();
         $app->pipe('App\\MyMiddleware');
     }
