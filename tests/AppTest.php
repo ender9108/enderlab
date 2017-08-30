@@ -27,7 +27,6 @@ class AppTest extends TestCase
     public function testPipeWithValidMiddleware()
     {
         $app = $this->makeInstanceApp();
-        $this->expectException(\InvalidArgumentException::class);
         $app->pipe('App\\MyMiddleware');
     }
 }
