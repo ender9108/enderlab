@@ -45,7 +45,7 @@ class App extends MiddlewareBuilder
      * @param string|null $name
      * @param array       $params
      *
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      *
      * @return Route
      */
@@ -57,14 +57,15 @@ class App extends MiddlewareBuilder
         array $params = []
     ): Route {
         if (!$path instanceof Route && null === $middlewares) {
-            throw new \Exception('');
+            //@todo exception message
+            throw new \InvalidArgumentException('');
         }
 
         if ($path instanceof Route) {
             $route = $path;
         }
 
-        //TODO check duplicate route
+        //@todo check duplicate route
 
         if (false === isset($route)) {
             $middlewares = $this->buildMiddleware($middlewares);

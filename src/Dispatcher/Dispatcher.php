@@ -53,4 +53,9 @@ class Dispatcher implements DelegateInterface
             return $middleware->process($request, $this);
         }
     }
+
+    public function countMiddlewares()
+    {
+        return $this->middlewares->count();
+    }
 }
