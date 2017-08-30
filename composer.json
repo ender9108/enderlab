@@ -22,7 +22,7 @@
         "monolog/monolog": "^1.23"
     },
     "require-dev": {
-        "kahlan/kahlan": "^3.1",
+        "phpunit/phpunit": "~6.2.0",
         "middlewares/whoops": "^0.4.1",
         "squizlabs/php_codesniffer": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.5"

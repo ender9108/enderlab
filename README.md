@@ -2,7 +2,7 @@
 Micro framework middleware PSR-15
 
 [![Build Status](https://travis-ci.org/ender9108/enderlab.svg?branch=master)](https://travis-ci.org/ender9108/enderlab)
-
+[![Coverage Status](https://coveralls.io/repos/github/ender9108/enderlab/badge.svg?branch=master)](https://coveralls.io/github/ender9108/enderlab?branch=master)
 
 ## Basic Usage
 ```php
