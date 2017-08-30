@@ -11,7 +11,7 @@ use Psr\Container\ContainerInterface;
 final class AppFactory
 {
     /**
-     * @param string                  $configPath
+     * @param string|null             $configPath
      * @param ContainerInterface|null $container
      * @param Dispatcher|null         $dispatcher
      * @param Router|null             $router
@@ -20,7 +20,7 @@ final class AppFactory
      * @return App
      */
     public static function create(
-        string $configPath,
+        string $configPath = null,
         ContainerInterface $container = null,
         Dispatcher $dispatcher = null,
         Router $router = null,
@@ -39,7 +39,5 @@ final class AppFactory
         );
     }
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 }

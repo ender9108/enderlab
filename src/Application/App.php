@@ -77,11 +77,11 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * @todo env params
+     *
      * @param $path
      * @param null        $middlewares
      * @param string|null $env
-     *
-     * @throws \Exception
      *
      * @return App
      */
@@ -94,10 +94,6 @@ class App extends MiddlewareBuilder
 
         if (!$middlewares instanceof MiddlewareInterface) {
             $middlewares = $this->buildMiddleware($middlewares);
-        }
-
-        if (!$middlewares instanceof MiddlewareInterface) {
-            throw new \Exception('Invalid middleware');
         }
 
         $this->dispatcher->pipe(new Route($path, $middlewares));
