@@ -1,6 +1,9 @@
 # enderlab
 Micro framework middleware PSR-15
 
+[![Build Status](https://travis-ci.org/ender9108/enderlab.svg?branch=master)](https://travis-ci.org/ender9108/enderlab)
+
+
 ## Basic Usage
 ```php
 <?php
