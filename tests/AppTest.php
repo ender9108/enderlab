@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Test;
 
 use EnderLab\Application\App;
@@ -31,7 +32,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->pipe('App\\MyMiddleware');
 
-        $this->assertEquals(1, $app->getDispatcher()->countMiddlewares());
+        $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
     public function testPipeWithValidCallableMiddleware()
@@ -44,7 +45,7 @@ class AppTest extends TestCase
             return $response;
         });
 
-        $this->assertEquals(1, $app->getDispatcher()->countMiddlewares());
+        $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
     public function testPipeWithValidInvokableMiddlewareInstance()
@@ -52,7 +53,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->pipe(new \App\MyMiddlewareInvokable());
 
-        $this->assertEquals(1, $app->getDispatcher()->countMiddlewares());
+        $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
     public function testPipeWithValidInvokableMiddlewareCallable()
@@ -60,7 +61,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->pipe('App\\MyMiddlewareInvokable');
 
-        $this->assertEquals(1, $app->getDispatcher()->countMiddlewares());
+        $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
     public function testAddValidRoute()
