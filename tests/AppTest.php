@@ -24,10 +24,10 @@ class AppTest extends TestCase
         $app->pipe('CoucouMiddleware');
     }
 
-    public function testPipeWithInvalidMiddleware()
+    public function testPipeWithValidMiddleware()
     {
         $app = $this->makeInstanceApp();
         $this->expectException(\InvalidArgumentException::class);
-        $app->pipe('CoucouMiddleware');
+        $app->pipe('App\\MyMiddleware');
     }
 }
