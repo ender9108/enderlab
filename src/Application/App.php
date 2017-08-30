@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Application;
 
 use EnderLab\Dispatcher\Dispatcher;
@@ -22,80 +23,85 @@ class App extends MiddlewareBuilder
 
     /**
      * App constructor.
+     *
      * @param ContainerInterface $container
-     * @param Router $router
-     * @param Dispatcher $dispatcher
-     * @param Emitter|null $emitter
+     * @param Router             $router
+     * @param Dispatcher         $dispatcher
+     * @param Emitter|null       $emitter
      */
     public function __construct(
         ContainerInterface $container,
         Router $router,
         Dispatcher $dispatcher,
         ?Emitter $emitter
-    )
-    {
+    ) {
         parent::__construct($container, $router, $dispatcher, $emitter);
     }
 
     /**
-     * @param string $path
-     * @param null $middlewares
+     * @param string      $path
+     * @param null        $middlewares
      * @param string|null $method
      * @param string|null $name
-     * @param array $params
-     * @return Route
+     * @param array       $params
+     *
      * @throws \Exception
+     *
+     * @return Route
      */
-    public function addRoute(string $path, $middlewares = null, string $method = null, string $name = null, array $params = array()): Route
-    {
-        if( !$path instanceof Route && is_null($middlewares) )
-        {
+    public function addRoute(
+        string $path,
+        $middlewares = null,
+        string $method = null,
+        string $name = null,
+        array $params = []
+    ): Route {
+        if (!$path instanceof Route && null === $middlewares) {
             throw new \Exception('');
         }
 
-        if( $path instanceof Route )
-        {
+        if ($path instanceof Route) {
             $route = $path;
         }
 
         //TODO check duplicate route
 
-        if( false === isset($route) )
-        {
+        if (false === isset($route)) {
             $middlewares = $this->buildMiddleware($middlewares);
             $route = new Route($path, $middlewares, $method, $name, $params);
         }
 
         $this->router->addRoute($route);
+
         return $route;
     }
 
     /**
      * @param $path
-     * @param null $middlewares
+     * @param null        $middlewares
      * @param string|null $env
-     * @return App
+     *
      * @throws \Exception
+     *
+     * @return App
      */
     public function pipe($path, $middlewares = null, string $env = null): App
     {
-        if( is_null($middlewares) )
-        {
+        if (null === $middlewares) {
             $middlewares = $this->buildMiddleware($path);
             $path = '*';
         }
 
-        if( !$middlewares instanceof MiddlewareInterface )
-        {
+        if (!$middlewares instanceof MiddlewareInterface) {
             $middlewares = $this->buildMiddleware($middlewares);
         }
 
-        if( !$middlewares instanceof MiddlewareInterface )
-        {
+        if (!$middlewares instanceof MiddlewareInterface) {
             throw new \Exception('Invalid middleware');
         }
 
         $this->dispatcher->pipe(new Route($path, $middlewares));
+
         return $this;
     }
 
@@ -106,7 +112,7 @@ class App extends MiddlewareBuilder
     {
         $request = ServerRequest::fromGlobals();
         $response = new Response();
-        $request  = $request->withAttribute('originalResponse', $response);
+        $request = $request->withAttribute('originalResponse', $response);
 
         $this->pipe(new RouterMiddleware($this->router, $response));
         $this->pipe(new DispatcherMiddleware($this->container, $this->router, $this->emitter));
@@ -114,7 +120,6 @@ class App extends MiddlewareBuilder
         $response = $this->dispatcher->process($request);
 
         return $response;
-
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Middleware;
 
 use EnderLab\Dispatcher\Dispatcher;
@@ -13,6 +14,7 @@ class MiddlewareCollection implements MiddlewareInterface
 
     /**
      * MiddlewareCollection constructor.
+     *
      * @param \SplQueue $middlewares
      */
     public function __construct(\SplQueue $middlewares)
@@ -22,12 +24,14 @@ class MiddlewareCollection implements MiddlewareInterface
 
     /**
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
+     * @param DelegateInterface      $delegate
+     *
      * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
         $dispatcher = new Dispatcher($this->middlewares, $delegate);
+
         return $dispatcher->process($request);
     }
 }

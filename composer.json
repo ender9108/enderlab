@@ -23,7 +23,9 @@
     },
     "require-dev": {
         "kahlan/kahlan": "^3.1",
-        "middlewares/whoops": "^0.4.1"
+        "middlewares/whoops": "^0.4.1",
+        "squizlabs/php_codesniffer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.5"
     },
     "scripts": {
         "serve": "php -S localhost:8080 -t public/ -d display_errors=1"

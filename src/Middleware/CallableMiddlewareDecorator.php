@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Middleware;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
@@ -20,7 +21,7 @@ class CallableMiddlewareDecorator implements MiddlewareInterface
      * to the next middleware component to create the response.
      *
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
+     * @param DelegateInterface      $delegate
      *
      * @return ResponseInterface
      */

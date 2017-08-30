@@ -1,10 +1,11 @@
 <?php
+
 namespace EnderLab\Dispatcher;
 
 use GuzzleHttp\Psr7\Response;
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use \Interop\Http\ServerMiddleware\MiddlewareInterface;
-use \Interop\Http\ServerMiddleware\DelegateInterface;
 use SplQueue;
 
 class Dispatcher implements DelegateInterface
@@ -16,7 +17,8 @@ class Dispatcher implements DelegateInterface
 
     /**
      * Dispatcher constructor.
-     * @param SplQueue|null $middlewares
+     *
+     * @param SplQueue|null          $middlewares
      * @param DelegateInterface|null $delegate
      */
     public function __construct(SplQueue $middlewares = null, DelegateInterface $delegate = null)
@@ -29,15 +31,14 @@ class Dispatcher implements DelegateInterface
     public function pipe($middleware): Dispatcher
     {
         $this->middlewares->enqueue($middleware);
+
         return $this;
     }
 
     public function process(ServerRequestInterface $request)
     {
-        if( $this->middlewares->isEmpty() )
-        {
-            if( false === is_null($this->delegate) )
-            {
+        if ($this->middlewares->isEmpty()) {
+            if (false === (null === $this->delegate)) {
                 return $this->delegate->process($request);
             }
 
@@ -45,11 +46,10 @@ class Dispatcher implements DelegateInterface
         }
 
         $middleware = $this->middlewares->dequeue();
-        $this->index++;
+        ++$this->index;
         $middleware = $middleware->getMiddlewares();
 
-        if( $middleware instanceof MiddlewareInterface )
-        {
+        if ($middleware instanceof MiddlewareInterface) {
             return $middleware->process($request, $this);
         }
     }

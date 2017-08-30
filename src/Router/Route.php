@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Router;
 
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
@@ -16,7 +17,7 @@ class Route
     private $middlewares;
 
     /**
-     * @var null|string
+     * @var array
      */
     private $method;
 
@@ -36,31 +37,36 @@ class Route
     private $params = [];
 
     /**
-     * Constructeur de la classe
+     * Constructeur de la classe.
      *
-     * @param string $path
+     * @param string                       $path
      * @param callable|MiddlewareInterface $middlewares
-     * @param null|string $method
-     * @param null|string $name
-     * @param array $params
+     * @param array                        $method
+     * @param null|string                  $name
+     * @param array                        $params
      */
-    public function __construct(string $path, $middlewares, string $method = null, string $name = null, array $params = array())
-    {
+    public function __construct(
+        string $path,
+        $middlewares,
+        $method = null,
+        string $name = null,
+        array $params = []
+    ) {
         $this->path = trim($path, '/');
-        $this->method = $method;
+        $this->method = (is_string($method) ? [$method] : (null === $method ? [] : $method));
         $this->middlewares = $middlewares;
         $this->name = $name ?: $this->buildDefaultRouteName();
 
-        foreach( $params as $param => $regex )
-        {
+        foreach ($params as $param => $regex) {
             $this->with($param, $regex);
         }
     }
 
     /**
-     * Permet de capturer l'url avec les paramètre
+     * Permet de capturer l'url avec les paramètre.
      *
      * @param string $url
+     *
      * @return bool
      */
     public function match(string $url): bool
@@ -69,8 +75,7 @@ class Route
         $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'], $this->path);
         $regex = "#^$path$#i";
 
-        if( !preg_match($regex, $url, $matches) )
-        {
+        if (!preg_match($regex, $url, $matches)) {
             return false;
         }
 
@@ -81,15 +86,17 @@ class Route
     }
 
     /**
-     * Ajoute des paramètres dans l'url
+     * Ajoute des paramètres dans l'url.
      *
      * @param string $param
      * @param string $regex
+     *
      * @return Route
      */
     public function with(string $param, string $regex): Route
     {
         $this->params[$param] = str_replace('(', '(?:', $regex);
+
         return $this;
     }
 
@@ -110,9 +117,9 @@ class Route
     }
 
     /**
-     * @return null|string
+     * @return array
      */
-    public function getMethod(): ?string
+    public function getMethod(): array
     {
         return $this->method;
     }
@@ -134,17 +141,17 @@ class Route
     }
 
     /**
-     * Retourne une url formattée
+     * Retourne une url formattée.
      *
      * @param array $params
+     *
      * @return string
      */
     public function getUrl(array $params): string
     {
         $path = $this->path;
 
-        foreach( $params as $k => $v )
-        {
+        foreach ($params as $k => $v) {
             $path = str_replace(":$k", $v, $path);
         }
 
@@ -152,16 +159,16 @@ class Route
     }
 
     /**
-     * Return a param regex
+     * Return a param regex.
      *
      * @param array $match
+     *
      * @return string
      */
     private function paramMatch(array $match): string
     {
-        if( isset($this->params[$match[1]]) )
-        {
-            return '('.$this->params[$match[1]].')';
+        if (isset($this->params[$match[1]])) {
+            return '(' . $this->params[$match[1]] . ')';
         }
 
         return '([^/]+)';

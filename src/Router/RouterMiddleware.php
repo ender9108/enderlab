@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Router;
 
 use GuzzleHttp\Psr7\Response;
@@ -21,7 +22,8 @@ class RouterMiddleware implements MiddlewareInterface
 
     /**
      * RouterMiddleware constructor.
-     * @param Router $router
+     *
+     * @param Router   $router
      * @param Response $response
      */
     public function __construct(Router $router, Response $response)
@@ -35,34 +37,28 @@ class RouterMiddleware implements MiddlewareInterface
      * to the next middleware component to create the response.
      *
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
+     * @param DelegateInterface      $delegate
      *
      * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        try
-        {
+        try {
             $route = $this->router->match($request);
 
-            if( null === $route )
-            {
+            if (null === $route) {
                 throw new RouterException('Route not found', 404);
             }
 
             $request = $request->withAttribute(Route::class, $route);
 
-            foreach( $route->getParams() as $label => $value )
-            {
+            foreach ($route->getParams() as $label => $value) {
                 $request = $request->withAttribute($label, $value);
             }
 
             $response = $delegate->process($request);
-        }
-        catch( RouterException $exception )
-        {
-            if( !isset($response) )
-            {
+        } catch (RouterException $exception) {
+            if (!isset($response)) {
                 $response = $delegate->process($request);
             }
 

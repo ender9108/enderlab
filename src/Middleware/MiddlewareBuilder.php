@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Middleware;
 
 use EnderLab\Dispatcher\Dispatcher;
@@ -7,7 +8,7 @@ use EnderLab\Router\Route;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use ReflectionClass;
 
@@ -35,18 +36,18 @@ class MiddlewareBuilder
 
     /**
      * App constructor.
+     *
      * @param ContainerInterface $container
-     * @param Router $router
-     * @param Dispatcher $dispatcher
-     * @param Emitter|null $emitter
+     * @param Router             $router
+     * @param Dispatcher         $dispatcher
+     * @param Emitter|null       $emitter
      */
     public function __construct(
         ContainerInterface $container,
         Router $router,
         Dispatcher $dispatcher,
         ?Emitter $emitter
-    )
-    {
+    ) {
         $this->container = $container;
         $this->router = $router;
         $this->dispatcher = $dispatcher;
@@ -55,25 +56,24 @@ class MiddlewareBuilder
 
     /**
      * @param array|callable|MiddlewareInterface|string $middlewares
+     *
      * @return MiddlewareInterface
      */
     public function buildMiddleware($middlewares): MiddlewareInterface
     {
-        if( $middlewares instanceof MiddlewareInterface )
-        {
+        if ($middlewares instanceof MiddlewareInterface) {
             return $middlewares;
         }
 
-        if( is_callable($middlewares) && true === $this->isAdmissibleMiddlewares($middlewares) )
-        {
+        if (is_callable($middlewares) && true === $this->isAdmissibleMiddlewares($middlewares)) {
             return new CallableMiddlewareDecorator($middlewares);
         }
 
-        if( is_string($middlewares) )
-        {
-            if( !class_exists($middlewares) )
-            {
-                throw new InvalidArgumentException(sprintf('Unable to create middleware "%s"; not a valid class or service name', $middlewares));
+        if (is_string($middlewares)) {
+            if (!class_exists($middlewares)) {
+                throw new InvalidArgumentException(
+                    sprintf('Unable to create middleware "%s"; not a valid class or service name', $middlewares)
+                );
             }
 
             $reflection = new ReflectionClass($middlewares);
@@ -81,25 +81,21 @@ class MiddlewareBuilder
 
             $instance = $reflection->newInstanceArgs($args);
 
-            if( $instance instanceof MiddlewareInterface )
-            {
+            if ($instance instanceof MiddlewareInterface) {
                 return $instance;
             }
 
-            if( true === $this->isAdmissibleMiddlewares($instance) )
-            {
+            if (true === $this->isAdmissibleMiddlewares($instance)) {
                 return new CallableMiddlewareDecorator($instance);
             }
         }
 
         // TODO pipe middlewares
-        if( is_array($middlewares) )
-        {
+        if (is_array($middlewares)) {
             $queue = new \SplQueue();
             $middlewares = array_reverse($middlewares);
 
-            foreach( $middlewares as $middleware )
-            {
+            foreach ($middlewares as $middleware) {
                 $queue->enqueue(new Route(
                     '*',
                     $this->buildMiddleware($middleware)
@@ -114,48 +110,38 @@ class MiddlewareBuilder
 
     /**
      * @param $middleware
+     *
      * @return bool
      */
     public function isAdmissibleMiddlewares($middleware)
     {
         $reflection = null;
 
-        if( $middleware instanceof MiddlewareInterface )
-        {
+        if ($middleware instanceof MiddlewareInterface) {
             return true;
         }
 
-        if( is_array($middleware) )
-        {
+        if (is_array($middleware)) {
             $class = array_shift($middleware);
             $method = array_shift($middleware);
             $reflection = new \ReflectionMethod($class, $method);
-        }
-        elseif( is_string($middleware) )
-        {
-            if( !class_exists($middleware) )
-            {
+        } elseif (is_string($middleware)) {
+            if (!class_exists($middleware)) {
                 return false;
             }
 
             $reflection = new ReflectionClass($middleware);
 
-            if( $reflection->implementsInterface('Interop\\Http\\ServerMiddleware\\MiddlewareInterface') )
-            {
+            if ($reflection->implementsInterface('Interop\\Http\\ServerMiddleware\\MiddlewareInterface')) {
                 return true;
             }
 
-            if( !$reflection->getMethod('process') && !$reflection->getMethod('__invoke') )
-            {
+            if (!$reflection->getMethod('process') && !$reflection->getMethod('__invoke')) {
                 return false;
             }
-        }
-        elseif( $middleware instanceof \Closure || false === is_object($middleware) )
-        {
+        } elseif ($middleware instanceof \Closure || false === is_object($middleware)) {
             $reflection = new \ReflectionFunction($middleware);
-        }
-        else
-        {
+        } else {
             $reflection = new \ReflectionMethod($middleware, '__invoke');
         }
 
@@ -164,62 +150,42 @@ class MiddlewareBuilder
 
     /**
      * @param ReflectionClass $reflection
+     *
      * @return array
      */
     private function getParameters(ReflectionClass $reflection): array
     {
-        if( is_null($reflection->getConstructor()) )
-        {
+        if (null === $reflection->getConstructor()) {
             return [];
         }
 
         $params = $reflection->getConstructor()->getParameters();
         $args = [];
 
-        foreach( $params as $param )
-        {
-            if( $param->getClass() && $param->getClass()->isInstance($this->container) )
-            {
+        foreach ($params as $param) {
+            if ($param->getClass() && $param->getClass()->isInstance($this->container)) {
                 $args[] = $this->container;
-            }
-            elseif( $param->getClass() && $param->getClass()->isInstance($this->router) )
-            {
+            } elseif ($param->getClass() && $param->getClass()->isInstance($this->router)) {
                 $args[] = $this->router;
-            }
-            elseif( $param->getClass() && $param->getClass()->isInstance($this->dispatcher) )
-            {
+            } elseif ($param->getClass() && $param->getClass()->isInstance($this->dispatcher)) {
                 $args[] = $this->dispatcher;
-            }
-            elseif( $this->emitter && $param->getClass() && $param->getClass()->isInstance($this->emitter) )
-            {
+            } elseif ($this->emitter && $param->getClass() && $param->getClass()->isInstance($this->emitter)) {
                 $args[] = $this->emitter;
-            }
-            else
-            {
+            } else {
                 $request = ServerRequest::fromGlobals();
                 $attributes = $request->getQueryParams();
 
-                foreach( $attributes as $name => $value )
-                {
-                    if( array_key_exists($param->getName(), $name) )
-                    {
-                        if( $param->isVariadic() && is_array($value) )
-                        {
+                foreach ($attributes as $name => $value) {
+                    if (array_key_exists($param->getName(), $name)) {
+                        if ($param->isVariadic() && is_array($value)) {
                             $args[] = array_merge($args, array_values($value));
-                        }
-                        else
-                        {
+                        } else {
                             $args[] = $value;
                         }
-                    }
-                    elseif( $param->isDefaultValueAvailable() )
-                    {
+                    } elseif ($param->isDefaultValueAvailable()) {
                         $args[] = $param->getDefaultValue();
-                    }
-                    else
-                    {
-                        if( $param->hasType() && $param->allowsNull() )
-                        {
+                    } else {
+                        if ($param->hasType() && $param->allowsNull()) {
                             $args[] = null;
                         }
                     }

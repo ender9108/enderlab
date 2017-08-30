@@ -2,7 +2,7 @@
 
 namespace EnderLab\Router;
 
-use \GuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\ServerRequest;
 
 class Router implements IRouterInterface
 {
@@ -43,50 +43,48 @@ class Router implements IRouterInterface
 
     /**
      * @param Route $route
-     * @return Router
+     *
      * @throws RouterException
+     *
+     * @return Router
      */
     public function addRoute(Route $route): Router
     {
-        if( !is_null($route->getMethod()) && !in_array($route->getMethod(), $this->allowedMethods) )
-        {
+        if (count($route->getMethod()) === 0 && !in_array($route->getMethod(), $this->allowedMethods, true)) {
             throw new RouterException('Method ' . $route->getMethod() . ' not allow.', 405);
         }
 
-        if( is_null($route->getMethod()) )
-        {
-            foreach( $this->allowedMethods as $allowedMethod )
-            {
+        if (count($route->getMethod()) === 0) {
+            foreach ($this->allowedMethods as $allowedMethod) {
                 $this->routes[$allowedMethod][] = $route;
             }
-        }
-        else
-        {
-            $this->routes[$route->getMethod()][] = $route;
+        } else {
+            foreach ($route->getMethod() as $method) {
+                $this->routes[$method][] = $route;
+            }
         }
 
         $this->namedRoutes[$route->getName()] = $route;
-        $this->count++;
+        ++$this->count;
 
         return $this;
     }
 
     /**
      * @param ServerRequest $request
-     * @return Route|bool
+     *
      * @throws RouterException
+     *
+     * @return Route|bool
      */
     public function match(ServerRequest $request): ?Route
     {
-        if( !isset($this->routes[$request->getMethod()]) )
-        {
+        if (!isset($this->routes[$request->getMethod()])) {
             throw new RouterException('Method ' . $request->getMethod() . ' not allow.', 405);
         }
 
-        foreach( $this->routes[$request->getMethod()] as $route )
-        {
-            if( $route->match($request->getUri()->getPath()) )
-            {
+        foreach ($this->routes[$request->getMethod()] as $route) {
+            if ($route->match($request->getUri()->getPath())) {
                 return $route;
             }
         }
@@ -96,9 +94,11 @@ class Router implements IRouterInterface
 
     /**
      * @param string $name
-     * @param array $params
-     * @return string
+     * @param array  $params
+     *
      * @throws RouterException
+     *
+     * @return string
      */
     public function getNamedUrl(string $name, array $params = []): string
     {

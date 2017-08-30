@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Dispatcher;
 
 use EnderLab\Event\Emitter;
@@ -19,16 +20,16 @@ class DispatcherMiddleware implements MiddlewareInterface
 
     /**
      * DispatcherMiddleware constructor.
+     *
      * @param ContainerInterface $container
-     * @param Router|null $router
-     * @param Emitter|null $emitter
+     * @param Router|null        $router
+     * @param Emitter|null       $emitter
      */
     public function __construct(
         ContainerInterface $container,
         ?Router $router,
         ?Emitter $emitter
-    )
-    {
+    ) {
         $this->container = $container;
         $this->router = $router;
         $this->emitter = $emitter;
@@ -39,7 +40,7 @@ class DispatcherMiddleware implements MiddlewareInterface
      * to the next middleware component to create the response.
      *
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
+     * @param DelegateInterface      $delegate
      *
      * @return ResponseInterface
      */
@@ -47,15 +48,13 @@ class DispatcherMiddleware implements MiddlewareInterface
     {
         $route = $request->getAttribute(Route::class, false);
 
-        if( !$route )
-        {
+        if (!$route) {
             return $delegate->process($request);
         }
 
         $middleware = $route->getMiddlewares();
 
-        if(! $middleware instanceof MiddlewareInterface )
-        {
+        if (!$middleware instanceof MiddlewareInterface) {
             $middleware = MiddlewareBuilder::buildMiddleware(
                 $middleware,
                 $this->container,
