@@ -26,7 +26,6 @@ $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate
 ```
 
 ## Requirements
-
 - psr/http-message
 - guzzlehttp/psr7
 - http-interop/response-sender
@@ -35,6 +34,14 @@ $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate
 - psr/container
 - monolog/monolog
 
-## Author
 
+## Dev requirements
+- phpunit/phpunit
+- middlewares/whoops
+- squizlabs/php_codesniffer
+- friendsofphp/php-cs-fixer
+- satooshi/php-coveralls
+
+
+## Author
 Alexandre Berthelot <alexandreberthelot9108@gmail.com>
