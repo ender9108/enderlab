@@ -39,6 +39,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Add route on router
+     *
      * @param string      $path
      * @param null        $middlewares
      * @param string|null $method
@@ -78,6 +80,7 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Add middleware on pipe
      * @todo env params
      *
      * @param $path
@@ -103,6 +106,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Start process dispatcher
+     *
      * @return ResponseInterface
      */
     public function run(): ResponseInterface
@@ -120,6 +125,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Return Emitter object
+     *
      * @return Emitter|null
      */
     public function getEmitter(): ?Emitter
@@ -128,6 +135,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Return Container object
+     *
      * @return ContainerInterface
      */
     public function getContainer(): ContainerInterface
@@ -136,6 +145,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Return Router object
+     *
      * @return Router
      */
     public function getRouter(): Router
@@ -144,6 +155,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Return Dispatcher object
+     *
      * @return Dispatcher
      */
     public function getDispatcher(): Dispatcher
