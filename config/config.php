@@ -1,6 +1,6 @@
 <?php
 return [
-    'global.env' => 'dev',
+    'global.env' => \DI\env('global_env', 'dev'),
     'routes' => [
         \DI\object(\EnderLab\Router\Route::class)->constructor(
             '/blog/:id/:pouette',

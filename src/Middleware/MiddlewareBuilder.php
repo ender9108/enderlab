@@ -165,6 +165,8 @@ class MiddlewareBuilder
         foreach ($params as $param) {
             if ($param->getClass() && $param->getClass()->isInstance($this->container)) {
                 $args[] = $this->container;
+            } elseif ($param->getClass() && $this->container->get('logger') && $param->getClass()->isInstance($this->container->get('logger'))) {
+                $args[] = $this->container->get('logger');
             } elseif ($param->getClass() && $param->getClass()->isInstance($this->router)) {
                 $args[] = $this->router;
             } elseif ($param->getClass() && $param->getClass()->isInstance($this->dispatcher)) {

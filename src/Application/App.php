@@ -79,8 +79,6 @@ class App extends MiddlewareBuilder
     /**
      * Add middleware on pipe.
      *
-     * @todo env params
-     *
      * @param $path
      * @param null        $middlewares
      * @param string|null $env
