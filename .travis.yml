@@ -14,4 +14,3 @@ script:
 
 after_success:
   - travis_retry php vendor/bin/coveralls
-  - ./vendor/bin/apigen generate ./src --destination ./docs
