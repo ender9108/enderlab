@@ -39,7 +39,7 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * Add route on router
+     * Add route on router.
      *
      * @param string      $path
      * @param null        $middlewares
@@ -80,7 +80,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * Add middleware on pipe
+     * Add middleware on pipe.
+     *
      * @todo env params
      *
      * @param $path
@@ -106,7 +107,7 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * Start process dispatcher
+     * Start process dispatcher.
      *
      * @return ResponseInterface
      */
@@ -125,7 +126,7 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * Return Emitter object
+     * Return Emitter object.
      *
      * @return Emitter|null
      */
@@ -135,7 +136,7 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * Return Container object
+     * Return Container object.
      *
      * @return ContainerInterface
      */
@@ -145,7 +146,7 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * Return Router object
+     * Return Router object.
      *
      * @return Router
      */
@@ -155,7 +156,7 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * Return Dispatcher object
+     * Return Dispatcher object.
      *
      * @return Dispatcher
      */
