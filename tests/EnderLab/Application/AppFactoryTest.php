@@ -22,7 +22,6 @@ class AppFactoryTest extends TestCase
     {
         $app = AppFactory::create(
             __DIR__ . '/../../../config.config.php',
-            (new ContainerBuilder())->build(),
             new Dispatcher(),
             new Router(),
             Emitter::getInstance()
