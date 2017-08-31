@@ -1,5 +1,6 @@
 <?php
-namespace EnderLab\Test;
+
+namespace Tests\EnderLab\Application;
 
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
@@ -26,7 +27,7 @@ class AppTest extends TestCase
     {
         $app = $this->makeInstanceApp();
         $this->expectException(\InvalidArgumentException::class);
-        $app->pipe('CoucouMiddleware');
+        $app->pipe('InvalideMiddleware');
     }
 
     public function testPipeWithValidMiddlewareInterface()

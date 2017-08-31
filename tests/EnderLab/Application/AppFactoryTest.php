@@ -1,5 +1,6 @@
 <?php
-namespace EnderLab\Test;
+
+namespace Tests\EnderLab\Application;
 
 use DI\ContainerBuilder;
 use EnderLab\Application\App;
@@ -20,7 +21,7 @@ class AppFactoryTest extends TestCase
     public function testCreateAppWithArg()
     {
         $app = AppFactory::create(
-            dirname(__FILE__).'/../../../config.config.php',
+            __DIR__ . '/../../../config.config.php',
             (new ContainerBuilder())->build(),
             new Dispatcher(),
             new Router(),
