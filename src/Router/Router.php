@@ -48,10 +48,8 @@ class Router implements IRouterInterface
 
     public function addRoutes(array $routes = []): Router
     {
-        foreach( $routes as $route )
-        {
-            if( $route instanceof Route )
-            {
+        foreach ($routes as $route) {
+            if ($route instanceof Route) {
                 $this->addRoute($route);
             }
         }

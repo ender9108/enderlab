@@ -87,10 +87,9 @@ class Route
         array_shift($matches);
         $count = 0;
 
-        foreach( $this->params as $key => $param )
-        {
+        foreach ($this->params as $key => $param) {
             $this->attributes[$key] = $matches[$count];
-            $count++;
+            ++$count;
         }
 
         $this->matches = $matches;

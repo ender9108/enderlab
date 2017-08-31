@@ -40,8 +40,7 @@ final class AppFactory
         $container->set(Router::class, $router);
         $container->set(Emitter::class, $emitter);
 
-        if( $container->has('routes') )
-        {
+        if ($container->has('routes')) {
             $router->addRoutes($container->get('routes'));
         }
 

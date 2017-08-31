@@ -54,10 +54,10 @@ class DispatcherMiddleware implements MiddlewareInterface
 
         $middleware = $route->getMiddlewares();
         $middlewareBuilder = new MiddlewareBuilder(
-          $this->container,
-          $this->router,
-          $delegate,
-          $this->emitter
+            $this->container,
+            $this->router,
+            $delegate,
+            $this->emitter
         );
 
         if (!$middleware instanceof MiddlewareInterface) {
