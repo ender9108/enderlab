@@ -29,9 +29,9 @@ class LoggerMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $this->logger->info(
-            'Request: '."\n".
-            "\t".'Uri: '.$request->getUri()."\n".
-            "\t".'Method: '.$request->getMethod()."\n"
+            'Request: ' . "\n" .
+            "\t" . 'Uri: ' . $request->getUri() . "\n" .
+            "\t" . 'Method: ' . $request->getMethod() . "\n"
         );
 
         return $delegate->process($request);
