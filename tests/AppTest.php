@@ -5,7 +5,10 @@ namespace EnderLab\Test;
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Router\Route;
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class AppTest extends TestCase
 {
@@ -74,5 +77,25 @@ class AppTest extends TestCase
             return $response;
         }, 'GET', 'route_test');
         $this->assertInstanceOf(Route::class, $route);
+    }
+
+    public function testAddInvalidRoute()
+    {
+        $app = $this->makeInstanceApp();
+        $this->expectException(\InvalidArgumentException::class);
+        $app->addRoute('/', null, 'GET', 'route_test');
+    }
+
+    public function testProcessApp()
+    {
+        $app = $this->makeInstanceApp();
+        $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Test phpunit process app !');
+
+            return $response;
+        });
+        $response = $app->run();
+        $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 }
