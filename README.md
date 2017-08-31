@@ -30,9 +30,7 @@ $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate
 - guzzlehttp/psr7
 - http-interop/response-sender
 - http-interop/http-middleware
-- php-di/php-di
 - psr/container
-- monolog/monolog
 
 
 ## Dev requirements
