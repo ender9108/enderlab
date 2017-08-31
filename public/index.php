@@ -5,7 +5,7 @@ use EnderLab\Application\AppFactory;
 
 $app = AppFactory::create('../config/config.php');
 $app->pipe(new \Middlewares\Whoops());
-$app->pipe('App\\MyMiddleware');
+//$app->pipe('App\\MyMiddleware');
 /*$app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate) {
     $a = 3/ 0;
     $response = $delegate->process($request);
@@ -14,12 +14,12 @@ $app->pipe('App\\MyMiddleware');
     return $response;
 });*/
 
-$app->addRoute(
+/*$app->addRoute(
     '/blog/:id',
     ['App\\MyMiddlewareInvokable', new \App\MyMiddleware()],
     'GET',
     'first_route_test',
     array('id' => '\\d+')
-);
+);*/
 
 \Http\Response\send($app->run());

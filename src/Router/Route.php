@@ -37,6 +37,11 @@ class Route
     private $params = [];
 
     /**
+     * @var array
+     */
+    private $attributes = [];
+
+    /**
      * Constructeur de la classe.
      *
      * @param string                       $path
@@ -80,6 +85,14 @@ class Route
         }
 
         array_shift($matches);
+        $count = 0;
+
+        foreach( $this->params as $key => $param )
+        {
+            $this->attributes[$key] = $matches[$count];
+            $count++;
+        }
+
         $this->matches = $matches;
 
         return true;
@@ -138,6 +151,14 @@ class Route
     public function getParams(): array
     {
         return $this->params;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
     /**

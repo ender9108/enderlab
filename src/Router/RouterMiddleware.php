@@ -52,7 +52,7 @@ class RouterMiddleware implements MiddlewareInterface
 
             $request = $request->withAttribute(Route::class, $route);
 
-            foreach ($route->getParams() as $label => $value) {
+            foreach ($route->getAttributes() as $label => $value) {
                 $request = $request->withAttribute($label, $value);
             }
 

@@ -26,7 +26,7 @@ class MyMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
         $response = $delegate->process($request);
-        $response->getBody()->write('<br>Coucou 4 (by route)<br>');
+        $response->getBody()->write('<br>Middleware by route config width id : '.$request->getAttribute('id').'<br>');
 
         return $response;
     }

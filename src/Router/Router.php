@@ -33,12 +33,30 @@ class Router implements IRouterInterface
      */
     private $count = 0;
 
+    public function __construct(array $routes = [])
+    {
+        $this->addRoutes($routes);
+    }
+
     /**
      * @return int
      */
     public function count(): int
     {
         return $this->count;
+    }
+
+    public function addRoutes(array $routes = []): Router
+    {
+        foreach( $routes as $route )
+        {
+            if( $route instanceof Route )
+            {
+                $this->addRoute($route);
+            }
+        }
+
+        return $this;
     }
 
     /**
