@@ -13,7 +13,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
+use function \Http\Response\send;
 
 class App extends MiddlewareBuilder
 {
@@ -107,10 +107,8 @@ class App extends MiddlewareBuilder
 
     /**
      * Start process dispatcher.
-     *
-     * @return ResponseInterface
      */
-    public function run(): ResponseInterface
+    public function run(): void
     {
         $request = ServerRequest::fromGlobals();
         $response = new Response();
@@ -121,7 +119,7 @@ class App extends MiddlewareBuilder
 
         $response = $this->dispatcher->process($request);
 
-        return $response;
+        send($response);
     }
 
     /**
