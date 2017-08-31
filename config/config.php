@@ -17,9 +17,7 @@ return [
             \Monolog\Handler\StreamHandler::class
         )->constructor(\DI\get('logger.file'))
     ],
-    'logger.processor' => [
-        \DI\object(\Monolog\Processor\WebProcessor::class)
-    ],
+    'logger.processor' => [/*\DI\object(\Monolog\Processor\WebProcessor::class)*/],
     'logger' => \DI\object(
         \Monolog\Logger::class
     )->constructor(
