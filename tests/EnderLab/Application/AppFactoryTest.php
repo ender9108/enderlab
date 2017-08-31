@@ -2,7 +2,6 @@
 
 namespace Tests\EnderLab\Application;
 
-use DI\ContainerBuilder;
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Dispatcher\Dispatcher;

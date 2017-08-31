@@ -59,15 +59,12 @@ class App extends MiddlewareBuilder
         array $params = []
     ): Route {
         if (!$path instanceof Route && null === $middlewares) {
-            //@todo exception message
-            throw new \InvalidArgumentException('');
+            throw new \InvalidArgumentException('Invalid route config');
         }
 
         if ($path instanceof Route) {
             $route = $path;
         }
-
-        //@todo check duplicate route
 
         if (false === isset($route)) {
             $middlewares = $this->buildMiddleware($middlewares);
@@ -92,6 +89,10 @@ class App extends MiddlewareBuilder
      */
     public function pipe($path, $middlewares = null, string $env = null): App
     {
+        if (null !== $env && $this->container->get('global.env') !== $env) {
+            return $this;
+        }
+
         if (null === $middlewares) {
             $middlewares = $this->buildMiddleware($path);
             $path = '*';
