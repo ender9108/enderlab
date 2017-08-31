@@ -119,7 +119,7 @@ class App extends MiddlewareBuilder
 
         $response = $this->dispatcher->process($request);
 
-        send($response);
+        return $response;
     }
 
     /**
