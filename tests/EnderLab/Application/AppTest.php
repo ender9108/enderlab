@@ -1,5 +1,4 @@
 <?php
-
 namespace EnderLab\Test;
 
 use EnderLab\Application\App;
