@@ -13,7 +13,6 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
-use function \Http\Response\send;
 use Psr\Http\Message\ResponseInterface;
 
 class App extends MiddlewareBuilder
