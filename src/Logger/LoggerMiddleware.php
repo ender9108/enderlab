@@ -10,8 +10,15 @@ use Psr\Log\LoggerInterface;
 
 class LoggerMiddleware implements MiddlewareInterface
 {
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
+    /**
+     * LoggerMiddleware constructor.
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;

@@ -12,7 +12,7 @@ final class AppFactory
     /**
      * Build App object and load config.
      *
-     * @param string|null     $configPath
+     * @param string|array|DefinitionSource|null     $configPath
      * @param Dispatcher|null $dispatcher
      * @param Router|null     $router
      * @param Emitter|null    $emitter
@@ -20,14 +20,14 @@ final class AppFactory
      * @return App
      */
     public static function create(
-        string $configPath = null,
+        $configPath = null,
         Dispatcher $dispatcher = null,
         Router $router = null,
         Emitter $emitter = null
     ): App {
         $containerBuilder = new ContainerBuilder();
 
-        if (null !== $configPath && file_exists($configPath)) {
+        if (null !== $configPath) {
             $containerBuilder->addDefinitions($configPath);
         }
 

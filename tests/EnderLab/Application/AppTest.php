@@ -12,9 +12,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class AppTest extends TestCase
 {
-    private function makeInstanceApp()
+    private function makeInstanceApp($config = null)
     {
-        return AppFactory::create();
+        return AppFactory::create($config);
     }
 
     public function testCreateAppObject()
@@ -32,8 +32,24 @@ class AppTest extends TestCase
 
     public function testPipeWithValidMiddlewareInterface()
     {
-        $app = $this->makeInstanceApp();
-        $app->pipe('App\\MyMiddleware');
+        $app = $this->makeInstanceApp([
+            'logger.name' => 'default-logger',
+            'logger.file' => __DIR__.'/../logs/app.log',
+            'logger.handler' => [
+                \DI\object(
+                    \Monolog\Handler\StreamHandler::class
+                )->constructor(\DI\get('logger.file'))
+            ],
+            'logger.processor' => [/*\DI\object(\Monolog\Processor\WebProcessor::class)*/],
+            'logger' => \DI\object(
+                \Monolog\Logger::class
+            )->constructor(
+                \DI\get('logger.name'),
+                \DI\get('logger.handler'),
+                \DI\get('logger.processor')
+            )
+        ]);
+        $app->pipe('EnderLab\\Logger\\LoggerMiddleware');
 
         $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
@@ -51,22 +67,6 @@ class AppTest extends TestCase
         $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
-    public function testPipeWithValidInvokableMiddlewareInstance()
-    {
-        $app = $this->makeInstanceApp();
-        $app->pipe(new \App\MyMiddlewareInvokable());
-
-        $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
-    }
-
-    public function testPipeWithValidInvokableMiddlewareCallable()
-    {
-        $app = $this->makeInstanceApp();
-        $app->pipe('App\\MyMiddlewareInvokable');
-
-        $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
-    }
-
     public function testAddValidRoute()
     {
         $app = $this->makeInstanceApp();
@@ -76,6 +76,23 @@ class AppTest extends TestCase
 
             return $response;
         }, 'GET', 'route_test');
+        $this->assertInstanceOf(Route::class, $route);
+    }
+
+    public function testAddValidRouteObject()
+    {
+        $app = $this->makeInstanceApp();
+        $route = $app->addRoute(new Route(
+            '/',
+            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $response = $delegate->process($request);
+                $response->getBody()->write('<br>Middleware callable !!!<br>');
+
+                return $response;
+            },
+            'GET',
+            'route_test'
+        ), null, 'GET', 'route_test');
         $this->assertInstanceOf(Route::class, $route);
     }
 

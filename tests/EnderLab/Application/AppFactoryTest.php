@@ -20,7 +20,7 @@ class AppFactoryTest extends TestCase
     public function testCreateAppWithArg()
     {
         $app = AppFactory::create(
-            __DIR__ . '/../../../config.config.php',
+            __DIR__ . '/../../../config/config.php',
             new Dispatcher(),
             new Router(),
             Emitter::getInstance()

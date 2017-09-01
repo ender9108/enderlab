@@ -10,7 +10,6 @@ use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use ReflectionClass;
 
 class MiddlewareBuilder
@@ -172,7 +171,7 @@ class MiddlewareBuilder
             } elseif (
                 $param->getClass() &&
                 $this->container->get('logger') &&
-                $param->getClass()->implementsInterface('LoggerInterface')
+                $param->getClass()->implementsInterface('Psr\\Log\\LoggerInterface')
             ) {
                 $args[] = $this->container->get('logger');
             } elseif (

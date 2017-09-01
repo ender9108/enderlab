@@ -52,7 +52,7 @@ class App extends MiddlewareBuilder
      * @return Route
      */
     public function addRoute(
-        string $path,
+        $path,
         $middlewares = null,
         string $method = null,
         string $name = null,
