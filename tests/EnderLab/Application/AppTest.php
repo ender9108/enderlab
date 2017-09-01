@@ -33,15 +33,15 @@ class AppTest extends TestCase
     public function testPipeWithValidMiddlewareInterface()
     {
         $app = $this->makeInstanceApp([
-            'logger.name' => 'default-logger',
-            'logger.file' => __DIR__.'/../logs/app.log',
+            'logger.name'    => 'default-logger',
+            'logger.file'    => __DIR__ . '/../logs/app.log',
             'logger.handler' => [
                 \DI\object(
                     \Monolog\Handler\StreamHandler::class
                 )->constructor(\DI\get('logger.file'))
             ],
             'logger.processor' => [/*\DI\object(\Monolog\Processor\WebProcessor::class)*/],
-            'logger' => \DI\object(
+            'logger'           => \DI\object(
                 \Monolog\Logger::class
             )->constructor(
                 \DI\get('logger.name'),

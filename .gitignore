@@ -3,3 +3,6 @@
 composer.lock
 vendor/
 logs/
+app/
+config/
+public/

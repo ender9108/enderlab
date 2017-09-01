@@ -12,10 +12,10 @@ final class AppFactory
     /**
      * Build App object and load config.
      *
-     * @param string|array|DefinitionSource|null     $configPath
-     * @param Dispatcher|null $dispatcher
-     * @param Router|null     $router
-     * @param Emitter|null    $emitter
+     * @param string|array|DefinitionSource|null $configPath
+     * @param Dispatcher|null                    $dispatcher
+     * @param Router|null                        $router
+     * @param Emitter|null                       $emitter
      *
      * @return App
      */

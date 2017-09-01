@@ -163,29 +163,24 @@ class MiddlewareBuilder
         $args = [];
 
         foreach ($params as $param) {
-            if (
-                $param->getClass() &&
+            if ($param->getClass() &&
                 $param->getClass()->isInstance($this->container)
             ) {
                 $args[] = $this->container;
-            } elseif (
-                $param->getClass() &&
+            } elseif ($param->getClass() &&
                 $this->container->get('logger') &&
                 $param->getClass()->implementsInterface('Psr\\Log\\LoggerInterface')
             ) {
                 $args[] = $this->container->get('logger');
-            } elseif (
-                $param->getClass() &&
+            } elseif ($param->getClass() &&
                 $param->getClass()->isInstance($this->router)
             ) {
                 $args[] = $this->router;
-            } elseif (
-                $param->getClass() &&
+            } elseif ($param->getClass() &&
                 $param->getClass()->isInstance($this->dispatcher)
             ) {
                 $args[] = $this->dispatcher;
-            } elseif (
-                $this->emitter &&
+            } elseif ($this->emitter &&
                 $param->getClass() &&
                 $param->getClass()->isInstance($this->emitter)
             ) {

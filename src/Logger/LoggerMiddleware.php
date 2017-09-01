@@ -17,6 +17,7 @@ class LoggerMiddleware implements MiddlewareInterface
 
     /**
      * LoggerMiddleware constructor.
+     *
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
