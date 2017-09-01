@@ -10,6 +10,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use ReflectionClass;
 
 class MiddlewareBuilder
@@ -163,15 +164,32 @@ class MiddlewareBuilder
         $args = [];
 
         foreach ($params as $param) {
-            if ($param->getClass() && $param->getClass()->isInstance($this->container)) {
+            if (
+                $param->getClass() &&
+                $param->getClass()->isInstance($this->container)
+            ) {
                 $args[] = $this->container;
-            } elseif ($param->getClass() && $this->container->get('logger') && $param->getClass()->isInstance($this->container->get('logger'))) {
+            } elseif (
+                $param->getClass() &&
+                $this->container->get('logger') &&
+                $param->getClass()->implementsInterface('LoggerInterface')
+            ) {
                 $args[] = $this->container->get('logger');
-            } elseif ($param->getClass() && $param->getClass()->isInstance($this->router)) {
+            } elseif (
+                $param->getClass() &&
+                $param->getClass()->isInstance($this->router)
+            ) {
                 $args[] = $this->router;
-            } elseif ($param->getClass() && $param->getClass()->isInstance($this->dispatcher)) {
+            } elseif (
+                $param->getClass() &&
+                $param->getClass()->isInstance($this->dispatcher)
+            ) {
                 $args[] = $this->dispatcher;
-            } elseif ($this->emitter && $param->getClass() && $param->getClass()->isInstance($this->emitter)) {
+            } elseif (
+                $this->emitter &&
+                $param->getClass() &&
+                $param->getClass()->isInstance($this->emitter)
+            ) {
                 $args[] = $this->emitter;
             } else {
                 $request = ServerRequest::fromGlobals();
