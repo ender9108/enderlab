@@ -22,7 +22,7 @@ class AppFactoryTest extends TestCase
         $app = AppFactory::create(
             [
                 'global.env' => \DI\env('global_env', 'dev'),
-                'routes' => [
+                'routes'     => [
                     \DI\object(\EnderLab\Router\Route::class)->constructor(
                         '/blog/:id/:pouette',
                         function (ServerRequestInterface $request, DelegateInterface $delegate) {
@@ -33,18 +33,18 @@ class AppFactoryTest extends TestCase
                         },
                         'GET',
                         'first_route_test',
-                        array('id' => '\\d+', 'pouette' => '\\w+')
+                        ['id' => '\\d+', 'pouette' => '\\w+']
                     )
                 ],
-                'logger.name' => 'default-logger',
-                'logger.file' => __DIR__.'/../logs/app.log',
+                'logger.name'    => 'default-logger',
+                'logger.file'    => __DIR__ . '/../logs/app.log',
                 'logger.handler' => [
                     \DI\object(
                         \Monolog\Handler\StreamHandler::class
                     )->constructor(\DI\get('logger.file'))
                 ],
                 'logger.processor' => [/*\DI\object(\Monolog\Processor\WebProcessor::class)*/],
-                'logger' => \DI\object(
+                'logger'           => \DI\object(
                     \Monolog\Logger::class
                 )->constructor(
                     \DI\get('logger.name'),
