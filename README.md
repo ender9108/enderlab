@@ -1,8 +1,8 @@
 # enderlab
 Micro framework middleware PSR-15 (beta version)
 
-[![Build Status](https://travis-ci.org/ender9108/enderlab.svg?branch=master)](https://travis-ci.org/ender9108/enderlab)
-[![Coverage Status](https://coveralls.io/repos/github/ender9108/enderlab/badge.svg?branch=master)](https://coveralls.io/github/ender9108/enderlab?branch=master)
+[![Build Status](https://travis-ci.org/ender9108/middle-earth-framework.svg?branch=master)](https://travis-ci.org/ender9108/middle-earth-framework)
+[![Coverage Status](https://coveralls.io/repos/github/ender9108/middle-earth-framework/badge.svg?branch=master)](https://coveralls.io/github/ender9108/middle-earth-framework?branch=master)
 
 
 ## Requirements
