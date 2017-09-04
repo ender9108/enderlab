@@ -22,6 +22,11 @@ class App extends MiddlewareBuilder
     const ENV_PROD = 'prod';
 
     /**
+     * @var MiddlewareInterface|callable $errorHandler
+     */
+    private $errorHandler;
+
+    /**
      * App constructor.
      *
      * @param ContainerInterface $container
@@ -116,6 +121,10 @@ class App extends MiddlewareBuilder
         $response = new Response();
         $request = $request->withAttribute('originalResponse', $response);
 
+        if( !is_null($this->errorHandler) ) {
+            $this->pipe($this->errorHandler);
+        }
+
         $this->pipe(new RouterMiddleware($this->router, $response));
         $this->pipe(new DispatcherMiddleware($this->container, $this->router, $this->emitter));
 
@@ -162,5 +171,21 @@ class App extends MiddlewareBuilder
     public function getDispatcher(): Dispatcher
     {
         return $this->dispatcher;
+    }
+
+    /**
+     * @return MiddlewareInterface|null
+     */
+    public function getErrorHandler()
+    {
+        return $this->errorHandler;
+    }
+
+    /**
+     * @param MiddlewareInterface|callable $errorHandler
+     */
+    public function setErrorHandler($errorHandler)
+    {
+        $this->errorHandler = $this->buildMiddleware($errorHandler);
     }
 }

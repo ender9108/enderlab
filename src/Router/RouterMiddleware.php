@@ -58,11 +58,8 @@ class RouterMiddleware implements MiddlewareInterface
 
             $response = $delegate->process($request);
         } catch (RouterException $exception) {
-            if (!isset($response)) {
-                $response = $delegate->process($request);
-            }
-
-            $response->withStatus($exception->getCode());
+            $this->response->withStatus($exception->getCode());
+            $response = $this->response;
         }
 
         return $response;
