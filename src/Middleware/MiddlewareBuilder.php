@@ -35,23 +35,31 @@ class MiddlewareBuilder
     protected $emitter;
 
     /**
+     * @var null|ResponseInterface
+     */
+    protected $response;
+
+    /**
      * App constructor.
      *
-     * @param ContainerInterface $container
-     * @param Router             $router
-     * @param Dispatcher         $dispatcher
-     * @param Emitter|null       $emitter
+     * @param ContainerInterface     $container
+     * @param Router                 $router
+     * @param Dispatcher             $dispatcher
+     * @param Emitter|null           $emitter
+     * @param ResponseInterface|null $response
      */
     public function __construct(
         ContainerInterface $container,
         Router $router,
         Dispatcher $dispatcher,
-        ?Emitter $emitter
+        ?Emitter $emitter = null,
+        ?ResponseInterface $response = null
     ) {
         $this->container = $container;
         $this->router = $router;
         $this->dispatcher = $dispatcher;
         $this->emitter = $emitter;
+        $this->response = $response;
     }
 
     /**
@@ -185,6 +193,11 @@ class MiddlewareBuilder
                 $param->getClass()->isInstance($this->emitter)
             ) {
                 $args[] = $this->emitter;
+            } elseif ($this->response &&
+                $param->getClass() &&
+                $param->getClass()->isInstance($this->response)
+            ) {
+                $args[] = $this->response;
             } else {
                 $request = ServerRequest::fromGlobals();
                 $attributes = $request->getQueryParams();

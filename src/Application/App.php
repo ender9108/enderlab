@@ -22,7 +22,7 @@ class App extends MiddlewareBuilder
     const ENV_PROD = 'prod';
 
     /**
-     * @var MiddlewareInterface|callable $errorHandler
+     * @var MiddlewareInterface|callable
      */
     private $errorHandler;
 
@@ -121,7 +121,7 @@ class App extends MiddlewareBuilder
         $response = new Response();
         $request = $request->withAttribute('originalResponse', $response);
 
-        if( !is_null($this->errorHandler) ) {
+        if (null !== $this->errorHandler) {
             $this->pipe($this->errorHandler);
         }
 
