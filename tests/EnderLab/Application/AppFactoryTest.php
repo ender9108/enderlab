@@ -5,9 +5,10 @@ namespace Tests\EnderLab\Application;
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Event\Emitter;
 use EnderLab\Router\Router;
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
 
 class AppFactoryTest extends TestCase
 {
@@ -53,8 +54,7 @@ class AppFactoryTest extends TestCase
                 )
             ],
             new Dispatcher(),
-            new Router(),
-            Emitter::getInstance()
+            new Router()
         );
         $this->assertInstanceOf(App::class, $app);
     }
