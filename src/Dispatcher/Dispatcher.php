@@ -62,7 +62,7 @@ class Dispatcher implements DispatcherInterface
     public function process(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->middlewares->isEmpty()) {
-            if (false === (null === $this->delegate)) {
+            if (null !== $this->delegate) {
                 return $this->delegate->process($request);
             }
 
@@ -71,10 +71,9 @@ class Dispatcher implements DispatcherInterface
 
         $middleware = $this->middlewares->dequeue();
         ++$this->index;
+        $middleware = $middleware->getMiddlewares();
 
-        if ($middleware instanceof RouteInterface) {
-            $middleware = $middleware->getMiddlewares();
-        }
+        // @todo check path
 
         return $middleware->process($request, $this);
     }

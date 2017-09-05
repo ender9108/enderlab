@@ -5,6 +5,7 @@ namespace Tests\EnderLab\Application;
 use DI\ContainerBuilder;
 use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Middleware\MiddlewareBuilder;
+use EnderLab\Router\Route;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -75,12 +76,17 @@ class DispatcherTest extends TestCase
     {
         $dispatcher = $this->makeDispatcher();
         $middlewareBuilder = $this->makeMiddlewareBuilder();
-        $dispatcher->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
-            $response->getBody()->write('<br>Middleware callable !!!<br>');
+        $dispatcher->pipe(
+            new Route(
+                '*',
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                    $response = $delegate->process($request);
+                    $response->getBody()->write('<br>Middleware callable !!!<br>');
 
-            return $response;
-        }));
+                    return $response;
+                })
+            )
+        );
         $response = $dispatcher->process($this->makeRequest());
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
@@ -89,20 +95,30 @@ class DispatcherTest extends TestCase
     {
         $middlewareBuilder = $this->makeMiddlewareBuilder();
         $dispatcherA = $this->makeDispatcher();
-        $dispatcherA->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
-            $response->getBody()->write('<br>Middleware callable !!!<br>');
+        $dispatcherA->pipe(
+            new Route(
+                '*',
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                    $response = $delegate->process($request);
+                    $response->getBody()->write('<br>Middleware callable !!!<br>');
 
-            return $response;
-        }));
+                    return $response;
+                })
+            )
+        );
 
         $dispatcherB = $this->makeDispatcher(null, $dispatcherA);
-        $dispatcherB->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
-            $response->getBody()->write('<br>Middleware callable !!!<br>');
+        $dispatcherB->pipe(
+            new Route(
+                '*',
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                    $response = $delegate->process($request);
+                    $response->getBody()->write('<br>Middleware callable !!!<br>');
 
-            return $response;
-        }));
+                    return $response;
+                })
+            )
+        );
 
         $response = $dispatcherB->process($this->makeRequest());
         $this->assertInstanceOf(ResponseInterface::class, $response);
