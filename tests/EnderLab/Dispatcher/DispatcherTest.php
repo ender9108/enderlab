@@ -59,6 +59,7 @@ class DispatcherTest extends TestCase
 
         $this->assertInstanceOf(Dispatcher::class, $return);
         $this->assertSame(1, $dispatcher->countMiddlewares());
+        $this->assertSame(1, $dispatcher->getQueue()->count());
     }
 
     public function testPipeWithInvalidMiddleware(): void
@@ -81,6 +82,29 @@ class DispatcherTest extends TestCase
             return $response;
         }));
         $response = $dispatcher->process($this->makeRequest());
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+    }
+
+    public function testProcessWithDoubleDispatcher(): void
+    {
+        $middlewareBuilder = $this->makeMiddlewareBuilder();
+        $dispatcherA = $this->makeDispatcher();
+        $dispatcherA->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('<br>Middleware callable !!!<br>');
+
+            return $response;
+        }));
+
+        $dispatcherB = $this->makeDispatcher(null, $dispatcherA);
+        $dispatcherB->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('<br>Middleware callable !!!<br>');
+
+            return $response;
+        }));
+
+        $response = $dispatcherB->process($this->makeRequest());
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 }
