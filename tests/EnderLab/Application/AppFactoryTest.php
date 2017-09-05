@@ -6,6 +6,7 @@ use DI\ContainerBuilder;
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Dispatcher\Dispatcher;
+use EnderLab\Router\Route;
 use EnderLab\Router\Router;
 use PHPUnit\Framework\TestCase;
 
@@ -55,5 +56,32 @@ class AppFactoryTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $app = AppFactory::create('myConfigFileInvalid.php');
+    }
+
+    public function testCreateAppWithRouteConfig(): void
+    {
+        $app = AppFactory::create([
+            'routes' => [
+                \DI\object(Route::class)->constructor(
+                    '/blog/:id/:pouette',
+                    function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                        $response = $delegate->process($request);
+                        $response->getBody()->write('<br>Middleware callable !!!<br>');
+
+                        return $response;
+                    },
+                    'GET',
+                    'first_route_test',
+                    array('id' => '\\d+', 'pouette' => '\\w+')
+                )
+            ]
+        ]);
+        $this->assertInstanceOf(App::class, $app);
+    }
+
+    public function testCallPrivateConstructor(): void
+    {
+        $this->expectException(\Error::class);
+        $app = new AppFactory();
     }
 }
