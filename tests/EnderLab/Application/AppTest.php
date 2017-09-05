@@ -4,12 +4,16 @@ namespace Tests\EnderLab\Application;
 
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
+use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Router\Route;
+use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -128,5 +132,22 @@ class AppTest extends TestCase
 
         $response = $app->run($this->makeRequest());
         $this->assertInstanceOf(ResponseInterface::class, $response);
+    }
+
+    public function testGetter(): void
+    {
+        $app = $this->makeInstanceApp();
+        $router = $app->getRouter();
+        $this->assertInstanceOf(Router::class, $router);
+
+        $dispatcher = $app->getDispatcher();
+        $this->assertInstanceOf(Dispatcher::class, $dispatcher);
+
+        $container = $app->getContainer();
+        $this->assertInstanceOf(ContainerInterface::class, $container);
+
+        $app->enableErrorHandler(true);
+        $errorHandler = $app->getErrorHandler();
+        $this->assertInstanceOf(MiddlewareInterface::class, $errorHandler);
     }
 }

@@ -213,17 +213,20 @@ class App extends MiddlewareBuilder
 
     /**
      * @param MiddlewareInterface|callable|bool $errorHandler
+     * @return MiddlewareInterface|null
      */
     public function enableErrorHandler($errorHandler)
     {
         if (is_bool($errorHandler)) {
-            $errorHandler = new ErrorMiddleware($this->response);
+            if( true == $errorHandler ) {
+                $errorHandler = new ErrorMiddleware($this->response);
+            } else {
+                $errorHandler = null;
+            }
+        } else {
+            $errorHandler = $this->buildMiddleware($errorHandler);
         }
 
-        $this->errorHandler = $this->buildMiddleware($errorHandler);
-    }
-
-    private function pipeFirst()
-    {
+        $this->errorHandler = $errorHandler;
     }
 }
