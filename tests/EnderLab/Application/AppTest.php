@@ -134,6 +134,52 @@ class AppTest extends TestCase
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
+    public function testEnableErrorHandlerByBoolean(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->enableErrorHandler(true);
+        $errorHandler = $app->getErrorHandler();
+        $this->assertInstanceOf(MiddlewareInterface::class, $errorHandler);
+    }
+
+    public function testEnableErrorHandlerByCallable(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInterface $delegate) {
+            set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+                if (!(error_reporting() & $errno)) {
+                    return;
+                }
+                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+            });
+
+            try {
+                $response = $delegate->process($request);
+
+                if (!$response instanceof ResponseInterface) {
+                    throw new \Exception('Application did not return a response', 500);
+                }
+            } catch (\Exception | \Throwable $e) {
+                $response = $this->response->withStatus($e->getCode());
+                $response->getBody()->write($e->getMessage());
+            }
+
+            restore_error_handler();
+
+            return $response;
+        });
+        $errorHandler = $app->getErrorHandler();
+        $this->assertInstanceOf(MiddlewareInterface::class, $errorHandler);
+    }
+
+    public function testDisableErrorHandlerByBoolean(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->enableErrorHandler(false);
+        $errorHandler = $app->getErrorHandler();
+        $this->assertSame(null, $errorHandler);
+    }
+
     public function testGetter(): void
     {
         $app = $this->makeInstanceApp();
