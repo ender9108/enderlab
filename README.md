@@ -26,8 +26,7 @@ use EnderLab\Application\AppFactory;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-$app = AppFactory::create('../config/config.php');
-$app->pipe(new \Middlewares\Whoops());
+$app = AppFactory::create();
 $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate) {
     $response = $delegate->process($request);
     $response->getBody()->write('<br>Middleware callable !!!<br>');
@@ -62,10 +61,22 @@ class LoggerMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
-        /* ... */
-        /* My treatment */
-        /* Return response */
-        /* ... */
+        /* ... My treatment ... */
+        /* Return ResponseInterface */
     }
 }
+```
+
+
+## Enable error handler
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+
+$app = AppFactory::create();
+$app->enableErrorHandler(
+    /* My error handler MiddlewareInterface|callable or boolean true */
+);
 ```

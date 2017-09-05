@@ -5,6 +5,7 @@ namespace EnderLab\Application;
 use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Dispatcher\DispatcherInterface;
 use EnderLab\Dispatcher\DispatcherMiddleware;
+use EnderLab\Error\ErrorMiddleware;
 use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
 use EnderLab\Router\Router;
@@ -208,10 +209,14 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * @param MiddlewareInterface|callable $errorHandler
+     * @param MiddlewareInterface|callable|bool $errorHandler
      */
-    public function setErrorHandler($errorHandler)
+    public function enableErrorHandler($errorHandler)
     {
+        if (is_bool($errorHandler)) {
+            $errorHandler = new ErrorMiddleware($this->response);
+        }
+
         $this->errorHandler = $this->buildMiddleware($errorHandler);
     }
 }

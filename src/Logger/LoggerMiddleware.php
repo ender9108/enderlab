@@ -38,8 +38,13 @@ class LoggerMiddleware implements MiddlewareInterface
     {
         $this->logger->info(
             'Request: ' . "\n" .
+            "\t" . 'Method: ' . $request->getMethod() . "\n" .
             "\t" . 'Uri: ' . $request->getUri() . "\n" .
-            "\t" . 'Method: ' . $request->getMethod() . "\n"
+            "\t" . 'Headers: ' . print_r($request->getHeaders(), true) . "\n" .
+            "\t" . 'Server: ' . print_r($request->getServerParams(), true) . "\n" .
+            "\t" . 'Query: ' . print_r($request->getQueryParams(), true) . "\n" .
+            "\t" . 'Body: ' . print_r($request->getParsedBody(), true) . "\n" .
+            "\t" . 'Upload: ' . print_r($request->getUploadedFiles(), true) . "\n"
         );
 
         return $delegate->process($request);

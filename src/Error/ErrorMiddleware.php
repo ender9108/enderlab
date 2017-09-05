@@ -41,7 +41,8 @@ class ErrorMiddleware implements MiddlewareInterface
                 throw new \Exception('Application did not return a response', 500);
             }
         } catch (Throwable $e) {
-            $response = new Response($e->getCode(), [], $e->getMessage());
+            $this->response->withStatus($e->getCode());
+            $this->response->getBody()->write($e->getMessage());
         }
 
         return $response;
