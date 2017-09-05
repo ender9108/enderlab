@@ -9,6 +9,11 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
+    /**
+     * @param $method
+     * @param $uri
+     * @return ServerRequest
+     */
     private function makeRequest($method, $uri): ServerRequest
     {
         return new ServerRequest($method, $uri);
