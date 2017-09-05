@@ -3,6 +3,7 @@
 namespace EnderLab\Router;
 
 use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Router implements RouterInterface
 {
@@ -105,13 +106,11 @@ class Router implements RouterInterface
     }
 
     /**
-     * @param ServerRequest $request
-     *
+     * @param ServerRequestInterface $request
+     * @return Route|null
      * @throws RouterException
-     *
-     * @return Route|bool
      */
-    public function match(ServerRequest $request): ?Route
+    public function match(ServerRequestInterface $request): ?Route
     {
         if (!isset($this->routes[$request->getMethod()])) {
             throw new RouterException('Method ' . $request->getMethod() . ' not allow.', 405);

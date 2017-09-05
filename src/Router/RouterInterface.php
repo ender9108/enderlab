@@ -3,6 +3,7 @@
 namespace EnderLab\Router;
 
 use GuzzleHttp\Psr7\ServerRequest;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface RouterInterface
 {
@@ -27,11 +28,11 @@ interface RouterInterface
     /**
      * Compare uri with route collection.
      *
-     * @param ServerRequest $request
+     * @param ServerRequestInterface $request
      *
      * @return mixed
      */
-    public function match(ServerRequest $request);
+    public function match(ServerRequestInterface $request);
 
     /**
      * Return formatted url by route name.
