@@ -2,6 +2,7 @@
 
 namespace Tests\EnderLab\Application;
 
+use DI\ContainerBuilder;
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Dispatcher\Dispatcher;
@@ -41,5 +42,18 @@ class AppFactoryTest extends TestCase
             new Router()
         );
         $this->assertInstanceOf(App::class, $app);
+    }
+
+    public function testCreateAppWithValidContainerObject(): void
+    {
+        $containerBuilder = new ContainerBuilder();
+        $app = AppFactory::create($containerBuilder->build());
+        $this->assertInstanceOf(App::class, $app);
+    }
+
+    public function testCreateAppWithInvalidContainer(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $app = AppFactory::create('myConfigFileInvalid.php');
     }
 }
