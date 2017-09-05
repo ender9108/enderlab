@@ -57,8 +57,4 @@ final class AppFactory
             $dispatcher
         );
     }
-
-    private function __construct()
-    {
-    }
 }

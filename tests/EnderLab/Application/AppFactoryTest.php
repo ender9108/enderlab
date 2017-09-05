@@ -78,10 +78,4 @@ class AppFactoryTest extends TestCase
         ]);
         $this->assertInstanceOf(App::class, $app);
     }
-
-    public function testCallPrivateConstructor(): void
-    {
-        $this->expectException(\Error::class);
-        $app = new AppFactory();
-    }
 }
