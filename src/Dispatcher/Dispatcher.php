@@ -76,11 +76,7 @@ class Dispatcher implements DispatcherInterface
             $middleware = $middleware->getMiddlewares();
         }
 
-        if ($middleware instanceof MiddlewareInterface) {
-            return $middleware->process($request, $this);
-        }
-
-        return $this->response;
+        return $middleware->process($request, $this);
     }
 
     public function countMiddlewares()
