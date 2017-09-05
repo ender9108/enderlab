@@ -72,7 +72,7 @@ class AppFactoryTest extends TestCase
                     },
                     'GET',
                     'first_route_test',
-                    array('id' => '\\d+', 'pouette' => '\\w+')
+                    ['id' => '\\d+', 'pouette' => '\\w+']
                 )
             ]
         ]);

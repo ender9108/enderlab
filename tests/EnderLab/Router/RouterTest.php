@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\EnderLab;
 
 use EnderLab\Router\Route;
@@ -12,6 +13,7 @@ class RouterTest extends TestCase
     /**
      * @param $method
      * @param $uri
+     *
      * @return ServerRequest
      */
     private function makeRequest($method, $uri): ServerRequest
@@ -27,7 +29,8 @@ class RouterTest extends TestCase
 
     public function testCreateRouterWithArg(): void
     {
-        $router = new Router([new Route('/', function() {}, 'GET')]);
+        $router = new Router([new Route('/', function () {
+        }, 'GET')]);
         $this->assertInstanceOf(Router::class, $router);
         $this->assertSame(1, $router->count());
     }
@@ -35,7 +38,8 @@ class RouterTest extends TestCase
     public function testAddValidRoutesCollection(): void
     {
         $router = new Router();
-        $router->addRoutes([new Route('/', function() {}, 'GET')]);
+        $router->addRoutes([new Route('/', function () {
+        }, 'GET')]);
         $this->assertSame(1, $router->count());
     }
 
@@ -43,13 +47,15 @@ class RouterTest extends TestCase
     {
         $router = new Router();
         $this->expectException(RouterException::class);
-        $router->addRoutes([new Route('/', function() {}, 'GETPOST')]);
+        $router->addRoutes([new Route('/', function () {
+        }, 'GETPOST')]);
     }
 
     public function testAddValidRoute(): void
     {
         $router = new Router();
-        $router->addRoute(new Route('/', function() {}, 'GET'));
+        $router->addRoute(new Route('/', function () {
+        }, 'GET'));
         $this->assertSame(1, $router->count());
     }
 
@@ -57,13 +63,15 @@ class RouterTest extends TestCase
     {
         $router = new Router();
         $this->expectException(RouterException::class);
-        $router->addRoute(new Route('/', function() {}, 'GETPOST'));
+        $router->addRoute(new Route('/', function () {
+        }, 'GETPOST'));
     }
 
     public function testValidMatch(): void
     {
         $router = new Router();
-        $router->addRoute(new Route('/', function() {}, 'GET'));
+        $router->addRoute(new Route('/', function () {
+        }, 'GET'));
         $request = $this->makeRequest('GET', '/');
         $this->assertInstanceOf(Route::class, $router->match($request));
     }
@@ -71,7 +79,8 @@ class RouterTest extends TestCase
     public function testValidMethodMatch(): void
     {
         $router = new Router();
-        $router->addRoute(new Route('/', function() {}, 'POST'));
+        $router->addRoute(new Route('/', function () {
+        }, 'POST'));
         $request = $this->makeRequest('GET', '/');
         $this->expectException(RouterException::class);
         $router->match($request);
@@ -80,7 +89,8 @@ class RouterTest extends TestCase
     public function testInvalidMatch(): void
     {
         $router = new Router();
-        $router->addRoute(new Route('/', function() {}, 'GET'));
+        $router->addRoute(new Route('/', function () {
+        }, 'GET'));
         $request = $this->makeRequest('GET', '/test');
         $this->assertSame(null, $router->match($request));
     }
@@ -88,14 +98,16 @@ class RouterTest extends TestCase
     public function testGetValidNamedUrl(): void
     {
         $router = new Router();
-        $router->addRoutes([new Route('/', function() {}, 'GET', 'route_test')]);
+        $router->addRoutes([new Route('/', function () {
+        }, 'GET', 'route_test')]);
         $this->assertEmpty($router->getNamedUrl('route_test'));
     }
 
     public function testGetInvalidNamedUrl(): void
     {
         $router = new Router();
-        $router->addRoutes([new Route('/', function() {}, 'GET', 'route_test')]);
+        $router->addRoutes([new Route('/', function () {
+        }, 'GET', 'route_test')]);
         $this->expectException(RouterException::class);
         $router->getNamedUrl('route_tests');
     }

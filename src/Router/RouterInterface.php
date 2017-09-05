@@ -2,7 +2,6 @@
 
 namespace EnderLab\Router;
 
-use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 interface RouterInterface

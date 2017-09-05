@@ -2,7 +2,6 @@
 
 namespace EnderLab\Router;
 
-use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Router implements RouterInterface
@@ -107,8 +106,10 @@ class Router implements RouterInterface
 
     /**
      * @param ServerRequestInterface $request
-     * @return Route|null
+     *
      * @throws RouterException
+     *
+     * @return Route|null
      */
     public function match(ServerRequestInterface $request): ?Route
     {
