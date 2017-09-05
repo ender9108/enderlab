@@ -2,10 +2,9 @@
 
 namespace EnderLab\Dispatcher;
 
-use EnderLab\Event\Emitter;
 use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
-use EnderLab\Router\Router;
+use EnderLab\Router\RouterInterface;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
@@ -16,23 +15,19 @@ class DispatcherMiddleware implements MiddlewareInterface
 {
     private $container;
     private $router;
-    private $emitter;
 
     /**
      * DispatcherMiddleware constructor.
      *
-     * @param ContainerInterface $container
-     * @param Router|null        $router
-     * @param Emitter|null       $emitter
+     * @param ContainerInterface   $container
+     * @param RouterInterface|null $router
      */
     public function __construct(
         ContainerInterface $container,
-        ?Router $router,
-        ?Emitter $emitter
+        ?RouterInterface $router = null
     ) {
         $this->container = $container;
         $this->router = $router;
-        $this->emitter = $emitter;
     }
 
     /**
@@ -56,8 +51,7 @@ class DispatcherMiddleware implements MiddlewareInterface
         $middlewareBuilder = new MiddlewareBuilder(
             $this->container,
             $this->router,
-            $delegate,
-            $this->emitter
+            $delegate
         );
 
         if (!$middleware instanceof MiddlewareInterface) {
@@ -65,8 +59,7 @@ class DispatcherMiddleware implements MiddlewareInterface
                 $middleware,
                 $this->container,
                 $this->router,
-                $delegate,
-                $this->emitter
+                $delegate
             );
         }
 

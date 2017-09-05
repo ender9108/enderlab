@@ -4,16 +4,25 @@ namespace EnderLab\Router;
 
 use GuzzleHttp\Psr7\ServerRequest;
 
-interface IRouterInterface
+interface RouterInterface
 {
     /**
-     * Add route to collection.
+     * Add route on router.
      *
      * @param Route $route
      *
      * @return Router
      */
     public function addRoute(Route $route): Router;
+
+    /**
+     * Add routes collection on router.
+     *
+     * @param array $routes
+     *
+     * @return Router
+     */
+    public function addRoutes(array $routes = []): Router;
 
     /**
      * Compare uri with route collection.
@@ -33,4 +42,11 @@ interface IRouterInterface
      * @return string
      */
     public function getNamedUrl(string $name, array $params = []): string;
+
+    /**
+     * Return allowed http methods.
+     *
+     * @return array
+     */
+    public function getAllowedMethods(): array;
 }

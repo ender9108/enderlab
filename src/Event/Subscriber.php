@@ -2,7 +2,7 @@
 
 namespace EnderLab\Event;
 
-interface ISubscriber
+interface Subscriber
 {
     /**
      * Return all events

@@ -12,23 +12,23 @@ final class AppFactory
     /**
      * Build App object and load config.
      *
-     * @param string|array|DefinitionSource|null $configPath
-     * @param Dispatcher|null                    $dispatcher
-     * @param Router|null                        $router
-     * @param Emitter|null                       $emitter
+     * @param null            $containerConfig
+     * @param Dispatcher|null $dispatcher
+     * @param Router|null     $router
+     * @param Emitter|null    $emitter
      *
      * @return App
      */
     public static function create(
-        $configPath = null,
+        $containerConfig = null,
         Dispatcher $dispatcher = null,
         Router $router = null,
         Emitter $emitter = null
     ): App {
         $containerBuilder = new ContainerBuilder();
 
-        if (null !== $configPath) {
-            $containerBuilder->addDefinitions($configPath);
+        if (null !== $containerConfig) {
+            $containerBuilder->addDefinitions($containerConfig);
         }
 
         $container = $containerBuilder->build();

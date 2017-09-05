@@ -2,7 +2,7 @@
 
 namespace EnderLab\Event;
 
-class Emitter
+class Emitter implements EmitterInterface
 {
     /**
      * Contient l'instance unique Emitter.
@@ -93,9 +93,9 @@ class Emitter
     /**
      * Permet d'ajouter un subscriber qui va écouter plusieurs évènements.
      *
-     * @param ISubscriber $subscriber
+     * @param Subscriber $subscriber
      */
-    public function addSubscriber(ISubscriber $subscriber)
+    public function addSubscriber(Subscriber $subscriber)
     {
         $events = $subscriber->getEvents();
 

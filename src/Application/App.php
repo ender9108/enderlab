@@ -3,15 +3,17 @@
 namespace EnderLab\Application;
 
 use EnderLab\Dispatcher\Dispatcher;
+use EnderLab\Dispatcher\DispatcherInterface;
 use EnderLab\Dispatcher\DispatcherMiddleware;
-use EnderLab\Event\Emitter;
 use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
 use EnderLab\Router\Router;
+use EnderLab\Router\RouterInterface;
 use EnderLab\Router\RouterMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Nette\InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -29,18 +31,52 @@ class App extends MiddlewareBuilder
     /**
      * App constructor.
      *
-     * @param ContainerInterface $container
-     * @param Router             $router
-     * @param Dispatcher         $dispatcher
-     * @param Emitter|null       $emitter
+     * @param ContainerInterface  $container
+     * @param RouterInterface     $router
+     * @param DispatcherInterface $dispatcher
      */
     public function __construct(
         ContainerInterface $container,
-        Router $router,
-        Dispatcher $dispatcher,
-        ?Emitter $emitter
+        RouterInterface $router,
+        DispatcherInterface $dispatcher
     ) {
-        parent::__construct($container, $router, $dispatcher, $emitter);
+        parent::__construct($container, $router, $dispatcher);
+    }
+
+    /**
+     * Add route on router by request type.
+     *
+     * @param $name
+     * @param $arguments
+     *
+     * @return Route
+     */
+    public function __call($name, $arguments): Route
+    {
+        $args = [];
+
+        switch ($name) {
+            case 'get':
+            case 'post':
+            case 'put':
+            case 'delete':
+            case 'head':
+            case 'option':
+            case 'any':
+                $args = [
+                    $arguments[0],
+                    (count($arguments) > 1 ? $arguments[1] : null),
+                    ($name === 'any' ? null : mb_strtoupper($name)),
+                    (count($arguments) > 2 ? $arguments[2] : null),
+                    (count($arguments) > 3 ? (!is_array($arguments[3]) ? [$arguments[3]] : $arguments[3]) : []),
+                ];
+                break;
+            default:
+                throw new InvalidArgumentException('');
+                break;
+        }
+
+        return $this->addRoute(...$args);
     }
 
     /**
@@ -126,21 +162,11 @@ class App extends MiddlewareBuilder
         }
 
         $this->pipe(new RouterMiddleware($this->router, $response));
-        $this->pipe(new DispatcherMiddleware($this->container, $this->router, $this->emitter));
+        $this->pipe(new DispatcherMiddleware($this->container, $this->router));
 
         $response = $this->dispatcher->process($request);
 
         return $response;
-    }
-
-    /**
-     * Return Emitter object.
-     *
-     * @return Emitter|null
-     */
-    public function getEmitter(): ?Emitter
-    {
-        return $this->emitter;
     }
 
     /**

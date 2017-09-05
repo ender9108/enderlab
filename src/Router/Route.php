@@ -4,7 +4,7 @@ namespace EnderLab\Router;
 
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
-class Route
+class Route implements RouteInterface
 {
     /**
      * @var string
@@ -155,7 +155,7 @@ class Route
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

@@ -8,7 +8,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SplQueue;
 
-class Dispatcher implements DelegateInterface
+class Dispatcher implements DispatcherInterface
 {
     private $middlewares;
     private $index = 0;
@@ -28,6 +28,11 @@ class Dispatcher implements DelegateInterface
         $this->response = new Response();
     }
 
+    /**
+     * @param $middleware
+     *
+     * @return Dispatcher
+     */
     public function pipe($middleware): Dispatcher
     {
         $this->middlewares->enqueue($middleware);

@@ -1,6 +1,6 @@
 <?php
-namespace EnderLab\Error;
 
+namespace EnderLab\Error;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
@@ -16,6 +16,7 @@ class ErrorMiddleware implements MiddlewareInterface
 
     /**
      * ErrorMiddleware constructor.
+     *
      * @param ResponseInterface $response
      */
     public function __construct(ResponseInterface $response)
@@ -25,16 +26,18 @@ class ErrorMiddleware implements MiddlewareInterface
 
     /**
      * @param ServerRequestInterface $request
-     * @param DelegateInterface $delegate
-     * @return ResponseInterface
+     * @param DelegateInterface      $delegate
+     *
      * @throws \Exception
+     *
+     * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
         try {
             $response = $delegate->process($request);
 
-            if (! $response instanceof ResponseInterface ) {
+            if (!$response instanceof ResponseInterface) {
                 throw new \Exception('Application did not return a response', 500);
             }
         } catch (Throwable $e) {

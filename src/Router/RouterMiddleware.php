@@ -23,10 +23,10 @@ class RouterMiddleware implements MiddlewareInterface
     /**
      * RouterMiddleware constructor.
      *
-     * @param Router   $router
-     * @param Response $response
+     * @param RouterInterface $router
+     * @param Response        $response
      */
-    public function __construct(Router $router, Response $response)
+    public function __construct(RouterInterface $router, Response $response)
     {
         $this->router = $router;
         $this->response = $response;

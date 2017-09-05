@@ -3,9 +3,8 @@
 namespace EnderLab\Middleware;
 
 use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Event\Emitter;
 use EnderLab\Router\Route;
-use EnderLab\Router\Router;
+use EnderLab\Router\RouterInterface;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use InvalidArgumentException;
@@ -30,11 +29,6 @@ class MiddlewareBuilder
     protected $dispatcher;
 
     /**
-     * @var Emitter|null
-     */
-    protected $emitter;
-
-    /**
      * @var null|ResponseInterface
      */
     protected $response;
@@ -43,22 +37,19 @@ class MiddlewareBuilder
      * App constructor.
      *
      * @param ContainerInterface     $container
-     * @param Router                 $router
+     * @param RouterInterface        $router
      * @param Dispatcher             $dispatcher
-     * @param Emitter|null           $emitter
      * @param ResponseInterface|null $response
      */
     public function __construct(
         ContainerInterface $container,
-        Router $router,
+        RouterInterface $router,
         Dispatcher $dispatcher,
-        ?Emitter $emitter = null,
         ?ResponseInterface $response = null
     ) {
         $this->container = $container;
         $this->router = $router;
         $this->dispatcher = $dispatcher;
-        $this->emitter = $emitter;
         $this->response = $response;
     }
 
@@ -188,11 +179,6 @@ class MiddlewareBuilder
                 $param->getClass()->isInstance($this->dispatcher)
             ) {
                 $args[] = $this->dispatcher;
-            } elseif ($this->emitter &&
-                $param->getClass() &&
-                $param->getClass()->isInstance($this->emitter)
-            ) {
-                $args[] = $this->emitter;
             } elseif ($this->response &&
                 $param->getClass() &&
                 $param->getClass()->isInstance($this->response)

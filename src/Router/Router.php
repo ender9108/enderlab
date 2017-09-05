@@ -4,7 +4,7 @@ namespace EnderLab\Router;
 
 use GuzzleHttp\Psr7\ServerRequest;
 
-class Router implements IRouterInterface
+class Router implements RouterInterface
 {
     /**
      * @var array
@@ -33,6 +33,11 @@ class Router implements IRouterInterface
      */
     private $count = 0;
 
+    /**
+     * Router constructor.
+     *
+     * @param array $routes
+     */
     public function __construct(array $routes = [])
     {
         $this->addRoutes($routes);
@@ -46,6 +51,11 @@ class Router implements IRouterInterface
         return $this->count;
     }
 
+    /**
+     * @param array $routes
+     *
+     * @return Router
+     */
     public function addRoutes(array $routes = []): Router
     {
         foreach ($routes as $route) {
