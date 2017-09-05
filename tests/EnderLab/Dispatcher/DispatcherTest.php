@@ -16,8 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class DispatcherTest extends TestCase
 {
     /**
-     * @param null|\SplQueue $queue
+     * @param null|\SplQueue         $queue
      * @param DelegateInterface|null $delegate
+     *
      * @return Dispatcher
      */
     private function makeDispatcher(?\SplQueue $queue = null, ?DelegateInterface $delegate = null): Dispatcher

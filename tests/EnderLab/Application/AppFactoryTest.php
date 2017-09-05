@@ -23,20 +23,6 @@ class AppFactoryTest extends TestCase
         $app = AppFactory::create(
             [
                 'global.env' => \DI\env('global_env', 'dev'),
-                'routes'     => [
-                    \DI\object(\EnderLab\Router\Route::class)->constructor(
-                        '/blog/:id/:pouette',
-                        function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                            $response = $delegate->process($request);
-                            $response->getBody()->write('<br>Middleware callable !!!<br>');
-
-                            return $response;
-                        },
-                        'GET',
-                        'first_route_test',
-                        ['id' => '\\d+', 'pouette' => '\\w+']
-                    )
-                ],
                 'logger.name'    => 'default-logger',
                 'logger.file'    => __DIR__ . '/../logs/app.log',
                 'logger.handler' => [

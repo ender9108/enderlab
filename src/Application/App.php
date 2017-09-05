@@ -17,6 +17,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Nette\InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class App extends MiddlewareBuilder
 {
@@ -41,7 +42,7 @@ class App extends MiddlewareBuilder
         RouterInterface $router,
         DispatcherInterface $dispatcher
     ) {
-        parent::__construct($container, $router, $dispatcher);
+        parent::__construct($container, $router, $dispatcher, new Response());
     }
 
     /**
@@ -122,12 +123,12 @@ class App extends MiddlewareBuilder
      * Add middleware on pipe.
      *
      * @param $path
-     * @param null        $middlewares
+     * @param null $middlewares
+     * @param bool $first
      * @param string|null $env
-     *
      * @return App
      */
-    public function pipe($path, $middlewares = null, string $env = null): App
+    public function pipe($path, $middlewares = null, bool $first = false, string $env = null): App
     {
         if (null !== $env && $this->container->get('global.env') !== $env) {
             return $this;
@@ -142,7 +143,7 @@ class App extends MiddlewareBuilder
             $middlewares = $this->buildMiddleware($middlewares);
         }
 
-        $this->dispatcher->pipe(new Route($path, $middlewares));
+        $this->dispatcher->pipe(new Route($path, $middlewares), $first);
 
         return $this;
     }
@@ -150,20 +151,20 @@ class App extends MiddlewareBuilder
     /**
      * Start process dispatcher.
      *
+     * @param null|ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function run(): ResponseInterface
+    public function run(?ServerRequestInterface $request = null): ResponseInterface
     {
-        $request = ServerRequest::fromGlobals();
-        $response = new Response();
-        $request = $request->withAttribute('originalResponse', $response);
+        $request = ( !is_null($request) ) ? $request : ServerRequest::fromGlobals();
+        $request = $request->withAttribute('originalResponse', $this->response);
 
-        if (null !== $this->errorHandler) {
-            $this->pipe($this->errorHandler);
+        $this->pipe(new DispatcherMiddleware($this->container, $this->router), null, true);
+        $this->pipe(new RouterMiddleware($this->router, $this->response), null, true);
+
+        if (null !== $this->errorHandler && $this->errorHandler instanceof MiddlewareInterface) {
+            $this->pipe($this->errorHandler, null, true);
         }
-
-        $this->pipe(new RouterMiddleware($this->router, $response));
-        $this->pipe(new DispatcherMiddleware($this->container, $this->router));
 
         $response = $this->dispatcher->process($request);
 
@@ -218,5 +219,10 @@ class App extends MiddlewareBuilder
         }
 
         $this->errorHandler = $this->buildMiddleware($errorHandler);
+    }
+
+    private function pipeFirst()
+    {
+        //
     }
 }

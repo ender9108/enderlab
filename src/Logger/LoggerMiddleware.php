@@ -36,7 +36,6 @@ class LoggerMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
-
         $this->logger->info(
             'Request: ' . "\n" .
             "\t" . 'Method: ' . $request->getMethod() . "\n" .

@@ -1,9 +1,12 @@
 <?php
+
 namespace Tests\EnderLab\Application;
 
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Router\Route;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -16,6 +19,11 @@ class AppTest extends TestCase
     private function makeInstanceApp($config = null): App
     {
         return AppFactory::create($config);
+    }
+
+    private function makeRequest()
+    {
+        return new ServerRequest('GET', '/');
     }
 
     public function testCreateAppObject(): void
@@ -71,12 +79,17 @@ class AppTest extends TestCase
     public function testAddValidRoute(): void
     {
         $app = $this->makeInstanceApp();
-        $route = $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
-            $response->getBody()->write('<br>Middleware callable !!!<br>');
+        $route = $app->addRoute(
+            '/',
+            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $response = $delegate->process($request);
+                $response->getBody()->write('<br>Middleware callable !!!<br>');
 
-            return $response;
-        }, 'GET', 'route_test');
+                return $response;
+            },
+            'GET',
+            'route_test'
+        );
         $this->assertInstanceOf(Route::class, $route);
     }
 
@@ -107,13 +120,14 @@ class AppTest extends TestCase
     public function testProcessApp(): void
     {
         $app = $this->makeInstanceApp();
-        $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
 
             return $response;
         });
-        $response = $app->run();
+
+        $response = $app->run($this->makeRequest());
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace EnderLab\Dispatcher;
 
-use EnderLab\Router\Route;
 use EnderLab\Router\RouteInterface;
 use GuzzleHttp\Psr7\Response;
 use Interop\Http\ServerMiddleware\DelegateInterface;
@@ -34,10 +33,11 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * @param $middleware
+     * @param bool $first
      *
      * @return Dispatcher
      */
-    public function pipe($middleware): Dispatcher
+    public function pipe($middleware, bool $first = false): Dispatcher
     {
         if (!$middleware instanceof MiddlewareInterface &&
             !$middleware instanceof RouteInterface
@@ -45,7 +45,11 @@ class Dispatcher implements DispatcherInterface
             throw new InvalidArgumentException('Middleware must be implement "MiddlewareInterface" or "RouteInterface"');
         }
 
-        $this->middlewares->enqueue($middleware);
+        if( true === $first ) {
+            $this->middlewares->unshift($middleware);
+        } else {
+            $this->middlewares->enqueue($middleware);
+        }
 
         return $this;
     }
@@ -68,8 +72,7 @@ class Dispatcher implements DispatcherInterface
         $middleware = $this->middlewares->dequeue();
         ++$this->index;
 
-        if( $middleware instanceof RouteInterface)
-        {
+        if ($middleware instanceof RouteInterface) {
             $middleware = $middleware->getMiddlewares();
         }
 
@@ -83,5 +86,10 @@ class Dispatcher implements DispatcherInterface
     public function countMiddlewares()
     {
         return $this->middlewares->count();
+    }
+
+    public function getQueue()
+    {
+        return $this->middlewares;
     }
 }

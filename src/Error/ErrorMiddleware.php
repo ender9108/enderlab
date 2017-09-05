@@ -34,16 +34,25 @@ class ErrorMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+            if (!(error_reporting() & $errno)) {
+                return;
+            }
+            throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        });
+
         try {
             $response = $delegate->process($request);
 
             if (!$response instanceof ResponseInterface) {
                 throw new \Exception('Application did not return a response', 500);
             }
-        } catch (Throwable $e) {
-            $this->response->withStatus($e->getCode());
-            $this->response->getBody()->write($e->getMessage());
+        } catch (\Exception | \Throwable $e) {
+            $response = $this->response->withStatus($e->getCode());
+            $response->getBody()->write($e->getMessage());
         }
+
+        restore_error_handler();
 
         return $response;
     }

@@ -93,7 +93,7 @@ class MiddlewareBuilder
         // TODO pipe middlewares
         if (is_array($middlewares)) {
             $queue = new \SplQueue();
-            $middlewares = array_reverse($middlewares);
+            //$middlewares = array_reverse($middlewares);
 
             foreach ($middlewares as $middleware) {
                 $queue->enqueue(new Route(

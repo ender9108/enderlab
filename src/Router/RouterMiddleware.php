@@ -39,28 +39,25 @@ class RouterMiddleware implements MiddlewareInterface
      * @param ServerRequestInterface $request
      * @param DelegateInterface      $delegate
      *
+     * @throws RouterException
+     *
      * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        try {
-            $route = $this->router->match($request);
+        $route = $this->router->match($request);
 
-            if (null === $route) {
-                throw new RouterException('Route not found', 404);
-            }
-
-            $request = $request->withAttribute(Route::class, $route);
-
-            foreach ($route->getAttributes() as $label => $value) {
-                $request = $request->withAttribute($label, $value);
-            }
-
-            $response = $delegate->process($request);
-        } catch (RouterException $exception) {
-            $this->response->withStatus($exception->getCode());
-            $response = $this->response;
+        if (null === $route) {
+            throw new RouterException('Route not found', 404);
         }
+
+        $request = $request->withAttribute(Route::class, $route);
+
+        foreach ($route->getAttributes() as $label => $value) {
+            $request = $request->withAttribute($label, $value);
+        }
+
+        $response = $delegate->process($request);
 
         return $response;
     }

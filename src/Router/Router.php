@@ -76,15 +76,25 @@ class Router implements RouterInterface
      */
     public function addRoute(Route $route): Router
     {
-        if (count($route->getMethod()) === 0 && !in_array($route->getMethod(), $this->allowedMethods, true)) {
-            throw new RouterException('Method ' . $route->getMethod() . ' not allow.', 405);
-        }
-
         if (count($route->getMethod()) === 0) {
             foreach ($this->allowedMethods as $allowedMethod) {
                 $this->routes[$allowedMethod][] = $route;
             }
         } else {
+            $found = false;
+
+            foreach( $route->getMethod() as $method )
+            {
+                if( in_array($method, $this->allowedMethods) )
+                {
+                    $found = true;
+                }
+            }
+
+            if (false === $found) {
+                throw new RouterException('Method ' . implode(',', $route->getMethod()) . ' not allow.', 405);
+            }
+
             foreach ($route->getMethod() as $method) {
                 $this->routes[$method][] = $route;
             }
