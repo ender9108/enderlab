@@ -120,9 +120,24 @@ class AppTest extends TestCase
         $app->addRoute('/', null, 'GET', 'route_test');
     }
 
-    public function testProcessApp(): void
+    public function testRunApp(): void
     {
         $app = $this->makeInstanceApp();
+        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Test phpunit process app !');
+
+            return $response;
+        });
+
+        $response = $app->run($this->makeRequest());
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+    }
+
+    public function testRunWithErrorHandlerApp(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->enableErrorHandler(true);
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
