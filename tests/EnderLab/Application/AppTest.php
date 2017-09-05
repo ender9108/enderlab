@@ -6,6 +6,8 @@ use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Router\Route;
 use Interop\Http\ServerMiddleware\DelegateInterface;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -37,12 +39,12 @@ class AppTest extends TestCase
             'logger.file'    => __DIR__ . '/../logs/app.log',
             'logger.handler' => [
                 \DI\object(
-                    \Monolog\Handler\StreamHandler::class
+                    StreamHandler::class
                 )->constructor(\DI\get('logger.file'))
             ],
             'logger.processor' => [/*\DI\object(\Monolog\Processor\WebProcessor::class)*/],
             'logger'           => \DI\object(
-                \Monolog\Logger::class
+                Logger::class
             )->constructor(
                 \DI\get('logger.name'),
                 \DI\get('logger.handler'),

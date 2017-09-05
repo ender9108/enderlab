@@ -7,6 +7,7 @@ use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Dispatcher\DispatcherInterface;
 use EnderLab\Router\Router;
 use EnderLab\Router\RouterInterface;
+use Nette\InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
 final class AppFactory
@@ -25,13 +26,21 @@ final class AppFactory
         DispatcherInterface $dispatcher = null,
         RouterInterface $router = null
     ): App {
-        $containerBuilder = new ContainerBuilder();
+        if (is_string($containerConfig) || is_array($containerConfig)) {
+            if (is_string($containerConfig) && false === file_exists($containerConfig)) {
+                throw new InvalidArgumentException('Config file "' . $containerConfig . '" doesn\'t exists.');
+            }
 
-        if (null !== $containerConfig && !$containerConfig instanceof ContainerInterface) {
+            $containerBuilder = new ContainerBuilder();
             $containerBuilder->addDefinitions($containerConfig);
+            $container = $containerBuilder->build();
+        } elseif (null === $containerConfig || !$containerConfig instanceof ContainerInterface) {
+            $containerBuilder = new ContainerBuilder();
+            $container = $containerBuilder->build();
+        } else {
+            $container = $containerConfig;
         }
 
-        $container = $containerBuilder->build();
         $dispatcher = $dispatcher ?: new Dispatcher();
         $router = $router ?: new Router();
 
