@@ -213,12 +213,13 @@ class App extends MiddlewareBuilder
 
     /**
      * @param MiddlewareInterface|callable|bool $errorHandler
+     *
      * @return MiddlewareInterface|null
      */
     public function enableErrorHandler($errorHandler)
     {
         if (is_bool($errorHandler)) {
-            if( true == $errorHandler ) {
+            if (true === $errorHandler) {
                 $errorHandler = new ErrorMiddleware($this->response);
             } else {
                 $errorHandler = null;

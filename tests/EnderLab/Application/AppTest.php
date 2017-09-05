@@ -145,7 +145,7 @@ class AppTest extends TestCase
     public function testEnableErrorHandlerByCallable(): void
     {
         $app = $this->makeInstanceApp();
-        $app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->enableErrorHandler(function (ServerRequestInterface $request, DelegateInterface $delegate) {
             set_error_handler(function ($errno, $errstr, $errfile, $errline) {
                 if (!(error_reporting() & $errno)) {
                     return;
