@@ -6,9 +6,7 @@ use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Router\Router;
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface;
 
 class AppFactoryTest extends TestCase
 {
@@ -22,7 +20,7 @@ class AppFactoryTest extends TestCase
     {
         $app = AppFactory::create(
             [
-                'global.env' => \DI\env('global_env', 'dev'),
+                'global.env'     => \DI\env('global_env', 'dev'),
                 'logger.name'    => 'default-logger',
                 'logger.file'    => __DIR__ . '/../logs/app.log',
                 'logger.handler' => [

@@ -45,7 +45,7 @@ class Dispatcher implements DispatcherInterface
             throw new InvalidArgumentException('Middleware must be implement "MiddlewareInterface" or "RouteInterface"');
         }
 
-        if( true === $first ) {
+        if (true === $first) {
             $this->middlewares->unshift($middleware);
         } else {
             $this->middlewares->enqueue($middleware);

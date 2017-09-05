@@ -5,7 +5,6 @@ namespace Tests\EnderLab\Application;
 use EnderLab\Application\App;
 use EnderLab\Application\AppFactory;
 use EnderLab\Router\Route;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Monolog\Handler\StreamHandler;

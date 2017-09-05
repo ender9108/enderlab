@@ -83,10 +83,8 @@ class Router implements RouterInterface
         } else {
             $found = false;
 
-            foreach( $route->getMethod() as $method )
-            {
-                if( in_array($method, $this->allowedMethods) )
-                {
+            foreach ($route->getMethod() as $method) {
+                if (in_array($method, $this->allowedMethods, true)) {
                     $found = true;
                 }
             }

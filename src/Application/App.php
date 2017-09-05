@@ -123,9 +123,10 @@ class App extends MiddlewareBuilder
      * Add middleware on pipe.
      *
      * @param $path
-     * @param null $middlewares
-     * @param bool $first
+     * @param null        $middlewares
+     * @param bool        $first
      * @param string|null $env
+     *
      * @return App
      */
     public function pipe($path, $middlewares = null, bool $first = false, string $env = null): App
@@ -152,11 +153,12 @@ class App extends MiddlewareBuilder
      * Start process dispatcher.
      *
      * @param null|ServerRequestInterface $request
+     *
      * @return ResponseInterface
      */
     public function run(?ServerRequestInterface $request = null): ResponseInterface
     {
-        $request = ( !is_null($request) ) ? $request : ServerRequest::fromGlobals();
+        $request = (null !== $request) ? $request : ServerRequest::fromGlobals();
         $request = $request->withAttribute('originalResponse', $this->response);
 
         $this->pipe(new DispatcherMiddleware($this->container, $this->router), null, true);
@@ -223,6 +225,5 @@ class App extends MiddlewareBuilder
 
     private function pipeFirst()
     {
-        //
     }
 }
