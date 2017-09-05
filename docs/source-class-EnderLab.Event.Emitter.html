@@ -61,7 +61,7 @@
 </span><span class="l" id="line-2">
 </span><span class="l" id="line-3"><span class="php-keyword1">namespace</span> EnderLab\Event;
 </span><span class="l" id="line-4">
-</span><span class="l" id="line-5"><span class="php-keyword1">class</span> Emitter
+</span><span class="l" id="line-5"><span class="php-keyword1">class</span> Emitter <span class="php-keyword1">implements</span> EmitterInterface
 </span><span class="l" id="line-6">{
 </span><span class="l" id="line-7">    <span class="php-comment">/**
 </span></span><span class="l" id="line-8"><span class="php-comment">     * Contient l'instance unique Emitter.
@@ -152,9 +152,9 @@
 </span><span class="l" id="line-93">    <span class="php-comment">/**
 </span></span><span class="l" id="line-94"><span class="php-comment">     * Permet d'ajouter un subscriber qui va écouter plusieurs évènements.
 </span></span><span class="l" id="line-95"><span class="php-comment">     *
-</span></span><span class="l" id="line-96"><span class="php-comment">     * @param ISubscriber $subscriber
+</span></span><span class="l" id="line-96"><span class="php-comment">     * @param Subscriber $subscriber
 </span></span><span class="l" id="line-97"><span class="php-comment">     */</span>
-</span><span class="l" id="line-98">    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> addSubscriber(ISubscriber <span class="php-var">$subscriber</span>)
+</span><span class="l" id="line-98">    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> addSubscriber(Subscriber <span class="php-var">$subscriber</span>)
 </span><span class="l" id="line-99">    {
 </span><span class="l" id="line-100">        <span class="php-var">$events</span> = <span class="php-var">$subscriber</span>-&gt;getEvents();
 </span><span class="l" id="line-101">

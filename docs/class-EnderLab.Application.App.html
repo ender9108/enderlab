@@ -122,7 +122,7 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#___construct">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#32-39">__construct</a>( <span> Psr\Container\ContainerInterface <span class="property-name">$container</span> </span>, <span> <a href="class-EnderLab.Router.Router.html">EnderLab\Router\Router</a> <span class="property-name">$router</span> </span>, <span> <a href="class-EnderLab.Dispatcher.Dispatcher.html">EnderLab\Dispatcher\Dispatcher</a> <span class="property-name">$dispatcher</span> </span>, <span> <a href="class-EnderLab.Event.Emitter.html">EnderLab\Event\Emitter</a> <span class="property-name">$emitter</span> </span> )</code>
+            <code><a href="source-class-EnderLab.Application.App.html#38-44">__construct</a>( <span> Psr\Container\ContainerInterface <span class="property-name">$container</span> </span>, <span> <a href="interface-EnderLab.Router.RouterInterface.html">EnderLab\Router\RouterInterface</a> <span class="property-name">$router</span> </span>, <span> <a href="interface-EnderLab.Dispatcher.DispatcherInterface.html">EnderLab\Dispatcher\DispatcherInterface</a> <span class="property-name">$dispatcher</span> </span> )</code>
 
             <div class="description">
                 App constructor.
@@ -149,6 +149,38 @@
 
 
 
+<tr id="___call">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#___call">#</a>
+            <code><a href="source-class-EnderLab.Application.App.html#54-80">__call</a>( <span> <span class="property-name">$name</span> </span>, <span> <span class="property-name">$arguments</span> </span> )</code>
+
+            <div class="description">
+                Add route on router by request type.
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
 <tr id="_addRoute">
 
     <td class="attributes col-md-1">
@@ -162,7 +194,7 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_addRoute">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#54-77">addRoute</a>( <span> string <span class="property-name">$path</span> </span>, <span> null <span class="property-name">$middlewares</span> = <span class="php-keyword1">NULL</span></span>, <span> string <span class="property-name">$method</span> = <span class="php-keyword1">NULL</span></span>, <span> string <span class="property-name">$name</span> = <span class="php-keyword1">NULL</span></span>, <span> array <span class="property-name">$params</span> = <span class="php-keyword1">array</span> ( )</span> )</code>
+            <code><a href="source-class-EnderLab.Application.App.html#95-118">addRoute</a>( <span> string <span class="property-name">$path</span> </span>, <span> null <span class="property-name">$middlewares</span> = <span class="php-keyword1">NULL</span></span>, <span> string <span class="property-name">$method</span> = <span class="php-keyword1">NULL</span></span>, <span> string <span class="property-name">$name</span> = <span class="php-keyword1">NULL</span></span>, <span> array <span class="property-name">$params</span> = <span class="php-keyword1">array</span> ( )</span> )</code>
 
             <div class="description">
                 Add route on router.
@@ -194,7 +226,7 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_pipe">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#88-106">pipe</a>( <span> <span class="property-name">$path</span> </span>, <span> null <span class="property-name">$middlewares</span> = <span class="php-keyword1">NULL</span></span>, <span> string <span class="property-name">$env</span> = <span class="php-keyword1">NULL</span></span> )</code>
+            <code><a href="source-class-EnderLab.Application.App.html#129-147">pipe</a>( <span> <span class="property-name">$path</span> </span>, <span> null <span class="property-name">$middlewares</span> = <span class="php-keyword1">NULL</span></span>, <span> string <span class="property-name">$env</span> = <span class="php-keyword1">NULL</span></span> )</code>
 
             <div class="description">
                 Add middleware on pipe.
@@ -226,42 +258,10 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_run">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#113-125">run</a>( )</code>
+            <code><a href="source-class-EnderLab.Application.App.html#154-170">run</a>( )</code>
 
             <div class="description">
                 Start process dispatcher.
-
-
-
-
-
-
-
-
-            </div>
-        </div>
-    </td>
-</tr>
-
-
-
-<tr id="_getEmitter">
-
-    <td class="attributes col-md-1">
-        <code class="keyword">
-                 public 
-                
-                
-        </code>
-    </td>
-
-    <td class="name">
-        <div>
-            <a class="anchor pull-right" href="#_getEmitter">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#132-135">getEmitter</a>( )</code>
-
-            <div class="description">
-                Return Emitter object.
 
 
 
@@ -290,7 +290,7 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getContainer">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#142-145">getContainer</a>( )</code>
+            <code><a href="source-class-EnderLab.Application.App.html#177-180">getContainer</a>( )</code>
 
             <div class="description">
                 Return Container object.
@@ -322,7 +322,7 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getRouter">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#152-155">getRouter</a>( )</code>
+            <code><a href="source-class-EnderLab.Application.App.html#187-190">getRouter</a>( )</code>
 
             <div class="description">
                 Return Router object.
@@ -354,10 +354,74 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#_getDispatcher">#</a>
-            <code><a href="source-class-EnderLab.Application.App.html#162-165">getDispatcher</a>( )</code>
+            <code><a href="source-class-EnderLab.Application.App.html#197-200">getDispatcher</a>( )</code>
 
             <div class="description">
                 Return Dispatcher object.
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_getErrorHandler">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_getErrorHandler">#</a>
+            <code><a href="source-class-EnderLab.Application.App.html#205-208">getErrorHandler</a>( )</code>
+
+            <div class="description">
+                
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </td>
+</tr>
+
+
+
+<tr id="_setErrorHandler">
+
+    <td class="attributes col-md-1">
+        <code class="keyword">
+                 public 
+                
+                
+        </code>
+    </td>
+
+    <td class="name">
+        <div>
+            <a class="anchor pull-right" href="#_setErrorHandler">#</a>
+            <code><a href="source-class-EnderLab.Application.App.html#213-216">setErrorHandler</a>( <span> \MiddlewareInterface|callable <span class="property-name">$errorHandler</span> </span> )</code>
+
+            <div class="description">
+                
 
 
 
@@ -401,7 +465,7 @@
     </td>
     <td class="name">
         <code>
-            <a href="source-class-EnderLab.Application.App.html#20" class="constant-name">ENV_DEV</a>
+            <a href="source-class-EnderLab.Application.App.html#22" class="constant-name">ENV_DEV</a>
         </code>
 
         <div class="description">
@@ -427,7 +491,7 @@
     </td>
     <td class="name">
         <code>
-            <a href="source-class-EnderLab.Application.App.html#21" class="constant-name">ENV_TEST</a>
+            <a href="source-class-EnderLab.Application.App.html#23" class="constant-name">ENV_TEST</a>
         </code>
 
         <div class="description">
@@ -453,7 +517,7 @@
     </td>
     <td class="name">
         <code>
-            <a href="source-class-EnderLab.Application.App.html#22" class="constant-name">ENV_PROD</a>
+            <a href="source-class-EnderLab.Application.App.html#24" class="constant-name">ENV_PROD</a>
         </code>
 
         <div class="description">
@@ -483,7 +547,7 @@
                             <code><a href="class-EnderLab.Middleware.MiddlewareBuilder.html#$container" class="property-name">$container</a></code>, 
                             <code><a href="class-EnderLab.Middleware.MiddlewareBuilder.html#$router" class="property-name">$router</a></code>, 
                             <code><a href="class-EnderLab.Middleware.MiddlewareBuilder.html#$dispatcher" class="property-name">$dispatcher</a></code>, 
-                            <code><a href="class-EnderLab.Middleware.MiddlewareBuilder.html#$emitter" class="property-name">$emitter</a></code>
+                            <code><a href="class-EnderLab.Middleware.MiddlewareBuilder.html#$response" class="property-name">$response</a></code>
                     </td>
                 </tr>
             </table>

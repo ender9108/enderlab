@@ -116,7 +116,7 @@
     <td class="name">
         <div>
             <a class="anchor pull-right" href="#___construct">#</a>
-            <code><a href="source-class-EnderLab.Middleware.MiddlewareBuilder.html#45-55">__construct</a>( <span> Psr\Container\ContainerInterface <span class="property-name">$container</span> </span>, <span> <a href="class-EnderLab.Router.Router.html">EnderLab\Router\Router</a> <span class="property-name">$router</span> </span>, <span> <a href="class-EnderLab.Dispatcher.Dispatcher.html">EnderLab\Dispatcher\Dispatcher</a> <span class="property-name">$dispatcher</span> </span>, <span> <a href="class-EnderLab.Event.Emitter.html">EnderLab\Event\Emitter</a> <span class="property-name">$emitter</span> </span> )</code>
+            <code><a href="source-class-EnderLab.Middleware.MiddlewareBuilder.html#45-55">__construct</a>( <span> Psr\Container\ContainerInterface <span class="property-name">$container</span> </span>, <span> <a href="interface-EnderLab.Router.RouterInterface.html">EnderLab\Router\RouterInterface</a> <span class="property-name">$router</span> </span>, <span> <a href="class-EnderLab.Dispatcher.Dispatcher.html">EnderLab\Dispatcher\Dispatcher</a> <span class="property-name">$dispatcher</span> </span>, <span> Psr\Http\Message\ResponseInterface <span class="property-name">$response</span> = <span class="php-keyword1">NULL</span></span> )</code>
 
             <div class="description">
                 App constructor.
@@ -234,7 +234,7 @@
         <code class="keyword">
             protected 
 
-            <a href="class-EnderLab.Router.Router.html">EnderLab\Router\Router</a>
+            EnderLab\Middleware\Router
         </code>
     </td>
 
@@ -279,18 +279,18 @@
         </div>
     </td>
 </tr>
-<tr id="$emitter">
+<tr id="$response">
     <td class="attributes">
         <code class="keyword">
             protected 
 
-            <a href="class-EnderLab.Event.Emitter.html">EnderLab\Event\Emitter</a>
+            null|\Psr\Http\Message\ResponseInterface
         </code>
     </td>
 
     <td class="name">
         <code>
-            <a href="source-class-EnderLab.Middleware.MiddlewareBuilder.html#35" class="property-name">$emitter</a>
+            <a href="source-class-EnderLab.Middleware.MiddlewareBuilder.html#35" class="property-name">$response</a>
         </code>
         <div class="description">
             
@@ -299,7 +299,7 @@
     </td>
     <td class="value">
         <div>
-            <a href="#$emitter" class="anchor pull-right">#</a>
+            <a href="#$response" class="anchor pull-right">#</a>
             <code><span class="php-keyword1">NULL</span></code>
         </div>
     </td>

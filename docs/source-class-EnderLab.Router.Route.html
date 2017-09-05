@@ -63,7 +63,7 @@
 </span><span class="l" id="line-4">
 </span><span class="l" id="line-5"><span class="php-keyword1">use</span> Interop\Http\ServerMiddleware\MiddlewareInterface;
 </span><span class="l" id="line-6">
-</span><span class="l" id="line-7"><span class="php-keyword1">class</span> Route
+</span><span class="l" id="line-7"><span class="php-keyword1">class</span> Route <span class="php-keyword1">implements</span> RouteInterface
 </span><span class="l" id="line-8">{
 </span><span class="l" id="line-9">    <span class="php-comment">/**
 </span></span><span class="l" id="line-10"><span class="php-comment">     * @var string
@@ -214,7 +214,7 @@
 </span><span class="l" id="line-155">    <span class="php-comment">/**
 </span></span><span class="l" id="line-156"><span class="php-comment">     * @return array
 </span></span><span class="l" id="line-157"><span class="php-comment">     */</span>
-</span><span class="l" id="line-158">    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getAttributes()
+</span><span class="l" id="line-158">    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getAttributes(): <span class="php-keyword1">array</span>
 </span><span class="l" id="line-159">    {
 </span><span class="l" id="line-160">        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;attributes;
 </span><span class="l" id="line-161">    }

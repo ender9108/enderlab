@@ -14,25 +14,25 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class AppTest extends TestCase
 {
-    private function makeInstanceApp($config = null)
+    private function makeInstanceApp($config = null): App
     {
         return AppFactory::create($config);
     }
 
-    public function testCreateAppObject()
+    public function testCreateAppObject(): void
     {
         $app = $this->makeInstanceApp();
         $this->assertInstanceOf(App::class, $app);
     }
 
-    public function testPipeWithInvalidMiddleware()
+    public function testPipeWithInvalidMiddleware(): void
     {
         $app = $this->makeInstanceApp();
         $this->expectException(\InvalidArgumentException::class);
         $app->pipe('InvalideMiddleware');
     }
 
-    public function testPipeWithValidMiddlewareInterface()
+    public function testPipeWithValidMiddlewareInterface(): void
     {
         $app = $this->makeInstanceApp([
             'logger.name'    => 'default-logger',
@@ -56,7 +56,7 @@ class AppTest extends TestCase
         $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
-    public function testPipeWithValidCallableMiddleware()
+    public function testPipeWithValidCallableMiddleware(): void
     {
         $app = $this->makeInstanceApp();
         $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
@@ -69,7 +69,7 @@ class AppTest extends TestCase
         $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
-    public function testAddValidRoute()
+    public function testAddValidRoute(): void
     {
         $app = $this->makeInstanceApp();
         $route = $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
@@ -81,7 +81,7 @@ class AppTest extends TestCase
         $this->assertInstanceOf(Route::class, $route);
     }
 
-    public function testAddValidRouteObject()
+    public function testAddValidRouteObject(): void
     {
         $app = $this->makeInstanceApp();
         $route = $app->addRoute(new Route(
@@ -98,14 +98,14 @@ class AppTest extends TestCase
         $this->assertInstanceOf(Route::class, $route);
     }
 
-    public function testAddInvalidRoute()
+    public function testAddInvalidRoute(): void
     {
         $app = $this->makeInstanceApp();
         $this->expectException(\InvalidArgumentException::class);
         $app->addRoute('/', null, 'GET', 'route_test');
     }
 
-    public function testProcessApp()
+    public function testProcessApp(): void
     {
         $app = $this->makeInstanceApp();
         $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {

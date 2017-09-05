@@ -12,13 +12,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class AppFactoryTest extends TestCase
 {
-    public function testCreateAppWithoutArg()
+    public function testCreateAppWithoutArg(): void
     {
         $app = AppFactory::create();
         $this->assertInstanceOf(App::class, $app);
     }
 
-    public function testCreateAppWithArg()
+    public function testCreateAppWithArg(): void
     {
         $app = AppFactory::create(
             [
