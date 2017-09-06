@@ -14,7 +14,6 @@ use EnderLab\Router\RouterMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Nette\InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -74,7 +73,7 @@ class App extends MiddlewareBuilder
                 ];
                 break;
             default:
-                throw new InvalidArgumentException('');
+                throw new \InvalidArgumentException('');
                 break;
         }
 
