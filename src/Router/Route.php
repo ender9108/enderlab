@@ -87,7 +87,7 @@ class Route implements RouteInterface
         array_shift($matches);
         $count = 0;
 
-        foreach ($this->params as $key => $param) {
+        foreach ($this->getParams() as $key => $param) {
             $this->attributes[$key] = $matches[$count];
             ++$count;
         }
