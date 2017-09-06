@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\EnderLab\Application;
 
 use DI\ContainerBuilder;
@@ -22,7 +23,7 @@ class DispatcherMiddlewareTest extends TestCase
         $router = new Router();
         $route = new Route(
             '/',
-            function(ServerRequestInterface $request, DelegateInterface $delegate) {
+            function (ServerRequestInterface $request, DelegateInterface $delegate) {
                 $response = $delegate->process($request);
                 $response->getBody()->write('Test phpunit process app !');
 
