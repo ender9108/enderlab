@@ -1,5 +1,6 @@
 {
     "name": "enderlab/psr15-middle-earth-framework",
+    "license": "MIT",
     "authors": [
         {
             "name": "Alexandre Berthelot",
