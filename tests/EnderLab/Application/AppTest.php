@@ -76,6 +76,30 @@ class AppTest extends TestCase
         $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
+    public function testPipeWithInvalidEnv(): void
+    {
+        $app = $this->makeInstanceApp(['global.env' => 'prod']);
+        $result = $app->pipe('EnderLab\\Logger\\LoggerMiddleware', null, false, 'dev');
+        $this->assertInstanceOf(App::class, $result);
+        $this->assertSame(0, $app->getDispatcher()->countMiddlewares());
+    }
+
+    public function testPipeWithPathAnMiddleware(): void
+    {
+        $app = $this->makeInstanceApp(['global.env' => 'prod']);
+        $result = $app->pipe(
+            '/',
+            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $response = $delegate->process($request);
+                $response->getBody()->write('<br>Middleware callable !!!<br>');
+
+                return $response;
+            }
+        );
+        $this->assertInstanceOf(App::class, $result);
+        $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
+    }
+
     public function testPipeWithValidCallableMiddleware(): void
     {
         $app = $this->makeInstanceApp();
