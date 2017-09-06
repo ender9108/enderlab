@@ -61,7 +61,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @return Response|\Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request): ResponseInterface
+    public function process(ServerRequestInterface $request)/*: ResponseInterface*/
     {
         if ($this->middlewares->isEmpty()) {
             if (null !== $this->delegate) {
@@ -86,9 +86,9 @@ class Dispatcher implements DispatcherInterface
         $middleware = $middleware->getMiddlewares();
         $response = $middleware->process($request, $this);
 
-        if (!$response instanceof ResponseInterface) {
+        /*if (!$response instanceof ResponseInterface) {
             throw new InvalidArgumentException('Not response', 500);
-        }
+        }*/
 
         return $response;
     }
