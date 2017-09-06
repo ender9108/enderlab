@@ -6,10 +6,10 @@ use EnderLab\Router\RouteInterface;
 use GuzzleHttp\Psr7\Response;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use \SplQueue;
+use SplQueue;
 
 class Dispatcher implements DispatcherInterface
 {
