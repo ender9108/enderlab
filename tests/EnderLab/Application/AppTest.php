@@ -10,6 +10,7 @@ use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use InvalidArgumentException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
@@ -138,7 +139,7 @@ class AppTest extends TestCase
         $this->assertInstanceOf(Route::class, $route);
         $route = $app->option('/', $this->makeMiddleware());
         $this->assertInstanceOf(Route::class, $route);
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $app->pouette('/', $this->makeMiddleware());
     }
 
