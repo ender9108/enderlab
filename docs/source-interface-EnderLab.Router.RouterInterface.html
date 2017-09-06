@@ -61,7 +61,7 @@
 </span><span class="l" id="line-2">
 </span><span class="l" id="line-3"><span class="php-keyword1">namespace</span> EnderLab\Router;
 </span><span class="l" id="line-4">
-</span><span class="l" id="line-5"><span class="php-keyword1">use</span> GuzzleHttp\Psr7\ServerRequest;
+</span><span class="l" id="line-5"><span class="php-keyword1">use</span> Psr\Http\Message\ServerRequestInterface;
 </span><span class="l" id="line-6">
 </span><span class="l" id="line-7"><span class="php-keyword1">interface</span> RouterInterface
 </span><span class="l" id="line-8">{
@@ -86,11 +86,11 @@
 </span><span class="l" id="line-27">    <span class="php-comment">/**
 </span></span><span class="l" id="line-28"><span class="php-comment">     * Compare uri with route collection.
 </span></span><span class="l" id="line-29"><span class="php-comment">     *
-</span></span><span class="l" id="line-30"><span class="php-comment">     * @param ServerRequest $request
+</span></span><span class="l" id="line-30"><span class="php-comment">     * @param ServerRequestInterface $request
 </span></span><span class="l" id="line-31"><span class="php-comment">     *
 </span></span><span class="l" id="line-32"><span class="php-comment">     * @return mixed
 </span></span><span class="l" id="line-33"><span class="php-comment">     */</span>
-</span><span class="l" id="line-34">    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> match(ServerRequest <span class="php-var">$request</span>);
+</span><span class="l" id="line-34">    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> match(ServerRequestInterface <span class="php-var">$request</span>);
 </span><span class="l" id="line-35">
 </span><span class="l" id="line-36">    <span class="php-comment">/**
 </span></span><span class="l" id="line-37"><span class="php-comment">     * Return formatted url by route name.

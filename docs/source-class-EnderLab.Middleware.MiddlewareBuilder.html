@@ -152,7 +152,7 @@
 </span><span class="l" id="line-93">        <span class="php-comment">// TODO pipe middlewares</span>
 </span><span class="l" id="line-94">        <span class="php-keyword1">if</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$middlewares</span>)) {
 </span><span class="l" id="line-95">            <span class="php-var">$queue</span> = <span class="php-keyword1">new</span> \SplQueue();
-</span><span class="l" id="line-96">            <span class="php-var">$middlewares</span> = <span class="php-keyword2">array_reverse</span>(<span class="php-var">$middlewares</span>);
+</span><span class="l" id="line-96">            <span class="php-comment">//$middlewares = array_reverse($middlewares);</span>
 </span><span class="l" id="line-97">
 </span><span class="l" id="line-98">            <span class="php-keyword1">foreach</span> (<span class="php-var">$middlewares</span> <span class="php-keyword1">as</span> <span class="php-var">$middleware</span>) {
 </span><span class="l" id="line-99">                <span class="php-var">$queue</span>-&gt;enqueue(<span class="php-keyword1">new</span> Route(
