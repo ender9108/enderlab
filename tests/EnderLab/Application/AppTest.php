@@ -29,6 +29,16 @@ class AppTest extends TestCase
         return new ServerRequest('GET', '/');
     }
 
+    private function makeMiddleware(): callable
+    {
+        return function(ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Welcome !!!<br>');
+
+            return $response;
+        };
+    }
+
     public function testCreateAppObject(): void
     {
         $app = $this->makeInstanceApp();
@@ -111,6 +121,25 @@ class AppTest extends TestCase
             'route_test'
         ), null, 'GET', 'route_test');
         $this->assertInstanceOf(Route::class, $route);
+    }
+
+    public function testAddRouteByMagicMethod(): void
+    {
+        $app = $this->makeInstanceApp();
+        $route = $app->get('/', $this->makeMiddleware());
+        $this->assertInstanceOf(Route::class, $route);
+        $route = $app->post('/', $this->makeMiddleware());
+        $this->assertInstanceOf(Route::class, $route);
+        $route = $app->put('/', $this->makeMiddleware());
+        $this->assertInstanceOf(Route::class, $route);
+        $route = $app->delete('/', $this->makeMiddleware());
+        $this->assertInstanceOf(Route::class, $route);
+        $route = $app->head('/', $this->makeMiddleware());
+        $this->assertInstanceOf(Route::class, $route);
+        $route = $app->option('/', $this->makeMiddleware());
+        $this->assertInstanceOf(Route::class, $route);
+        $this->expectException(\InvalidArgumentException::class);
+        $app->pouette('/', $this->makeMiddleware());
     }
 
     public function testAddInvalidRoute(): void
