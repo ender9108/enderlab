@@ -91,6 +91,43 @@ class DispatcherTest extends TestCase
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
+    public function testProcessWithMiddlewareRoute(): void
+    {
+        $dispatcher = $this->makeDispatcher();
+        $middlewareBuilder = $this->makeMiddlewareBuilder();
+        $dispatcher->pipe(
+            new Route(
+                '/admin',
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                    $response = $delegate->process($request);
+                    $response->getBody()->write('<br>Middleware callable !!!<br>');
+
+                    return $response;
+                })
+            )
+        );
+        $request = new ServerRequest('GET', '/admin');
+        $response = $dispatcher->process($request);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+    }
+
+    public function testProcessWithMiddlewareRouteAndInvalidResponse(): void
+    {
+        $dispatcher = $this->makeDispatcher();
+        $middlewareBuilder = $this->makeMiddlewareBuilder();
+        $dispatcher->pipe(
+            new Route(
+                '/admin',
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                    return 'Bad response';
+                })
+            )
+        );
+        $request = new ServerRequest('GET', '/admin');
+        $this->expectException(\InvalidArgumentException::class);
+        $response = $dispatcher->process($request);
+    }
+
     public function testProcessWithDoubleDispatcher(): void
     {
         $middlewareBuilder = $this->makeMiddlewareBuilder();
