@@ -23,6 +23,30 @@ class RouterMiddlewareTest extends TestCase
         $router = new Router();
 
         $router->addRoute(new Route(
+            '/toto',
+            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $response = $delegate->process($request);
+                $response->getBody()->write('Test phpunit process app !');
+
+                return $response;
+            },
+            'GET',
+            'test_route'
+        ));
+
+        $middleware = new RouterMiddleware($router, $response);
+        $this->expectException(RouterException::class);
+        $middleware->process($request, $dispatcher);
+    }
+
+    public function testRouteWithInvalidMethod()
+    {
+        $request = new ServerRequest('GET', '/');
+        $dispatcher = new Dispatcher();
+        $response = new Response();
+        $router = new Router();
+
+        $router->addRoute(new Route(
             '/',
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
                 $response = $delegate->process($request);
