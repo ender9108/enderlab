@@ -7,8 +7,8 @@ use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Dispatcher\DispatcherInterface;
 use EnderLab\Router\Router;
 use EnderLab\Router\RouterInterface;
-use Nette\InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use \InvalidArgumentException;
 
 final class AppFactory
 {
