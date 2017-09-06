@@ -31,7 +31,7 @@ class AppTest extends TestCase
 
     private function makeMiddleware(): callable
     {
-        return function(ServerRequestInterface $request, DelegateInterface $delegate) {
+        return function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
             $response->getBody()->write('Welcome !!!<br>');
 
