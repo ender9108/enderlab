@@ -77,7 +77,7 @@ class Route implements RouteInterface
     public function match(string $url): bool
     {
         $url = trim($url, '/');
-        $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'], $this->path);
+        $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'], $this->getPath());
         $regex = "#^$path$#i";
 
         if (!preg_match($regex, $url, $matches)) {
@@ -118,6 +118,14 @@ class Route implements RouteInterface
     public function getPath(): string
     {
         return $this->path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEvaluatedPath(): string
+    {
+        return preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'], $this->getPath());
     }
 
     /**

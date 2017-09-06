@@ -57,6 +57,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * @param ServerRequestInterface $request
      *
+     * @throws \InvalidArgumentException
+     *
      * @return Response|\Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request): ResponseInterface
@@ -70,12 +72,25 @@ class Dispatcher implements DispatcherInterface
         }
 
         $middleware = $this->middlewares->dequeue();
+
+        if ($middleware->getPath() !== '*') {
+            $uri = trim($request->getUri()->getPath(), '/');
+            $regex = '#^' . $middleware->getEvaluatedPath() . '#';
+
+            if (!preg_match($regex, $uri, $matches)) {
+                return $this->process($request);
+            }
+        }
+
         ++$this->index;
         $middleware = $middleware->getMiddlewares();
+        $response = $middleware->process($request, $this);
 
-        // @todo check path
+        if (!$response instanceof ResponseInterface) {
+            throw new InvalidArgumentException('Not response', 500);
+        }
 
-        return $middleware->process($request, $this);
+        return $response;
     }
 
     public function countMiddlewares()
