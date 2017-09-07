@@ -3,6 +3,7 @@
 namespace EnderLab\Router;
 
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Zend\Expressive\Router\FastRouteRouter;
 
 class Route implements RouteInterface
 {

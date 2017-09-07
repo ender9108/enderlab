@@ -64,10 +64,6 @@ final class AppFactory
         $container->set(Dispatcher::class, $dispatcher);
         $container->set(Router::class, $router);
 
-        if ($container->has('routes')) {
-            $router->addRoutes($container->get('routes'));
-        }
-
         return new App($container, $router, $dispatcher);
     }
 }
