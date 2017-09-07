@@ -6,6 +6,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Router implements RouterInterface
 {
+    const HTTP_GET = 'GET';
+    const HTTP_POST = 'POST';
+    const HTTP_PUT = 'PUT';
+    const HTTP_DELETE = 'DELETE';
+    const HTTP_HEAD = 'HEAD';
+    const HTTP_OPTION = 'OPTION';
+
     /**
      * @var array
      */
@@ -19,14 +26,7 @@ class Router implements RouterInterface
     /**
      * @var array
      */
-    private $allowedMethods = [
-        'GET',
-        'POST',
-        'PUT',
-        'DELETE',
-        'HEAD',
-        'OPTION'
-    ];
+    private $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTION'];
 
     /**
      * @var int

@@ -68,10 +68,6 @@ final class AppFactory
             $router->addRoutes($container->get('routes'));
         }
 
-        return new App(
-            $container,
-            $router,
-            $dispatcher
-        );
+        return new App($container, $router, $dispatcher);
     }
 }
