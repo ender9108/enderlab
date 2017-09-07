@@ -37,6 +37,18 @@ class MiddlewareBuilderTest extends TestCase
         $result = $middlewareBuilder->buildMiddleware(['Tests\\EnderLab\\MiddlewareObject', 'process']);
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
+
+    public function testBuildMiddlewareArrayMiddleware()
+    {
+        $middlewareBuilder = new MiddlewareBuilder(
+            ContainerBuilder::buildDevContainer(),
+            new Router(),
+            new Dispatcher(),
+            new Response()
+        );
+        $result = $middlewareBuilder->buildMiddleware(['Tests\\EnderLab\\MiddlewareObjectMiddleware', 'Tests\\EnderLab\\MiddlewareInvokable']);
+        $this->assertInstanceOf(MiddlewareInterface::class, $result);
+    }
 }
 
 class MiddlewareInvokable
@@ -48,6 +60,14 @@ class MiddlewareInvokable
 }
 
 class MiddlewareObject
+{
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        // TODO: Implement __invoke() method.
+    }
+}
+
+class MiddlewareObjectMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
