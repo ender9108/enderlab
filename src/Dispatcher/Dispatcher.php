@@ -7,7 +7,6 @@ use GuzzleHttp\Psr7\Response;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use InvalidArgumentException;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SplQueue;
 
@@ -85,10 +84,6 @@ class Dispatcher implements DispatcherInterface
         ++$this->index;
         $middleware = $middleware->getMiddlewares();
         $response = $middleware->process($request, $this);
-
-        /*if (!$response instanceof ResponseInterface) {
-            throw new InvalidArgumentException('Not response', 500);
-        }*/
 
         return $response;
     }
