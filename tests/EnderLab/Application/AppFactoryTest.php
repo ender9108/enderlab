@@ -72,10 +72,10 @@ class AppFactoryTest extends TestCase
 
     public function testCreateAppWithDirConfig(): void
     {
-        mkdir(__DIR__ . '/config/', 755);
+        mkdir(__DIR__ . '/config/', 0777);
         file_put_contents(__DIR__ . '/config/config.php', '<?php return [\'test\' => \'truc\'] ?>');
 
-        $app = AppFactory::create(__DIR__ . '/config/config.php');
+        $app = AppFactory::create(__DIR__ . '/config/');
         $this->assertInstanceOf(App::class, $app);
         $this->assertSame('truc', $app->getContainer()->get('test'));
 
