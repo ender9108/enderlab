@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\EnderLab;
 
 use EnderLab\Router\Route;
@@ -19,6 +20,6 @@ class RouteTest extends TestCase
         $route = new Route('/:id', function () {
         }, 'GET', 'test_route');
         $result = $route->match('/1');
-        $this->assertSame(true, $result);
+        $this->assertTrue($result);
     }
 }
