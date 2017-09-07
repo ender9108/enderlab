@@ -49,6 +49,18 @@ class MiddlewareBuilderTest extends TestCase
         $result = $middlewareBuilder->buildMiddleware(['Tests\\EnderLab\\MiddlewareObjectMiddleware', 'Tests\\EnderLab\\MiddlewareInvokable']);
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
+
+    public function testBuildMiddlewareWithInvalidArg()
+    {
+        $middlewareBuilder = new MiddlewareBuilder(
+            ContainerBuilder::buildDevContainer(),
+            new Router(),
+            new Dispatcher(),
+            new Response()
+        );
+        $this->expectException(\InvalidArgumentException::class);
+        $middlewareBuilder->buildMiddleware(12);
+    }
 }
 
 class MiddlewareInvokable
