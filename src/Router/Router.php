@@ -12,6 +12,7 @@ class Router implements RouterInterface
     const HTTP_DELETE = 'DELETE';
     const HTTP_HEAD = 'HEAD';
     const HTTP_OPTION = 'OPTION';
+    const HTTP_ANY = 'ANY';
 
     /**
      * @var array
@@ -58,11 +59,37 @@ class Router implements RouterInterface
      */
     public function addRoutes(array $routes = []): Router
     {
-        foreach ($routes as $route) {
-            if ($route instanceof Route) {
+        foreach ($routes as $key => $route) {
+            if (in_array($key, $this->getAllowedMethods(), true) || $key === self::HTTP_ANY) {
+                foreach ($route as $routeDetails) {
+                    $this->addRoute(
+                        new Route(
+                            $routeDetails[0],
+                            $routeDetails[1],
+                            $key,
+                            (isset($routeDetails[2]) ? $routeDetails[2] : null),
+                            (isset($routeDetails[3]) ? $routeDetails[3] : [])
+                        )
+                    );
+                } // endforeach
+            } elseif ($route instanceof Route) {
                 $this->addRoute($route);
+            } else {
+                foreach ($route as $httpVerb => $routesList) {
+                    foreach ($routesList as $routeDetails) {
+                        $this->addRoute(
+                            new Route(
+                                '/' . trim($key, '/') . '/' . trim($routeDetails[0], '/'),
+                                $routeDetails[1],
+                                $httpVerb,
+                                (isset($routeDetails[2]) ? $routeDetails[2] : null),
+                                (isset($routeDetails[3]) ? $routeDetails[3] : [])
+                            )
+                        );
+                    } // endforeach
+                } // endforeach
             }
-        }
+        } // endforeach
 
         return $this;
     }

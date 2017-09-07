@@ -43,6 +43,40 @@ class RouterTest extends TestCase
         $this->assertSame(1, $router->count());
     }
 
+    public function testAddValidRoutesCollectionByArrayConfig(): void
+    {
+        $router = new Router();
+        $router->addRoutes([
+            Router::HTTP_GET => [
+                ['test/:id', function () {}, 'test_route', ['id' => '\\d+']]
+            ]
+        ]);
+        $this->assertSame(1, $router->count());
+    }
+
+    public function testAddValidRoutesCollectionByArrayConfigAndGroup(): void
+    {
+        $router = new Router();
+        $router->addRoutes([
+            '/users' => [
+                Router::HTTP_GET => [
+                    ['/', function () {}, 'get_all_users'],
+                    ['/:id', function () {}, 'get_user_by_id', ['id' => '\\d+']]
+                ],
+                Router::HTTP_POST => [
+                    ['/', function () {}, 'create_user']
+                ],
+                Router::HTTP_PUT => [
+                    ['/:id', function () {}, 'update_user', ['id' => '\\d+']]
+                ],
+                Router::HTTP_DELETE => [
+                    ['/:id', function () {}, 'delete_user', ['id' => '\\d+']]
+                ]
+            ]
+        ]);
+        $this->assertSame(5, $router->count());
+    }
+
     public function testAddInvalidRoutesCollection(): void
     {
         $router = new Router();
