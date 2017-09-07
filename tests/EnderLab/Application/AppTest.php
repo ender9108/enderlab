@@ -10,7 +10,7 @@ use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -55,17 +55,10 @@ class AppTest extends TestCase
     public function testPipeWithValidMiddlewareInterface(): void
     {
         $app = $this->makeInstanceApp([
-            'logger.name'    => 'default-logger',
-            'logger.file'    => __DIR__ . '/../logs/app.log',
-            'logger.handler' => [
-                \DI\object(
-                    StreamHandler::class
-                )->constructor(\DI\get('logger.file'))
-            ],
-            'logger.processor' => [/*\DI\object(\Monolog\Processor\WebProcessor::class)*/],
-            'logger'           => \DI\object(
-                Logger::class
-            )->constructor(
+            'logger.name'      => 'default-logger',
+            'logger.handler'   => [\DI\object(NullHandler::class)],
+            'logger.processor' => [],
+            'logger'           => \DI\object(Logger::class)->constructor(
                 \DI\get('logger.name'),
                 \DI\get('logger.handler'),
                 \DI\get('logger.processor')

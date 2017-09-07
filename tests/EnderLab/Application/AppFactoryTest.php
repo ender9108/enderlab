@@ -8,6 +8,8 @@ use EnderLab\Application\AppFactory;
 use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Router\Route;
 use EnderLab\Router\Router;
+use Monolog\Handler\NullHandler;
+use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 
 class AppFactoryTest extends TestCase
@@ -22,18 +24,11 @@ class AppFactoryTest extends TestCase
     {
         $app = AppFactory::create(
             [
-                'global.env'     => \DI\env('global_env', 'dev'),
-                'logger.name'    => 'default-logger',
-                'logger.file'    => __DIR__ . '/../logs/app.log',
-                'logger.handler' => [
-                    \DI\object(
-                        \Monolog\Handler\StreamHandler::class
-                    )->constructor(\DI\get('logger.file'))
-                ],
-                'logger.processor' => [/*\DI\object(\Monolog\Processor\WebProcessor::class)*/],
-                'logger'           => \DI\object(
-                    \Monolog\Logger::class
-                )->constructor(
+                'global.env'       => \DI\env('global_env', 'dev'),
+                'logger.name'      => 'default-logger',
+                'logger.handler'   => [\DI\object(NullHandler::class)],
+                'logger.processor' => [],
+                'logger'           => \DI\object(Logger::class)->constructor(
                     \DI\get('logger.name'),
                     \DI\get('logger.handler'),
                     \DI\get('logger.processor')
@@ -43,6 +38,51 @@ class AppFactoryTest extends TestCase
             new Router()
         );
         $this->assertInstanceOf(App::class, $app);
+    }
+
+    public function testCreateAppWithArrayConfig(): void
+    {
+        $app = AppFactory::create(
+            [
+                'logger.name'      => 'default-logger',
+                'logger.handler'   => [\DI\object(NullHandler::class)],
+                'logger.processor' => [],
+                'logger'           => \DI\object(Logger::class)->constructor(
+                    \DI\get('logger.name'),
+                    \DI\get('logger.handler'),
+                    \DI\get('logger.processor')
+                )
+            ]
+        );
+        $this->assertInstanceOf(App::class, $app);
+        $this->assertInstanceOf(Logger::class, $app->getContainer()->get('logger'));
+    }
+
+    public function testCreateAppWithFileConfig(): void
+    {
+        file_put_contents('config.php', '<?php return [\'test\' => \'truc\'] ?>');
+        $app = AppFactory::create('config.php');
+        $this->assertInstanceOf(App::class, $app);
+        $this->assertSame('truc', $app->getContainer()->get('test'));
+
+        if (file_exists('config.php')) {
+            unlink('config.php');
+        }
+    }
+
+    public function testCreateAppWithDirConfig(): void
+    {
+        mkdir(__DIR__ . '/config/', 755);
+        file_put_contents(__DIR__ . '/config/config.php', '<?php return [\'test\' => \'truc\'] ?>');
+
+        $app = AppFactory::create(__DIR__ . '/config/config.php');
+        $this->assertInstanceOf(App::class, $app);
+        $this->assertSame('truc', $app->getContainer()->get('test'));
+
+        if (file_exists(__DIR__ . '/config/config.php')) {
+            unlink(__DIR__ . '/config/config.php');
+            rmdir(__DIR__ . '/config/');
+        }
     }
 
     public function testCreateAppWithValidContainerObject(): void
