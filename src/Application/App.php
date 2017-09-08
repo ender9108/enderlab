@@ -10,8 +10,10 @@ use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
 use EnderLab\Router\RouterInterface;
 use EnderLab\Router\RouterMiddleware;
+use EnderLab\Router\TrailingSlashMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use function Http\Response\send;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -153,25 +155,30 @@ class App extends MiddlewareBuilder
      * Start process dispatcher.
      *
      * @param null|ServerRequestInterface $request
-     *
-     * @return ResponseInterface
      */
-    public function run(?ServerRequestInterface $request = null): ResponseInterface
+    public function run(?ServerRequestInterface $request = null): void
     {
         $request = (null !== $request) ? $request : ServerRequest::fromGlobals();
         $request = $request->withAttribute('originalResponse', $this->response);
 
         $this->pipe(new DispatcherMiddleware($this->container, $this->router), null, true);
 
-        if ($this->routerHandler) {
+        if ($this->routerHandler && php_sapi_name() != 'cli') {
             $this->pipe(new RouterMiddleware($this->router, $this->response), null, true);
+            $this->pipe(new TrailingSlashMiddleware(), null, true);
         }
 
         if (false !== $this->errorHandler && $this->errorHandler instanceof MiddlewareInterface) {
             $this->pipe($this->errorHandler, null, true);
         }
 
-        return $this->dispatcher->process($request);
+        $response = $this->dispatcher->process($request);
+
+        if( php_sapi_name() == 'cli' ) {
+            echo((string)$response->getBody());
+        } else {
+            \Http\Response\send($response);
+        }
     }
 
     /**
