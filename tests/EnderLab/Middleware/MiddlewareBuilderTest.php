@@ -42,7 +42,7 @@ class MiddlewareBuilderTest extends TestCase
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
 
-    public function testBuildMiddlewareArrayMiddleware()
+    public function testBuildMiddlewareArrayMiddleware(): void
     {
         $middlewareBuilder = new MiddlewareBuilder(
             ContainerBuilder::buildDevContainer(),
@@ -54,7 +54,7 @@ class MiddlewareBuilderTest extends TestCase
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
 
-    public function testBuildMiddlewareWithInvalidArg()
+    public function testBuildMiddlewareWithInvalidArg(): void
     {
         $middlewareBuilder = new MiddlewareBuilder(
             ContainerBuilder::buildDevContainer(),
@@ -66,7 +66,7 @@ class MiddlewareBuilderTest extends TestCase
         $middlewareBuilder->buildMiddleware(12);
     }
 
-    public function testAdmissibleMiddleware()
+    public function testAdmissibleMiddleware(): void
     {
         $middlewareBuilder = new MiddlewareBuilder(
             ContainerBuilder::buildDevContainer(),
@@ -84,7 +84,7 @@ class MiddlewareBuilderTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testMiddlewareInstance()
+    public function testMiddlewareInstance(): void
     {
         $container = ContainerBuilder::buildDevContainer();
         $container->set('logger', new Logger(
