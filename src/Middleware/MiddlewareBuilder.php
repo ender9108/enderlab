@@ -38,13 +38,13 @@ class MiddlewareBuilder
      * App constructor.
      *
      * @param ContainerInterface     $container
-     * @param RouterInterface        $router
+     * @param RouterInterface|null   $router
      * @param Dispatcher             $dispatcher
      * @param ResponseInterface|null $response
      */
     public function __construct(
         ContainerInterface $container,
-        RouterInterface $router,
+        ?RouterInterface $router = null,
         Dispatcher $dispatcher,
         ?ResponseInterface $response = null
     ) {
@@ -174,7 +174,8 @@ class MiddlewareBuilder
                 $param->getClass()->implementsInterface('Psr\\Log\\LoggerInterface')
             ) {
                 $args[] = $this->container->get('logger');
-            } elseif ($param->getClass() &&
+            } elseif ($this->router &&
+                $param->getClass() &&
                 $param->getClass()->isInstance($this->router)
             ) {
                 $args[] = $this->router;

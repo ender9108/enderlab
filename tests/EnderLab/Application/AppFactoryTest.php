@@ -34,8 +34,8 @@ class AppFactoryTest extends TestCase
                     \DI\get('logger.processor')
                 )
             ],
-            new Dispatcher(),
-            new Router()
+            new Router(),
+            new Dispatcher()
         );
         $this->assertInstanceOf(App::class, $app);
     }

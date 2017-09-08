@@ -238,7 +238,21 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->enableErrorHandler(false);
         $errorHandler = $app->getErrorHandler();
-        $this->assertSame(null, $errorHandler);
+        $this->assertSame(false, $errorHandler);
+    }
+
+    public function testEnableRouterHandlerByBoolean(): void
+    {
+        $app = $this->makeInstanceApp();
+        $result = $app->enableRouterHandler(true);
+        $this->assertInstanceOf(App::class, $result);
+    }
+
+    public function testDisableRouterHandlerByBoolean(): void
+    {
+        $app = $this->makeInstanceApp();
+        $result = $app->enableRouterHandler(false);
+        $this->assertInstanceOf(App::class, $result);
     }
 
     public function testGetter(): void

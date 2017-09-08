@@ -17,15 +17,15 @@ final class AppFactory
      * Build App object and load config.
      *
      * @param string|ContainerInterface|null $containerConfig
-     * @param DispatcherInterface|null       $dispatcher
      * @param RouterInterface|null           $router
+     * @param DispatcherInterface|null       $dispatcher
      *
      * @return App
      */
     public static function create(
         $containerConfig = null,
-        DispatcherInterface $dispatcher = null,
-        RouterInterface $router = null
+        RouterInterface $router = null,
+        DispatcherInterface $dispatcher = null
     ): App {
         if (is_string($containerConfig)) {
             $containerBuilder = new ContainerBuilder();

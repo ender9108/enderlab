@@ -25,9 +25,14 @@ class App extends MiddlewareBuilder
     const ENV_PROD = 'prod';
 
     /**
-     * @var MiddlewareInterface|callable
+     * @var MiddlewareInterface|callable|bool
      */
-    private $errorHandler;
+    private $errorHandler = false;
+
+    /**
+     * @var MiddlewareInterface|callable|bool
+     */
+    private $routerHandler = false;
 
     /**
      * App constructor.
@@ -158,9 +163,12 @@ class App extends MiddlewareBuilder
         $request = $request->withAttribute('originalResponse', $this->response);
 
         $this->pipe(new DispatcherMiddleware($this->container, $this->router), null, true);
-        $this->pipe(new RouterMiddleware($this->router, $this->response), null, true);
 
-        if (null !== $this->errorHandler && $this->errorHandler instanceof MiddlewareInterface) {
+        if ($this->routerHandler) {
+            $this->pipe(new RouterMiddleware($this->router, $this->response), null, true);
+        }
+
+        if (false !== $this->errorHandler && $this->errorHandler instanceof MiddlewareInterface) {
             $this->pipe($this->errorHandler, null, true);
         }
 
@@ -218,12 +226,28 @@ class App extends MiddlewareBuilder
             if (true === $errorHandler) {
                 $errorHandler = new ErrorMiddleware($this->response);
             } else {
-                $errorHandler = null;
+                $errorHandler = false;
             }
         } else {
             $errorHandler = $this->buildMiddleware($errorHandler);
         }
 
         $this->errorHandler = $errorHandler;
+    }
+
+    /**
+     * @param bool $routerHandler
+     *
+     * @return App
+     */
+    public function enableRouterHandler(bool $routerHandler): App
+    {
+        if (!is_bool($routerHandler)) {
+            throw new \InvalidArgumentException('Must be a boolean');
+        }
+
+        $this->routerHandler = $routerHandler;
+
+        return $this;
     }
 }
