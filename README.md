@@ -7,10 +7,13 @@ Micro framework middleware PSR-15 (beta version)
 
 ## Requirements
 - psr/http-message
+- psr/container
+- psr/log
 - guzzlehttp/psr7
 - http-interop/response-sender
 - http-interop/http-middleware
-- psr/container
+- php-di/php-di
+- zendframework/zend-expressive-fastroute
 
 
 ## Author
