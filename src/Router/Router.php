@@ -125,6 +125,9 @@ class Router implements RouterInterface
      */
     public function match(ServerRequestInterface $request): ?Route
     {
+        $request = $request->withUri(
+            $request->getUri()->withPath(rtrim($request->getUri()->getPath(), '/'))
+        );
         $result = $this->router->match($request);
 
         if ($result->isSuccess()) {

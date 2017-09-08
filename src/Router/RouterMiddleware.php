@@ -45,9 +45,6 @@ class RouterMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $request = $request->withUri(
-            $request->getUri()->withPath(rtrim($request->getUri()->getPath(), '/'))
-        );
         $route = $this->router->match($request);
 
         if (null === $route) {
