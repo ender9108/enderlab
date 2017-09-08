@@ -41,7 +41,7 @@ interface RouterInterface
      *
      * @return string
      */
-    public function getNamedUrl(string $name, array $params = []): string;
+    public function generateUri(string $name, array $params = []): string;
 
     /**
      * Return allowed http methods.
@@ -49,4 +49,9 @@ interface RouterInterface
      * @return array
      */
     public function getAllowedMethods(): array;
+
+    /**
+     * @return array
+     */
+    public function getRoutes(): array;
 }

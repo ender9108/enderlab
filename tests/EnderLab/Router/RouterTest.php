@@ -48,8 +48,8 @@ class RouterTest extends TestCase
         $router = new Router();
         $router->addRoutes([
             Router::HTTP_GET => [
-                ['test/:id', function () {
-                }, 'test_route', ['id' => '\\d+']]
+                ['test/{id:\d+}', function () {
+                }, 'test_route']
             ]
         ]);
         $this->assertSame(1, $router->count());
@@ -63,20 +63,20 @@ class RouterTest extends TestCase
                 Router::HTTP_GET => [
                     ['/', function () {
                     }, 'get_all_users'],
-                    ['/:id', function () {
-                    }, 'get_user_by_id', ['id' => '\\d+']]
+                    ['/{id:\d+}', function () {
+                    }, 'get_user_by_id']
                 ],
                 Router::HTTP_POST => [
                     ['/', function () {
                     }, 'create_user']
                 ],
                 Router::HTTP_PUT => [
-                    ['/:id', function () {
-                    }, 'update_user', ['id' => '\\d+']]
+                    ['/{id:\d+}', function () {
+                    }, 'update_user']
                 ],
                 Router::HTTP_DELETE => [
-                    ['/:id', function () {
-                    }, 'delete_user', ['id' => '\\d+']]
+                    ['/{id:\d+}', function () {
+                    }, 'delete_user']
                 ]
             ]
         ]);
@@ -119,11 +119,11 @@ class RouterTest extends TestCase
     public function testValidMethodMatch(): void
     {
         $router = new Router();
-        $router->addRoute(new Route('/', function () {
-        }, 'POST'));
+        $router->addRoute(new Route('/', function () {}, 'GET'));
         $request = $this->makeRequest('GET', '/');
-        $this->expectException(RouterException::class);
-        $router->match($request);
+        //$this->expectException(RouterException::class);
+        $route = $router->match($request);
+        $this->assertInstanceOf(Route::class, $route);
     }
 
     public function testInvalidMatch(): void
@@ -135,26 +135,9 @@ class RouterTest extends TestCase
         $this->assertSame(null, $router->match($request));
     }
 
-    public function testGetValidNamedUrl(): void
-    {
-        $router = new Router();
-        $router->addRoutes([new Route('/', function () {
-        }, 'GET', 'route_test')]);
-        $this->assertEmpty($router->getNamedUrl('route_test'));
-    }
-
-    public function testGetInvalidNamedUrl(): void
-    {
-        $router = new Router();
-        $router->addRoutes([new Route('/', function () {
-        }, 'GET', 'route_test')]);
-        $this->expectException(RouterException::class);
-        $router->getNamedUrl('route_tests');
-    }
-
     public function testGetAllowedMethods(): void
     {
         $router = new Router();
-        $this->assertSame(6, count($router->getAllowedMethods()));
+        $this->assertSame(8, count($router->getAllowedMethods()));
     }
 }

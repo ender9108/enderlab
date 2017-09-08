@@ -2,45 +2,36 @@
 
 namespace EnderLab\Router;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Expressive\Router\FastRouteRouter;
+use Zend\Expressive\Router\Route as ZendRoute;
 
 class Router implements RouterInterface
 {
-    const HTTP_GET = 'GET';
-    const HTTP_POST = 'POST';
-    const HTTP_PUT = 'PUT';
-    const HTTP_DELETE = 'DELETE';
-    const HTTP_HEAD = 'HEAD';
-    const HTTP_OPTION = 'OPTION';
-    const HTTP_ANY = 'ANY';
+    const HTTP_GET      = RequestMethodInterface::METHOD_GET;
+    const HTTP_POST     = RequestMethodInterface::METHOD_POST;
+    const HTTP_PUT      = RequestMethodInterface::METHOD_PUT;
+    const HTTP_DELETE   = RequestMethodInterface::METHOD_DELETE;
+    const HTTP_HEAD     = RequestMethodInterface::METHOD_HEAD;
+    const HTTP_OPTION   = RequestMethodInterface::METHOD_OPTIONS;
+    const HTTP_PATCH    = RequestMethodInterface::METHOD_PATCH;
+    const HTTP_TRACE    = RequestMethodInterface::METHOD_TRACE;
+    const HTTP_ANY      = ZendRoute::HTTP_METHOD_ANY;
 
-    /**
-     * @var array
-     */
+    private $router;
     private $routes = [];
-
-    /**
-     * @var array
-     */
-    private $namedRoutes = [];
-
-    /**
-     * @var array
-     */
-    private $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTION'];
-
-    /**
-     * @var int
-     */
     private $count = 0;
 
     /**
      * Router constructor.
      *
      * @param array $routes
+     * @param array $config
      */
-    public function __construct(array $routes = [])
+    public function __construct(array $routes = [], array $config = [])
     {
+        $this->router = new FastRouteRouter(null, null, $config);
         $this->addRoutes($routes);
     }
 
@@ -54,21 +45,20 @@ class Router implements RouterInterface
 
     /**
      * @param array $routes
-     *
      * @return Router
+     * @throws RouterException
      */
     public function addRoutes(array $routes = []): Router
     {
         foreach ($routes as $key => $route) {
-            if (in_array($key, $this->getAllowedMethods(), true) || $key === self::HTTP_ANY) {
+            if (in_array($key, $this->getAllowedMethods(), true) || $key === ZendRoute::HTTP_METHOD_ANY) {
                 foreach ($route as $routeDetails) {
                     $this->addRoute(
                         new Route(
                             $routeDetails[0],
                             $routeDetails[1],
                             $key,
-                            (isset($routeDetails[2]) ? $routeDetails[2] : null),
-                            (isset($routeDetails[3]) ? $routeDetails[3] : [])
+                            (isset($routeDetails[2]) ? $routeDetails[2] : null)
                         )
                     );
                 } // endforeach
@@ -82,8 +72,7 @@ class Router implements RouterInterface
                                 '/' . trim($key, '/') . '/' . trim($routeDetails[0], '/'),
                                 $routeDetails[1],
                                 $httpVerb,
-                                (isset($routeDetails[2]) ? $routeDetails[2] : null),
-                                (isset($routeDetails[3]) ? $routeDetails[3] : [])
+                                (isset($routeDetails[2]) ? $routeDetails[2] : null)
                             )
                         );
                     } // endforeach
@@ -103,29 +92,24 @@ class Router implements RouterInterface
      */
     public function addRoute(Route $route): Router
     {
-        if (count($route->getMethod()) === 0) {
-            foreach ($this->allowedMethods as $allowedMethod) {
-                $this->routes[$allowedMethod][] = $route;
-            }
-        } else {
-            $found = false;
-
-            foreach ($route->getMethod() as $method) {
-                if (in_array($method, $this->allowedMethods, true)) {
-                    $found = true;
-                }
-            }
-
-            if (false === $found) {
-                throw new RouterException('Method ' . implode(',', $route->getMethod()) . ' not allow.', 405);
-            }
-
-            foreach ($route->getMethod() as $method) {
-                $this->routes[$method][] = $route;
+        foreach( $route->getMethod() as $method ) {
+            if(
+                !in_array($method, $this->getAllowedMethods()) &&
+                $method !== ZendRoute::HTTP_METHOD_ANY
+            ) {
+                throw new RouterException('Invalid method "'.$method.'"');
             }
         }
 
-        $this->namedRoutes[$route->getName()] = $route;
+        $this->routes[] = $route;
+        $this->router->addRoute(
+            new ZendRoute(
+                $route->getPath(),
+                $route->getMiddlewares(),
+                ( count($route->getMethod()) == 0 ? ZendRoute::HTTP_METHOD_ANY : $route->getMethod() ),
+                $route->getName()
+            )
+        );
         ++$this->count;
 
         return $this;
@@ -140,14 +124,16 @@ class Router implements RouterInterface
      */
     public function match(ServerRequestInterface $request): ?Route
     {
-        if (!isset($this->routes[$request->getMethod()])) {
-            throw new RouterException('Method ' . $request->getMethod() . ' not allow.', 405);
-        }
+        $result = $this->router->match($request);
 
-        foreach ($this->routes[$request->getMethod()] as $route) {
-            if ($route->match($request->getUri()->getPath())) {
-                return $route;
-            }
+        if( $result->isSuccess() ) {
+            return new Route(
+                $result->getMatchedRoute()->getPath(),
+                $result->getMatchedMiddleware(),
+                $result->getMatchedRoute()->getAllowedMethods(),
+                $result->getMatchedRouteName(),
+                $result->getMatchedParams()
+            );
         }
 
         return null;
@@ -155,19 +141,13 @@ class Router implements RouterInterface
 
     /**
      * @param string $name
-     * @param array  $params
-     *
-     * @throws RouterException
-     *
+     * @param array $params
+     * @param array $options
      * @return string
      */
-    public function getNamedUrl(string $name, array $params = []): string
+    public function generateUri(string $name, array $params = [], array $options = []): string
     {
-        if (!isset($this->namedRoutes[$name])) {
-            throw new RouterException('No route matches this name');
-        }
-
-        return $this->namedRoutes[$name]->getUrl($params);
+        return $this->router->generateUri($name, $params, $options);
     }
 
     /**
@@ -175,6 +155,14 @@ class Router implements RouterInterface
      */
     public function getAllowedMethods(): array
     {
-        return $this->allowedMethods;
+        return $this->router::HTTP_METHODS_STANDARD;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoutes(): array
+    {
+        return $this->routes;
     }
 }

@@ -77,15 +77,13 @@ class RouterMiddlewareTest extends TestCase
         });
 
         $router->addRoute(new Route(
-            '/test/:id',
+            '/test/{id:\d+}',
             $callable,
             'GET',
-            'test_route',
-            ['id' => '\\d+']
+            'test_route'
         ));
 
         $middleware = new RouterMiddleware($router, $response);
-        //$this->expectException(RouterException::class);
         $response = $middleware->process($request, $dispatcher);
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }

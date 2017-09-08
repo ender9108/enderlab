@@ -62,14 +62,13 @@ class App extends MiddlewareBuilder
             case 'put':
             case 'delete':
             case 'head':
-            case 'option':
+            case 'options':
             case 'any':
                 $args = [
                     $arguments[0],
                     (count($arguments) > 1 ? $arguments[1] : null),
                     ($name === 'any' ? null : mb_strtoupper($name)),
-                    (count($arguments) > 2 ? $arguments[2] : null),
-                    (count($arguments) > 3 ? (!is_array($arguments[3]) ? [$arguments[3]] : $arguments[3]) : []),
+                    (count($arguments) > 2 ? $arguments[2] : null)
                 ];
                 break;
             default:
@@ -87,7 +86,6 @@ class App extends MiddlewareBuilder
      * @param null        $middlewares
      * @param string|null $method
      * @param string|null $name
-     * @param array       $params
      *
      * @throws \InvalidArgumentException
      *
@@ -97,8 +95,7 @@ class App extends MiddlewareBuilder
         $path,
         $middlewares = null,
         string $method = null,
-        string $name = null,
-        array $params = []
+        string $name = null
     ): Route {
         if (!$path instanceof Route && null === $middlewares) {
             throw new \InvalidArgumentException('Invalid route config');
@@ -110,7 +107,7 @@ class App extends MiddlewareBuilder
 
         if (false === isset($route)) {
             $middlewares = $this->buildMiddleware($middlewares);
-            $route = new Route($path, $middlewares, $method, $name, $params);
+            $route = new Route($path, $middlewares, $method, $name);
         }
 
         $this->router->addRoute($route);

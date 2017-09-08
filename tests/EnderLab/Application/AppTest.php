@@ -153,7 +153,7 @@ class AppTest extends TestCase
         $this->assertInstanceOf(Route::class, $route);
         $route = $app->head('/', $this->makeMiddleware());
         $this->assertInstanceOf(Route::class, $route);
-        $route = $app->option('/', $this->makeMiddleware());
+        $route = $app->options('/', $this->makeMiddleware());
         $this->assertInstanceOf(Route::class, $route);
         $this->expectException(\InvalidArgumentException::class);
         $app->pouette('/', $this->makeMiddleware());

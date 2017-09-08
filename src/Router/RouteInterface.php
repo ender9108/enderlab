@@ -5,27 +5,27 @@ namespace EnderLab\Router;
 interface RouteInterface
 {
     /**
-     * @param string $url
-     *
-     * @return bool
+     * @return string
      */
-    public function match(string $url): bool;
+    public function getPath(): string;
 
     /**
-     * @param string $param
-     * @param string $regex
-     *
-     * @return Route
+     * @return callable|MiddlewareInterface
      */
-    public function with(string $param, string $regex): Route;
+    public function getMiddlewares();
 
     /**
      * @return array
      */
-    public function getAttributes(): array;
+    public function getMethod(): array;
 
     /**
      * @return string
      */
-    public function getEvaluatedPath(): string;
+    public function getName(): ?string;
+
+    /**
+     * @return array
+     */
+    public function getParams(): array;
 }

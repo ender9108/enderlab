@@ -72,14 +72,14 @@ class Dispatcher implements DispatcherInterface
 
         $middleware = $this->middlewares->dequeue();
 
-        if ($middleware->getPath() !== '*') {
+        /*if ($middleware->getPath() !== '*') {
             $uri = trim($request->getUri()->getPath(), '/');
             $regex = '#^' . $middleware->getEvaluatedPath() . '#';
 
             if (!preg_match($regex, $uri, $matches)) {
                 return $this->process($request);
             }
-        }
+        }*/
 
         ++$this->index;
         $middleware = $middleware->getMiddlewares();

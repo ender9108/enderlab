@@ -7,19 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase
 {
-    public function testGetUrl()
+    public function testGetter()
     {
-        $route = new Route('/:id', function () {
-        }, 'GET', 'test_route', ['id' => '\\d+']);
-        $url = $route->getUrl(['id' => 2]);
-        $this->assertNotEmpty($url);
-    }
-
-    public function testMatchUrl()
-    {
-        $route = new Route('/:id', function () {
-        }, 'GET', 'test_route');
-        $result = $route->match('/1');
-        $this->assertTrue($result);
+        $route = new Route('/{id:\\d+}', function () {}, 'GET', 'test_route');
+        $path = $route->getPath();
+        $this->assertEquals('/{id:\\d+}', $path);
     }
 }
