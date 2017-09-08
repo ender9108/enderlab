@@ -136,7 +136,9 @@ class MiddlewareBuilder
                 return true;
             }
 
-            if (!$reflection->getMethod('process') && !$reflection->getMethod('__invoke')) {
+            try {
+                return ( $reflection->getMethod('process') || $reflection->getMethod('__invoke') );
+            } catch( \Exception $exception ) {
                 return false;
             }
         } elseif ($middleware instanceof \Closure || false === is_object($middleware)) {
