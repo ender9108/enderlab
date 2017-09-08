@@ -141,4 +141,22 @@ class RouterTest extends TestCase
         $router = new Router();
         $this->assertSame(8, count($router->getAllowedMethods()));
     }
+
+    public function testGenerateUri()
+    {
+        $router = new Router();
+        $router->addRoute(new Route('/test/{id:\d+}/pouette', function () {
+        }, 'GET', 'route_test'));
+        $uri = $router->generateUri('route_test', ['id' => 2]);
+        $this->assertSame('/test/2/pouette', $uri);
+    }
+
+    public function testGetRoutes()
+    {
+        $router = new Router();
+        $router->addRoute(new Route('/test/{id:\d+}/pouette', function () {
+        }, 'GET', 'route_test'));
+        $routes = $router->getRoutes();
+        $this->assertEquals(1, count($routes));
+    }
 }
