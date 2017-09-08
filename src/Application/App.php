@@ -27,12 +27,12 @@ class App extends MiddlewareBuilder
     /**
      * @var MiddlewareInterface|callable|bool
      */
-    private $errorHandler = false;
+    private $errorHandler = true;
 
     /**
      * @var MiddlewareInterface|callable|bool
      */
-    private $routerHandler = false;
+    private $routerHandler = true;
 
     /**
      * App constructor.
@@ -172,9 +172,7 @@ class App extends MiddlewareBuilder
             $this->pipe($this->errorHandler, null, true);
         }
 
-        $response = $this->dispatcher->process($request);
-
-        return $response;
+        return $this->dispatcher->process($request);
     }
 
     /**

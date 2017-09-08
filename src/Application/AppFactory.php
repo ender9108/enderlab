@@ -24,8 +24,8 @@ final class AppFactory
      */
     public static function create(
         $containerConfig = null,
-        RouterInterface $router = null,
-        DispatcherInterface $dispatcher = null
+        ?RouterInterface $router = null,
+        ?DispatcherInterface $dispatcher = null
     ): App {
         if (is_string($containerConfig)) {
             $containerBuilder = new ContainerBuilder();
