@@ -8,7 +8,6 @@ use EnderLab\Dispatcher\DispatcherMiddleware;
 use EnderLab\Error\ErrorMiddleware;
 use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
-use EnderLab\Router\Router;
 use EnderLab\Router\RouterInterface;
 use EnderLab\Router\RouterMiddleware;
 use GuzzleHttp\Psr7\Response;
@@ -187,10 +186,9 @@ class App extends MiddlewareBuilder
 
     /**
      * Return Router object.
-     *
-     * @return Router
+     * @return RouterInterface
      */
-    public function getRouter(): Router
+    public function getRouter(): RouterInterface
     {
         return $this->router;
     }
