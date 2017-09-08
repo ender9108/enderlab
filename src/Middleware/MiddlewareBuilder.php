@@ -10,6 +10,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use ReflectionClass;
 
 class MiddlewareBuilder

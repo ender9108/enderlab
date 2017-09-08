@@ -5,8 +5,10 @@ namespace Tests\EnderLab;
 use DI\ContainerBuilder;
 use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Middleware\MiddlewareBuilder;
+use EnderLab\Middleware\MiddlewareCollection;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Monolog\Handler\NullHandler;
@@ -66,6 +68,26 @@ class MiddlewareBuilderTest extends TestCase
         $middlewareBuilder->buildMiddleware(12);
     }
 
+    public function testBuildMiddlewareCollection(): void
+    {
+        $middlewareBuilder = new MiddlewareBuilder(
+            ContainerBuilder::buildDevContainer(),
+            new Router(),
+            new Dispatcher(),
+            new Response()
+        );
+        $result = $middlewareBuilder->buildMiddleware([
+            'Tests\\EnderLab\\MiddlewareObjectMiddleware',
+            new MiddlewareObjectMiddleware()
+        ]);
+        $this->assertInstanceOf(MiddlewareCollection::class, $result);
+        $response = $result->process(
+            new ServerRequest('GET', '/'),
+            new Dispatcher()
+        );
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+    }
+
     public function testAdmissibleMiddleware(): void
     {
         $middlewareBuilder = new MiddlewareBuilder(
@@ -81,6 +103,9 @@ class MiddlewareBuilderTest extends TestCase
         $this->assertTrue($result);
 
         $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddlewareInvalid');
+        $this->assertFalse($result);
+
+        $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddlewareInvalide');
         $this->assertFalse($result);
     }
 
@@ -114,7 +139,7 @@ class MiddlewareInstance implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        // TODO: Implement __invoke() method.
+        return new Response();
     }
 }
 
@@ -122,7 +147,7 @@ class MiddlewareInvokable
 {
     public function __invoke(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        // TODO: Implement __invoke() method.
+        return new Response();
     }
 }
 
@@ -130,7 +155,7 @@ class MiddlewareObject
 {
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        // TODO: Implement __invoke() method.
+        return new Response();
     }
 }
 
@@ -138,7 +163,7 @@ class MiddlewareObjectMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        // TODO: Implement __invoke() method.
+        return new Response();
     }
 }
 
@@ -146,6 +171,6 @@ class MiddlewareInvalid
 {
     public function test(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        // TODO: Implement __invoke() method.
+        return new Response();
     }
 }
