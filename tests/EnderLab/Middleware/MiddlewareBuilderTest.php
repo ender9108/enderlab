@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class MiddlewareBuilderTest extends TestCase
 {
-    public function testBuildMiddlewareString()
+    public function testBuildMiddlewareString(): void
     {
         $middlewareBuilder = new MiddlewareBuilder(
             ContainerBuilder::buildDevContainer(),
@@ -30,7 +30,7 @@ class MiddlewareBuilderTest extends TestCase
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
 
-    public function testBuildMiddlewareArrayCallable()
+    public function testBuildMiddlewareArrayCallable(): void
     {
         $middlewareBuilder = new MiddlewareBuilder(
             ContainerBuilder::buildDevContainer(),
