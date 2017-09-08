@@ -75,13 +75,13 @@ class MiddlewareBuilderTest extends TestCase
             new Response()
         );
         $result = $middlewareBuilder->isAdmissibleMiddlewares(new MiddlewareObjectMiddleware());
-        $this->assertEquals(true, $result);
+        $this->assertTrue($result);
 
         $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddlewareObjectMiddleware');
-        $this->assertEquals(true, $result);
+        $this->assertTrue($result);
 
         $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddlewareInvalid');
-        $this->assertEquals(false, $result);
+        $this->assertFalse($result);
     }
 
     public function testMiddlewareInstance()
@@ -109,8 +109,7 @@ class MiddlewareInstance implements MiddlewareInterface
         Router $router,
         Dispatcher $dispatcher,
         ResponseInterface $response
-    )
-    {
+    ) {
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)

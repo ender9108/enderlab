@@ -157,6 +157,6 @@ class RouterTest extends TestCase
         $router->addRoute(new Route('/test/{id:\d+}/pouette', function () {
         }, 'GET', 'route_test'));
         $routes = $router->getRoutes();
-        $this->assertEquals(1, count($routes));
+        $this->assertSame(1, count($routes));
     }
 }
