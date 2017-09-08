@@ -9,8 +9,9 @@ class RouteTest extends TestCase
 {
     public function testGetter()
     {
-        $route = new Route('/{id:\\d+}', function () {}, 'GET', 'test_route');
+        $route = new Route('/{id:\\d+}', function () {
+        }, 'GET', 'test_route');
         $path = $route->getPath();
-        $this->assertEquals('/{id:\\d+}', $path);
+        $this->assertSame('/{id:\\d+}', $path);
     }
 }

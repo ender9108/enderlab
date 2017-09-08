@@ -9,15 +9,15 @@ use Zend\Expressive\Router\Route as ZendRoute;
 
 class Router implements RouterInterface
 {
-    const HTTP_GET      = RequestMethodInterface::METHOD_GET;
-    const HTTP_POST     = RequestMethodInterface::METHOD_POST;
-    const HTTP_PUT      = RequestMethodInterface::METHOD_PUT;
-    const HTTP_DELETE   = RequestMethodInterface::METHOD_DELETE;
-    const HTTP_HEAD     = RequestMethodInterface::METHOD_HEAD;
-    const HTTP_OPTION   = RequestMethodInterface::METHOD_OPTIONS;
-    const HTTP_PATCH    = RequestMethodInterface::METHOD_PATCH;
-    const HTTP_TRACE    = RequestMethodInterface::METHOD_TRACE;
-    const HTTP_ANY      = ZendRoute::HTTP_METHOD_ANY;
+    const HTTP_GET = RequestMethodInterface::METHOD_GET;
+    const HTTP_POST = RequestMethodInterface::METHOD_POST;
+    const HTTP_PUT = RequestMethodInterface::METHOD_PUT;
+    const HTTP_DELETE = RequestMethodInterface::METHOD_DELETE;
+    const HTTP_HEAD = RequestMethodInterface::METHOD_HEAD;
+    const HTTP_OPTION = RequestMethodInterface::METHOD_OPTIONS;
+    const HTTP_PATCH = RequestMethodInterface::METHOD_PATCH;
+    const HTTP_TRACE = RequestMethodInterface::METHOD_TRACE;
+    const HTTP_ANY = ZendRoute::HTTP_METHOD_ANY;
 
     private $router;
     private $routes = [];
@@ -45,8 +45,10 @@ class Router implements RouterInterface
 
     /**
      * @param array $routes
-     * @return Router
+     *
      * @throws RouterException
+     *
+     * @return Router
      */
     public function addRoutes(array $routes = []): Router
     {
@@ -92,12 +94,11 @@ class Router implements RouterInterface
      */
     public function addRoute(Route $route): Router
     {
-        foreach( $route->getMethod() as $method ) {
-            if(
-                !in_array($method, $this->getAllowedMethods()) &&
+        foreach ($route->getMethod() as $method) {
+            if (!in_array($method, $this->getAllowedMethods(), true) &&
                 $method !== ZendRoute::HTTP_METHOD_ANY
             ) {
-                throw new RouterException('Invalid method "'.$method.'"');
+                throw new RouterException('Invalid method "' . $method . '"');
             }
         }
 
@@ -106,7 +107,7 @@ class Router implements RouterInterface
             new ZendRoute(
                 $route->getPath(),
                 $route->getMiddlewares(),
-                ( count($route->getMethod()) == 0 ? ZendRoute::HTTP_METHOD_ANY : $route->getMethod() ),
+                (count($route->getMethod()) === 0 ? ZendRoute::HTTP_METHOD_ANY : $route->getMethod()),
                 $route->getName()
             )
         );
@@ -126,7 +127,7 @@ class Router implements RouterInterface
     {
         $result = $this->router->match($request);
 
-        if( $result->isSuccess() ) {
+        if ($result->isSuccess()) {
             return new Route(
                 $result->getMatchedRoute()->getPath(),
                 $result->getMatchedMiddleware(),
@@ -141,8 +142,9 @@ class Router implements RouterInterface
 
     /**
      * @param string $name
-     * @param array $params
-     * @param array $options
+     * @param array  $params
+     * @param array  $options
+     *
      * @return string
      */
     public function generateUri(string $name, array $params = [], array $options = []): string

@@ -119,7 +119,8 @@ class RouterTest extends TestCase
     public function testValidMethodMatch(): void
     {
         $router = new Router();
-        $router->addRoute(new Route('/', function () {}, 'GET'));
+        $router->addRoute(new Route('/', function () {
+        }, 'GET'));
         $request = $this->makeRequest('GET', '/');
         //$this->expectException(RouterException::class);
         $route = $router->match($request);
