@@ -13,10 +13,8 @@ use EnderLab\Router\RouterMiddleware;
 use EnderLab\Router\TrailingSlashMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use function Http\Response\send;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class App extends MiddlewareBuilder
@@ -163,7 +161,7 @@ class App extends MiddlewareBuilder
 
         $this->pipe(new DispatcherMiddleware($this->container, $this->router), null, true);
 
-        if ($this->routerHandler && php_sapi_name() != 'cli') {
+        if ($this->routerHandler && PHP_SAPI !== 'cli') {
             $this->pipe(new RouterMiddleware($this->router, $this->response), null, true);
             $this->pipe(new TrailingSlashMiddleware(), null, true);
         }
@@ -174,8 +172,8 @@ class App extends MiddlewareBuilder
 
         $response = $this->dispatcher->process($request);
 
-        if( php_sapi_name() == 'cli' ) {
-            echo((string)$response->getBody());
+        if (PHP_SAPI === 'cli') {
+            echo (string) $response->getBody();
         } else {
             \Http\Response\send($response);
         }
@@ -193,6 +191,7 @@ class App extends MiddlewareBuilder
 
     /**
      * Return Router object.
+     *
      * @return RouterInterface
      */
     public function getRouter(): RouterInterface

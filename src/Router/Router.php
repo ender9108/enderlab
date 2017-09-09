@@ -57,7 +57,7 @@ class Router implements RouterInterface
                 foreach ($routes as $route) {
                     $this->addRoute(
                         new Route(
-                            $key.$route[0],
+                            $key . $route[0],
                             $route[1],
                             (isset($route[2]) ? $route[2] : null),
                             (isset($route[3]) ? $route[3] : null)
