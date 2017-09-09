@@ -52,33 +52,29 @@ class Router implements RouterInterface
      */
     public function addRoutes(array $routes = []): Router
     {
-        foreach ($routes as $key => $route) {
-            if (in_array($key, $this->getAllowedMethods(), true) || $key === ZendRoute::HTTP_METHOD_ANY) {
-                foreach ($route as $routeDetails) {
+        foreach ($routes as $key => $routes) {
+            if (is_string($key)) {
+                foreach ($routes as $route) {
                     $this->addRoute(
                         new Route(
-                            $routeDetails[0],
-                            $routeDetails[1],
-                            $key,
-                            (isset($routeDetails[2]) ? $routeDetails[2] : null)
+                            $key.$route[0],
+                            $route[1],
+                            (isset($route[2]) ? $route[2] : null),
+                            (isset($route[3]) ? $route[3] : null)
                         )
                     );
-                } // endforeach
-            } elseif ($route instanceof Route) {
+                }
+            } elseif ($routes instanceof Route) {
                 $this->addRoute($route);
             } else {
-                foreach ($route as $httpVerb => $routesList) {
-                    foreach ($routesList as $routeDetails) {
-                        $this->addRoute(
-                            new Route(
-                                '/' . trim($key, '/') . '/' . trim($routeDetails[0], '/'),
-                                $routeDetails[1],
-                                $httpVerb,
-                                (isset($routeDetails[2]) ? $routeDetails[2] : null)
-                            )
-                        );
-                    } // endforeach
-                } // endforeach
+                $this->addRoute(
+                    new Route(
+                        $routes[0],
+                        $routes[1],
+                        (isset($routes[2]) ? $routes[2] : null),
+                        (isset($routes[3]) ? $routes[3] : null)
+                    )
+                );
             }
         } // endforeach
 
@@ -125,9 +121,6 @@ class Router implements RouterInterface
      */
     public function match(ServerRequestInterface $request): ?Route
     {
-        /*$request = $request->withUri(
-            $request->getUri()->withPath(rtrim($request->getUri()->getPath(), '/'))
-        );*/
         $result = $this->router->match($request);
 
         if ($result->isSuccess()) {

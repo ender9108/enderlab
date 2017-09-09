@@ -21,12 +21,9 @@ class TrailingSlashMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $url = (string)$request->getUri();
+        $url = (string)$request->getUri()->getPath();
 
         if (!empty($url) && $url != '/' && $url[-1] === '/') {
-            /*print $url;
-            exit();*/
-
             return (new Response())
                 ->withHeader('Location', substr($url, 0, -1))
                 ->withStatus(301);
