@@ -66,7 +66,7 @@ class Router implements RouterInterface
                 }
             }
             if ($routesDetails instanceof Route) {
-                $this->addRoute($routes);
+                $this->addRoute($routesDetails);
             } else {
                 $this->addRoute(
                     new Route(
