@@ -29,9 +29,14 @@ class App extends MiddlewareBuilder
     private $errorHandler = true;
 
     /**
-     * @var MiddlewareInterface|callable|bool
+     * @var bool
      */
     private $routerHandler = true;
+
+    /**
+     * @var bool
+     */
+    private $trailingSlash = true;
 
     /**
      * App constructor.
@@ -109,7 +114,7 @@ class App extends MiddlewareBuilder
             $route = $path;
         }
 
-        if (false === isset($route)) {
+        if (!isset($route)) {
             $middlewares = $this->buildMiddleware($middlewares);
             $route = new Route($path, $middlewares, $method, $name);
         }
@@ -249,6 +254,22 @@ class App extends MiddlewareBuilder
         }
 
         $this->routerHandler = $routerHandler;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $trailingSlash
+     *
+     * @return App
+     */
+    public function enableTrailingSlash(bool $trailingSlash): App
+    {
+        if (!is_bool($trailingSlash)) {
+            throw new \InvalidArgumentException('Must be a boolean');
+        }
+
+        $this->trailingSlash = $trailingSlash;
 
         return $this;
     }

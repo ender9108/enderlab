@@ -111,8 +111,7 @@ class AppFactoryTest extends TestCase
                         return $response;
                     },
                     'GET',
-                    'first_route_test',
-                    ['id' => '\\d+', 'pouette' => '\\w+']
+                    'first_route_test'
                 )
             ]
         ]);

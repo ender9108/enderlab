@@ -52,9 +52,9 @@ class Router implements RouterInterface
      */
     public function addRoutes(array $routes = []): Router
     {
-        foreach ($routes as $key => $routes) {
+        foreach ($routes as $key => $routesDetails) {
             if (is_string($key)) {
-                foreach ($routes as $route) {
+                foreach ($routesDetails as $route) {
                     $this->addRoute(
                         new Route(
                             $key . $route[0],
@@ -64,15 +64,16 @@ class Router implements RouterInterface
                         )
                     );
                 }
-            } elseif ($routes instanceof Route) {
-                $this->addRoute($route);
+            }
+            if ($routesDetails instanceof Route) {
+                $this->addRoute($routes);
             } else {
                 $this->addRoute(
                     new Route(
-                        $routes[0],
-                        $routes[1],
-                        (isset($routes[2]) ? $routes[2] : null),
-                        (isset($routes[3]) ? $routes[3] : null)
+                        $routesDetails[0],
+                        $routesDetails[1],
+                        (isset($routesDetails[2]) ? $routesDetails[2] : null),
+                        (isset($routesDetails[3]) ? $routesDetails[3] : null)
                     )
                 );
             }

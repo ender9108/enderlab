@@ -34,7 +34,7 @@ final class AppFactory
                 $iterator = new FilesystemIterator($containerConfig, FilesystemIterator::SKIP_DOTS);
 
                 foreach ($iterator as $file) {
-                    $containerBuilder->addDefinitions(realpath($file->getPathname()));
+                    $containerBuilder->addDefinitions($file->getPathname());
                 }
             } elseif (file_exists($containerConfig)) {
                 $containerBuilder->addDefinitions($containerConfig);
