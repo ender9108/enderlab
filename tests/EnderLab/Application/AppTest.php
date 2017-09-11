@@ -257,7 +257,7 @@ class AppTest extends TestCase
         $response = $app->run($this->makeRequest(), true);
         error_reporting($errorLevel);
         $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     public function testEnableErrorHandler(): void
@@ -271,8 +271,8 @@ class AppTest extends TestCase
         });
         $response = $app->run($this->makeRequest(), true);
         $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertEquals('Error: Test error handler', (string)$response->getBody());
-        $this->assertEquals(500, $response->getStatusCode());
+        $this->assertSame('Error: Test error handler', (string) $response->getBody());
+        $this->assertSame(500, $response->getStatusCode());
     }
 
     public function testEnableRouterHandlerByBoolean(): void
