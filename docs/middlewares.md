@@ -6,24 +6,15 @@ Your custom middleware must be implement **Interop\Http\ServerMiddleware\Middlew
 
 ```php
 <?php
-namespace App\MyTest
+namespace MyApp
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class LoggerMiddleware implements MiddlewareInterface
+class MyCustomMiddleware implements MiddlewareInterface
 {
-    /**
-     * Process an incoming server request and return a response, optionally delegating
-     * to the next middleware component to create the response.
-     *
-     * @param ServerRequestInterface $request
-     * @param DelegateInterface      $delegate
-     *
-     * @return ResponseInterface
-     */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
         /* ... My treatment ... */
@@ -31,6 +22,31 @@ class LoggerMiddleware implements MiddlewareInterface
     }
 }
 ```
+
+## How to use my custom middleware
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+
+$app = AppFactory::create();
+$app->pipe(new MyApp\MyCustomMiddleware());
+
+/* OR */
+$app->pipe('MyApp\\MyCustomMiddleware');
+
+/* OR */
+$app->pipe(['MyApp\\MyCustomMiddleware', 'process']);
+
+/* OR with closuse */
+/* It's automatically transform become CallableMiddlewareDecorator object */
+$app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate) {
+    /* ... My treatment ... */
+    /* Return ResponseInterface */
+});
+```
+
 
 ## Use internal middleware
 ### Error handler middleware
