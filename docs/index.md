@@ -9,9 +9,9 @@ It's a micro framework that implements [middleware PSR-15 convention](https://gi
 * [Middlewares](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md)
     * [How to create middleware](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md#how-to-create-middleware)
     * [Use internal middleware](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md#use-internal-middleware)
-        * Error handler middleware
-        * Trailing slash middleware
-        * Logger middleware
+        * [Error handler middleware](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md#error-handler-middleware)
+        * [Trailing slash middleware](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md#trailing-slash-middleware)
+        * [Logger middleware](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md#logger-middleware)
 
 ## Author
 Alexandre Berthelot <alexandreberthelot9108@gmail.com>
