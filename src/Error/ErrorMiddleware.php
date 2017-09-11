@@ -60,7 +60,6 @@ class ErrorMiddleware implements MiddlewareInterface
         }
 
         restore_error_handler();
-
         return $response;
     }
 }

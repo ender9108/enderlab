@@ -155,7 +155,7 @@ class AppTest extends TestCase
         $this->assertInstanceOf(Route::class, $route);
         $route = $app->options('/', $this->makeMiddleware());
         $this->assertInstanceOf(Route::class, $route);
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\BadMethodCallException::class);
         $app->pouette('/', $this->makeMiddleware());
     }
 
@@ -174,9 +174,9 @@ class AppTest extends TestCase
             $response->getBody()->write('Test phpunit process app !');
 
             return $response;
-        });
+        }, Router::HTTP_GET);
 
-        $response = $app->run($this->makeRequest());
+        $response = $app->run($this->makeRequest(), true);
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
@@ -188,11 +188,15 @@ class AppTest extends TestCase
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
 
+            throw new \Exception('test error handler', 500);
+
             return $response;
         });
 
-        $response = $app->run($this->makeRequest());
+        $response = $app->run($this->makeRequest(), true);
+        var_dump($response);
         $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals(500, $response->getStatusCode());
     }
 
     public function testEnableErrorHandlerByBoolean(): void

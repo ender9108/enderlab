@@ -27,6 +27,26 @@ final class AppFactory
         ?RouterInterface $router = null,
         ?DispatcherInterface $dispatcher = null
     ): App {
+        $container = self::buildContainer($containerConfig);
+        $dispatcher = $dispatcher ?: new Dispatcher();
+        $router = $router ?: new Router();
+
+        if ($container->has('routes') && is_array($container->get('routes'))) {
+            $router->addRoutes($container->get('routes'));
+        }
+
+        $container->set(Dispatcher::class, $dispatcher);
+        $container->set(Router::class, $router);
+
+        return new App($container, $router, $dispatcher);
+    }
+
+    /**
+     * @param null $containerConfig
+     * @return ContainerInterface
+     */
+    private static function buildContainer($containerConfig = null): ContainerInterface
+    {
         if (is_string($containerConfig)) {
             $containerBuilder = new ContainerBuilder();
 
@@ -54,16 +74,6 @@ final class AppFactory
             $container = $containerConfig;
         }
 
-        $dispatcher = $dispatcher ?: new Dispatcher();
-        $router = $router ?: new Router();
-
-        if ($container->has('routes') && is_array($container->get('routes'))) {
-            $router->addRoutes($container->get('routes'));
-        }
-
-        $container->set(Dispatcher::class, $dispatcher);
-        $container->set(Router::class, $router);
-
-        return new App($container, $router, $dispatcher);
+        return $container;
     }
 }

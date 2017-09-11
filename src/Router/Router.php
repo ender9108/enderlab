@@ -53,18 +53,6 @@ class Router implements RouterInterface
     public function addRoutes(array $routes = []): Router
     {
         foreach ($routes as $key => $routesDetails) {
-            if (is_string($key)) {
-                foreach ($routesDetails as $route) {
-                    $this->addRoute(
-                        new Route(
-                            $key . $route[0],
-                            $route[1],
-                            (isset($route[2]) ? $route[2] : null),
-                            (isset($route[3]) ? $route[3] : null)
-                        )
-                    );
-                }
-            }
             if ($routesDetails instanceof Route) {
                 $this->addRoute($routesDetails);
             } else {

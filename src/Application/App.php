@@ -59,6 +59,8 @@ class App extends MiddlewareBuilder
      * @param $name
      * @param $arguments
      *
+     * @throws \BadMethodCallException
+     *
      * @return Route
      */
     public function __call($name, $arguments): Route
@@ -81,7 +83,7 @@ class App extends MiddlewareBuilder
                 ];
                 break;
             default:
-                throw new \InvalidArgumentException('');
+                throw new \BadMethodCallException('Invalid method name "' . $name . '"');
                 break;
         }
 
@@ -158,16 +160,21 @@ class App extends MiddlewareBuilder
      * Start process dispatcher.
      *
      * @param null|ServerRequestInterface $request
+     * @param bool $returnResponse
+     * @return void|\Psr\Http\Message\ResponseInterface
      */
-    public function run(?ServerRequestInterface $request = null): void
+    public function run(?ServerRequestInterface $request = null, bool $returnResponse = false)
     {
         $request = (null !== $request) ? $request : ServerRequest::fromGlobals();
         $request = $request->withAttribute('originalResponse', $this->response);
 
         $this->pipe(new DispatcherMiddleware($this->container, $this->router), null, true);
 
-        if ($this->routerHandler && PHP_SAPI !== 'cli') {
+        if (true === $this->routerHandler) {
             $this->pipe(new RouterMiddleware($this->router, $this->response), null, true);
+        }
+
+        if (true === $this->trailingSlash) {
             $this->pipe(new TrailingSlashMiddleware(), null, true);
         }
 
@@ -176,6 +183,10 @@ class App extends MiddlewareBuilder
         }
 
         $response = $this->dispatcher->process($request);
+
+        if (true === $returnResponse) {
+            return $response;
+        }
 
         if (PHP_SAPI === 'cli') {
             echo (string) $response->getBody();
