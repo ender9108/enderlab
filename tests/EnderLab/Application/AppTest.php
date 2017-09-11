@@ -9,7 +9,6 @@ use EnderLab\Router\Route;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
@@ -183,6 +182,8 @@ class AppTest extends TestCase
     public function testRunAppCli(): void
     {
         $app = $this->makeInstanceApp();
+        $app->enableRouterHandler();
+        $app->enableDispatcherHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
@@ -201,6 +202,8 @@ class AppTest extends TestCase
     public function testRunAppWeb(): void
     {
         $app = $this->makeInstanceApp();
+        $app->enableRouterHandler();
+        $app->enableDispatcherHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
@@ -219,7 +222,9 @@ class AppTest extends TestCase
     public function testRunWithErrorHandlerApp(): void
     {
         $app = $this->makeInstanceApp();
-        $app->enableErrorHandler(true);
+        $app->enableErrorHandler();
+        $app->enableRouterHandler();
+        $app->enableDispatcherHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
@@ -239,7 +244,7 @@ class AppTest extends TestCase
     {
         $errorLevel = error_reporting(0);
         $app = $this->makeInstanceApp();
-        $app->enableErrorHandler(true);
+        $app->enableErrorHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
@@ -252,95 +257,35 @@ class AppTest extends TestCase
         $response = $app->run($this->makeRequest(), true);
         error_reporting($errorLevel);
         $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testRunWithTrailingSlashAndGetMethod(): void
+    public function testEnableErrorHandler(): void
     {
         $app = $this->makeInstanceApp();
-        $app->enableTrailingSlash(true);
-        $app->addRoute('/test', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->enableErrorHandler();
+        $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
             $response = $delegate->process($request);
-            $response->getBody()->write('Test phpunit process app !');
-
-            return $response;
+            $response->getBody()->write('Attention une exception va être lancée.');
+            throw new \Exception('Test error handler', 500);
         });
-
-        $response = $app->run($this->makeRequest('GET', '/test/'), true);
+        $response = $app->run($this->makeRequest(), true);
         $this->assertInstanceOf(ResponseInterface::class, $response);
-    }
-
-    public function testRunWithTrailingSlashAndPostMethod(): void
-    {
-        $app = $this->makeInstanceApp();
-        $app->enableTrailingSlash(true);
-        $app->post('/test', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
-            $response->getBody()->write('Test phpunit process app !');
-
-            return $response;
-        });
-
-        $response = $app->run($this->makeRequest('POST', '/test/'), true);
-        $this->assertInstanceOf(ResponseInterface::class, $response);
-    }
-
-    public function testEnableErrorHandlerByBoolean(): void
-    {
-        $app = $this->makeInstanceApp();
-        $app->enableErrorHandler(true);
-        $errorHandler = $app->getErrorHandler();
-        $this->assertInstanceOf(MiddlewareInterface::class, $errorHandler);
-    }
-
-    public function testEnableErrorHandlerByCallable(): void
-    {
-        $app = $this->makeInstanceApp();
-        $app->enableErrorHandler(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-                if (!(error_reporting() & $errno)) {
-                    return;
-                }
-                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-            });
-
-            try {
-                $response = $delegate->process($request);
-
-                if (!$response instanceof ResponseInterface) {
-                    throw new \Exception('Application did not return a response', 500);
-                }
-            } catch (\Exception | \Throwable $e) {
-                $response = $this->response->withStatus($e->getCode());
-                $response->getBody()->write($e->getMessage());
-            }
-
-            restore_error_handler();
-
-            return $response;
-        });
-        $errorHandler = $app->getErrorHandler();
-        $this->assertInstanceOf(MiddlewareInterface::class, $errorHandler);
-    }
-
-    public function testDisableErrorHandlerByBoolean(): void
-    {
-        $app = $this->makeInstanceApp();
-        $app->enableErrorHandler(false);
-        $errorHandler = $app->getErrorHandler();
-        $this->assertSame(false, $errorHandler);
+        $this->assertEquals('Error: Test error handler', (string)$response->getBody());
+        $this->assertEquals(500, $response->getStatusCode());
     }
 
     public function testEnableRouterHandlerByBoolean(): void
     {
         $app = $this->makeInstanceApp();
-        $result = $app->enableRouterHandler(true);
+        $result = $app->enableRouterHandler();
         $this->assertInstanceOf(App::class, $result);
     }
 
     public function testDisableRouterHandlerByBoolean(): void
     {
         $app = $this->makeInstanceApp();
-        $result = $app->enableRouterHandler(false);
+        $result = $app->enableRouterHandler();
         $this->assertInstanceOf(App::class, $result);
     }
 
@@ -355,9 +300,5 @@ class AppTest extends TestCase
 
         $container = $app->getContainer();
         $this->assertInstanceOf(ContainerInterface::class, $container);
-
-        $app->enableErrorHandler(true);
-        $errorHandler = $app->getErrorHandler();
-        $this->assertInstanceOf(MiddlewareInterface::class, $errorHandler);
     }
 }

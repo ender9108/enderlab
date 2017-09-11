@@ -2,7 +2,6 @@
 
 namespace EnderLab\Router;
 
-use GuzzleHttp\Psr7\Response;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,17 +15,17 @@ class RouterMiddleware implements MiddlewareInterface
     private $router;
 
     /**
-     * @var Response
+     * @var RouterInterface
      */
     private $response;
 
     /**
      * RouterMiddleware constructor.
      *
-     * @param RouterInterface $router
-     * @param Response        $response
+     * @param RouterInterface   $router
+     * @param ResponseInterface $response
      */
-    public function __construct(RouterInterface $router, Response $response)
+    public function __construct(RouterInterface $router, ResponseInterface $response)
     {
         $this->router = $router;
         $this->response = $response;

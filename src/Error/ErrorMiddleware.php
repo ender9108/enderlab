@@ -58,7 +58,7 @@ class ErrorMiddleware implements MiddlewareInterface
             }
         } catch (\Exception | \Throwable $e) {
             $response = $this->response->withStatus($e->getCode());
-            $response->getBody()->write($e->getMessage());
+            $response->getBody()->write('Error: '.$e->getMessage());
         }
 
         restore_error_handler();

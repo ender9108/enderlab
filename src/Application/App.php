@@ -10,7 +10,6 @@ use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
 use EnderLab\Router\RouterInterface;
 use EnderLab\Router\RouterMiddleware;
-use EnderLab\Router\TrailingSlashMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
@@ -22,21 +21,6 @@ class App extends MiddlewareBuilder
     const ENV_DEV = 'dev';
     const ENV_TEST = 'test';
     const ENV_PROD = 'prod';
-
-    /**
-     * @var MiddlewareInterface|callable|bool
-     */
-    private $errorHandler = true;
-
-    /**
-     * @var bool
-     */
-    private $routerHandler = true;
-
-    /**
-     * @var bool
-     */
-    private $trailingSlash = true;
 
     /**
      * App constructor.
@@ -65,8 +49,6 @@ class App extends MiddlewareBuilder
      */
     public function __call($name, $arguments): Route
     {
-        $args = [];
-
         switch ($name) {
             case 'get':
             case 'post':
@@ -168,21 +150,6 @@ class App extends MiddlewareBuilder
     {
         $request = (null !== $request) ? $request : ServerRequest::fromGlobals();
         $request = $request->withAttribute('originalResponse', $this->response);
-
-        $this->pipe(new DispatcherMiddleware($this->container, $this->router), null, true);
-
-        if (true === $this->routerHandler) {
-            $this->pipe(new RouterMiddleware($this->router, $this->response), null, true);
-        }
-
-        if (true === $this->trailingSlash) {
-            $this->pipe(new TrailingSlashMiddleware(), null, true);
-        }
-
-        if (false !== $this->errorHandler && $this->errorHandler instanceof MiddlewareInterface) {
-            $this->pipe($this->errorHandler, null, true);
-        }
-
         $response = $this->dispatcher->process($request);
 
         if (true === $returnResponse) {
@@ -227,53 +194,31 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * @return MiddlewareInterface|null
-     */
-    public function getErrorHandler()
-    {
-        return $this->errorHandler;
-    }
-
-    /**
-     * @param MiddlewareInterface|callable|bool $errorHandler
-     *
-     * @return MiddlewareInterface|null
-     */
-    public function enableErrorHandler($errorHandler)
-    {
-        if (is_bool($errorHandler)) {
-            if (true === $errorHandler) {
-                $errorHandler = new ErrorMiddleware($this->response);
-            } else {
-                $errorHandler = false;
-            }
-        } else {
-            $errorHandler = $this->buildMiddleware($errorHandler);
-        }
-
-        $this->errorHandler = $errorHandler;
-    }
-
-    /**
-     * @param bool $routerHandler
-     *
      * @return App
      */
-    public function enableRouterHandler(bool $routerHandler): App
+    public function enableErrorHandler(): App
     {
-        $this->routerHandler = $routerHandler;
+        $this->pipe(new ErrorMiddleware($this->response));
 
         return $this;
     }
 
     /**
-     * @param bool $trailingSlash
-     *
      * @return App
      */
-    public function enableTrailingSlash(bool $trailingSlash): App
+    public function enableRouterHandler(): App
     {
-        $this->trailingSlash = $trailingSlash;
+        $this->pipe(new RouterMiddleware($this->router, $this->response));
+
+        return $this;
+    }
+
+    /**
+     * @return App
+     */
+    public function enableDispatcherHandler(): App
+    {
+        $this->pipe(new DispatcherMiddleware($this->container, $this->router));
 
         return $this;
     }
