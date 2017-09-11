@@ -45,7 +45,7 @@ class ErrorMiddleware implements MiddlewareInterface
                 return;
             }
 
-            throw new \ErrorException($errstr, $errno, 1, $errfile, $errline);
+            throw new \ErrorException($errstr, 500, 1, $errfile, $errline);
         });
 
         try {

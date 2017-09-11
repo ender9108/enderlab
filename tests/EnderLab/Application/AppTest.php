@@ -24,9 +24,9 @@ class AppTest extends TestCase
         return AppFactory::create($config);
     }
 
-    private function makeRequest()
+    private function makeRequest($method = 'GET', $path = '/')
     {
-        return new ServerRequest('GET', '/');
+        return new ServerRequest($method, $path);
     }
 
     private function makeMiddleware(): callable
@@ -188,7 +188,8 @@ class AppTest extends TestCase
             $response = $delegate->process($request);
             $response->getBody()->write('Test phpunit process app !');
 
-            throw new \Exception('test error handler', 500);
+            $a = 3 / 0;
+
             return $response;
         });
 
@@ -196,6 +197,21 @@ class AppTest extends TestCase
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(500, $response->getStatusCode());
+    }
+
+    public function testRunWithTrailingSlash(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->enableTrailingSlash(true);
+        $app->addRoute('/test', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Test phpunit process app !');
+
+            return $response;
+        });
+
+        $response = $app->run($this->makeRequest('GET', '/test/'), true);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
     public function testEnableErrorHandlerByBoolean(): void
