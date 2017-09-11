@@ -208,7 +208,6 @@ class AppTest extends TestCase
             return $response;
         }, Router::HTTP_GET);
 
-        php_sapi_name();
         ob_start();
         $app->run($this->makeRequest());
         $result = ob_get_contents();
