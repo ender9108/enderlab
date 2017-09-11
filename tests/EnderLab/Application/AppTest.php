@@ -195,7 +195,7 @@ class AppTest extends TestCase
         $result = ob_get_contents();
         ob_end_clean();
 
-        $this->assertEquals('Test phpunit process app !', $result);
+        $this->assertSame('Test phpunit process app !', $result);
     }
 
     public function testRunAppWeb(): void
@@ -213,7 +213,7 @@ class AppTest extends TestCase
         $result = ob_get_contents();
         ob_end_clean();
 
-        $this->assertEquals('Test phpunit process app !', $result);
+        $this->assertSame('Test phpunit process app !', $result);
     }
 
     public function testRunWithErrorHandlerApp(): void

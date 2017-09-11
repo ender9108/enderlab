@@ -1,8 +1,15 @@
-# enderlab
-Micro framework middleware PSR-15 (beta version)
+# PSR15-MIDDLE-EARTH-FRAMEWORK
+It's a micro framework that implements [middleware PSR-15 convention](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md)
+
+I created it just for fun and understand the use of PSR15 middlewares.
 
 [![Build Status](https://travis-ci.org/ender9108/psr15-middle-earth-framework.svg?branch=master)](https://travis-ci.org/ender9108/psr15-middle-earth-framework)
 [![Coverage Status](https://coveralls.io/repos/github/ender9108/psr15-middle-earth-framework/badge.svg?branch=master)](https://coveralls.io/github/ender9108/psr15-middle-earth-framework?branch=master)
+
+
+## Version
+
+   > Minimum stability : 1.0.0
 
 
 ## Requirements
@@ -16,113 +23,9 @@ Micro framework middleware PSR-15 (beta version)
 - zendframework/zend-expressive-fastroute
 
 
+## Documentation
+You can see the documentation [here !](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/index.md)
+
+
 ## Author
 Alexandre Berthelot <alexandreberthelot9108@gmail.com>
-
-
-## Basic Usage
-```php
-<?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
-use EnderLab\Application\AppFactory;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-$app = AppFactory::create();
-$app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate) {
-    $response = $delegate->process($request);
-    $response->getBody()->write('<br>Middleware callable !!!<br>');
-
-    return $response;
-});
-
-$app->run();
-```
-
-
-## Create middleware
-```php
-<?php
-namespace App\MyTest
-
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-class LoggerMiddleware implements MiddlewareInterface
-{
-    /**
-     * Process an incoming server request and return a response, optionally delegating
-     * to the next middleware component to create the response.
-     *
-     * @param ServerRequestInterface $request
-     * @param DelegateInterface      $delegate
-     *
-     * @return ResponseInterface
-     */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
-    {
-        /* ... My treatment ... */
-        /* Return ResponseInterface */
-    }
-}
-```
-
-
-## Enable error handler
-#### Enable with internal error handler
-```php
-<?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
-use EnderLab\Application\AppFactory;
-
-$app = AppFactory::create();
-
-$app->enableErrorHandler(true);
-```
-
-#### Enable with custom class middleware
-```php
-<?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
-use EnderLab\Application\AppFactory;
-use \Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-$app = AppFactory::create();
-$app->enableErrorHandler(new MyCustomErrorHandler());
-
-class MyCustomErrorHandler implements MiddlewareInterface
-{
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
-    {
-        /* ... My treatment ... */
-        /* Return ResponseInterface */
-    }
-}
-```
-
-#### Enable with custom closure
-```php
-<?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
-use EnderLab\Application\AppFactory;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-$app = AppFactory::create();
-$app->enableErrorHandler(new MyCustomErrorHandler());
-
-$app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface {
-    /* ... My treatment ... */
-    /* Return ResponseInterface */
-});
-```
