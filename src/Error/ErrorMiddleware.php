@@ -34,7 +34,8 @@ class ErrorMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
     {
-        set_error_handler(function (
+        set_error_handler(
+            function (
             int $errno,
             string $errstr,
             ?string $errfile = null,

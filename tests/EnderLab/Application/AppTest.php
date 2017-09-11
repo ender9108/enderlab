@@ -216,7 +216,6 @@ class AppTest extends TestCase
         $response = $app->run($this->makeRequest(), true);
         error_reporting($errorLevel);
         $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertSame(500, $response->getStatusCode());
     }
 
     public function testRunWithTrailingSlashAndGetMethod(): void
