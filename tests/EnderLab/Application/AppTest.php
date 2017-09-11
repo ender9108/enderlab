@@ -199,7 +199,27 @@ class AppTest extends TestCase
         $this->assertSame(500, $response->getStatusCode());
     }
 
-    public function testRunWithTrailingSlash(): void
+    public function testRunWithErrorHandlerAndDisableError(): void
+    {
+        $errorLevel = error_reporting(0);
+        $app = $this->makeInstanceApp();
+        $app->enableErrorHandler(true);
+        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Test phpunit process app !');
+
+            $a = 3 / 0;
+
+            return $response;
+        });
+
+        $response = $app->run($this->makeRequest(), true);
+        error_reporting($errorLevel);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertSame(500, $response->getStatusCode());
+    }
+
+    public function testRunWithTrailingSlashAndGetMethod(): void
     {
         $app = $this->makeInstanceApp();
         $app->enableTrailingSlash(true);
@@ -211,6 +231,21 @@ class AppTest extends TestCase
         });
 
         $response = $app->run($this->makeRequest('GET', '/test/'), true);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+    }
+
+    public function testRunWithTrailingSlashAndPostMethod(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->enableTrailingSlash(true);
+        $app->post('/test', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Test phpunit process app !');
+
+            return $response;
+        });
+
+        $response = $app->run($this->makeRequest('POST', '/test/'), true);
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
