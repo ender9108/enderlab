@@ -36,18 +36,19 @@ class ErrorMiddleware implements MiddlewareInterface
     {
         set_error_handler(
             function (
-            int $errno,
-            string $errstr,
-            ?string $errfile = null,
-            ?int $errline = null,
-            ?array $errcontext = null
-        ) {
-            if (!(error_reporting() & $errno)) {
-                return;
-            }
+                int $errno,
+                string $errstr,
+                ?string $errfile = null,
+                ?int $errline = null,
+                ?array $errcontext = null
+            ) {
+                if (!(error_reporting() & $errno)) {
+                    return;
+                }
 
-            throw new \ErrorException($errstr, 500, 1, $errfile, $errline);
-        });
+                throw new \ErrorException($errstr, 500, 1, $errfile, $errline);
+            }
+        );
 
         try {
             $response = $delegate->process($request);
