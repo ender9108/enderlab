@@ -91,4 +91,29 @@ $app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInter
 ```
 
 ### Trailing slash middleware
+
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+
+$app = AppFactory::create();
+$app->enableTrailingSlash(true);
+
+```
+
 ### Logger middleware
+
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+
+$app = AppFactory::create();
+$app->pipe(new \EnderLab\Logger\LoggerMiddleware(
+    /* My class logger implementing Psr\Log\LoggerInterface */
+));
+
+```
