@@ -37,7 +37,7 @@ $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate
     return $response;
 });
 
-\Http\Response\send($app->run());
+$app->run();
 ```
 
 
@@ -79,7 +79,38 @@ require dirname(__FILE__).'/../vendor/autoload.php';
 use EnderLab\Application\AppFactory;
 
 $app = AppFactory::create();
-$app->enableErrorHandler(
-    /* My error handler MiddlewareInterface|callable or boolean true */
-);
+
+/* Enable internal error handler */
+$app->enableErrorHandler(true);
+```
+
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+use \Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+/* Enable with custom middleware */
+class MyCustomErrorHandler implements MiddlewareInterface
+{
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
+    {
+        /* ... My treatment ... */
+        /* Return ResponseInterface */
+    }
+}
+
+$app = AppFactory::create();
+$app->enableErrorHandler(new MyCustomErrorHandler());
+
+/* OR with closure */
+
+$app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInterface $delegate) {
+    /* ... My treatment ... */
+    /* Return ResponseInterface */
+});
 ```
