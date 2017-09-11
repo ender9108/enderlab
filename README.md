@@ -9,21 +9,6 @@ I created it just for fun and understand the use of PSR15 middlewares.
 [![License](https://poser.pugx.org/enderlab/psr15-middle-earth-framework/license)](https://packagist.org/packages/enderlab/psr15-middle-earth-framework)
 [![Total Downloads](https://poser.pugx.org/enderlab/psr15-middle-earth-framework/downloads)](https://packagist.org/packages/enderlab/psr15-middle-earth-framework)
 
-## Version
-
-   > Minimum stability : 1.0.0
-
-
-## Requirements
-- psr/http-message
-- psr/container
-- psr/log
-- guzzlehttp/psr7
-- http-interop/response-sender
-- http-interop/http-middleware
-- php-di/php-di
-- zendframework/zend-expressive-fastroute
-
 
 ## Documentation
 You can see the documentation [here !](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/index.md)
