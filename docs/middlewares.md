@@ -33,6 +33,6 @@ class LoggerMiddleware implements MiddlewareInterface
 ```
 
 ## Use internal middleware
-### Error handler middleware
+### Error handler middleware
 ### Trailing slash middleware
 ### Logger middleware
