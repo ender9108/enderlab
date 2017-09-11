@@ -180,6 +180,43 @@ class AppTest extends TestCase
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
+    public function testRunAppCli(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Test phpunit process app !');
+
+            return $response;
+        }, Router::HTTP_GET);
+
+        ob_start();
+        $app->run($this->makeRequest());
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals('Test phpunit process app !', $result);
+    }
+
+    public function testRunAppWeb(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            $response = $delegate->process($request);
+            $response->getBody()->write('Test phpunit process app !');
+
+            return $response;
+        }, Router::HTTP_GET);
+
+        php_sapi_name();
+        ob_start();
+        $app->run($this->makeRequest());
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals('Test phpunit process app !', $result);
+    }
+
     public function testRunWithErrorHandlerApp(): void
     {
         $app = $this->makeInstanceApp();
