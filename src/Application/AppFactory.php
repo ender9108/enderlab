@@ -43,6 +43,7 @@ final class AppFactory
 
     /**
      * @param null $containerConfig
+     *
      * @return ContainerInterface
      */
     private static function buildContainer($containerConfig = null): ContainerInterface

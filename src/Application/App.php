@@ -160,7 +160,8 @@ class App extends MiddlewareBuilder
      * Start process dispatcher.
      *
      * @param null|ServerRequestInterface $request
-     * @param bool $returnResponse
+     * @param bool                        $returnResponse
+     *
      * @return void|\Psr\Http\Message\ResponseInterface
      */
     public function run(?ServerRequestInterface $request = null, bool $returnResponse = false)

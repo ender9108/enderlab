@@ -189,14 +189,13 @@ class AppTest extends TestCase
             $response->getBody()->write('Test phpunit process app !');
 
             throw new \Exception('test error handler', 500);
-
             return $response;
         });
 
         $response = $app->run($this->makeRequest(), true);
-        var_dump($response);
+
         $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertEquals(500, $response->getStatusCode());
+        $this->assertSame(500, $response->getStatusCode());
     }
 
     public function testEnableErrorHandlerByBoolean(): void

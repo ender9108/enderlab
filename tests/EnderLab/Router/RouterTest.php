@@ -47,7 +47,8 @@ class RouterTest extends TestCase
     {
         $router = new Router();
         $router->addRoutes([
-             ['test/{id:\d+}', function () {}, Router::HTTP_GET, 'test_route']
+             ['test/{id:\d+}', function () {
+             }, Router::HTTP_GET, 'test_route']
         ]);
         $this->assertSame(1, $router->count());
     }
@@ -56,11 +57,16 @@ class RouterTest extends TestCase
     {
         $router = new Router();
         $router->addRoutes([
-            ['/', function () {}, Router::HTTP_GET, 'get_all_users'],
-            ['/{id:\d+}', function () {}, Router::HTTP_GET, 'get_user_by_id'],
-            ['/', function () {}, Router::HTTP_POST, 'create_user'],
-            ['/{id:\d+}', function () {}, Router::HTTP_PUT, 'update_user'],
-            ['/{id:\d+}', function () {}, Router::HTTP_DELETE, 'delete_user']
+            ['/', function () {
+            }, Router::HTTP_GET, 'get_all_users'],
+            ['/{id:\d+}', function () {
+            }, Router::HTTP_GET, 'get_user_by_id'],
+            ['/', function () {
+            }, Router::HTTP_POST, 'create_user'],
+            ['/{id:\d+}', function () {
+            }, Router::HTTP_PUT, 'update_user'],
+            ['/{id:\d+}', function () {
+            }, Router::HTTP_DELETE, 'delete_user']
         ]);
         $this->assertSame(5, $router->count());
     }
