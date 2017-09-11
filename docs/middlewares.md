@@ -74,9 +74,6 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-$app = AppFactory::create();
-$app->enableErrorHandler(new MyCustomErrorHandler());
-
 class MyCustomErrorHandler implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
@@ -85,6 +82,9 @@ class MyCustomErrorHandler implements MiddlewareInterface
         /* Return ResponseInterface */
     }
 }
+
+$app = AppFactory::create();
+$app->enableErrorHandler(new MyCustomErrorHandler());
 ```
 
 #### Enable with custom closure
