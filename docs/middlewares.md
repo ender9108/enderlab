@@ -34,5 +34,61 @@ class LoggerMiddleware implements MiddlewareInterface
 
 ## Use internal middleware
 ### Error handler middleware
+
+#### Enable with internal error handler
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+
+$app = AppFactory::create();
+
+$app->enableErrorHandler(true);
+```
+
+#### Enable with custom class middleware
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+use \Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+$app = AppFactory::create();
+$app->enableErrorHandler(new MyCustomErrorHandler());
+
+class MyCustomErrorHandler implements MiddlewareInterface
+{
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
+    {
+        /* ... My treatment ... */
+        /* Return ResponseInterface */
+    }
+}
+```
+
+#### Enable with custom closure
+```php
+<?php
+require dirname(__FILE__).'/../vendor/autoload.php';
+
+use EnderLab\Application\AppFactory;
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+$app = AppFactory::create();
+$app->enableErrorHandler(new MyCustomErrorHandler());
+
+$app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface {
+    /* ... My treatment ... */
+    /* Return ResponseInterface */
+});
+```
+
 ### Trailing slash middleware
 ### Logger middleware
