@@ -261,10 +261,6 @@ class App extends MiddlewareBuilder
      */
     public function enableRouterHandler(bool $routerHandler): App
     {
-        if (!is_bool($routerHandler)) {
-            throw new \InvalidArgumentException('Must be a boolean');
-        }
-
         $this->routerHandler = $routerHandler;
 
         return $this;
@@ -277,10 +273,6 @@ class App extends MiddlewareBuilder
      */
     public function enableTrailingSlash(bool $trailingSlash): App
     {
-        if (!is_bool($trailingSlash)) {
-            throw new \InvalidArgumentException('Must be a boolean');
-        }
-
         $this->trailingSlash = $trailingSlash;
 
         return $this;
