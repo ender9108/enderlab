@@ -7,17 +7,36 @@ Create file index.php in public directory.
 require dirname(__FILE__).'/../vendor/autoload.php';
 
 use EnderLab\Application\AppFactory;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use EnderLab\Logger\LoggerMiddleware;
+use EnderLab\Router\TrailingSlashMiddleware;
 
-$app = AppFactory::create();
-$app->get(function(ServerRequestInterface $request, DelegateInterface $delegate) {
-    $response = $delegate->process($request);
-    $response->getBody()->write('<br>Middleware callable !!!<br>');
+/**
+ * Create App object
+ */
+$app = AppFactory::create(__DIR__.'/../config/');
 
-    return $response;
-});
-$app->pipe(new MyMiddleware());
+/** 
+ * Use default error handler
+ * If you want to use a different handler
+ * Use $app->pipe(MyCustomErrorHandler)  
+ */
+$app->enableErrorHandler();
+
+/**
+ * Add new middleware in pipe
+ */
+$app->pipe(new LoggerMiddleware($app->getContainer()->get('logger')));
+$app->pipe(new TrailingSlashMiddleware());
+
+/**
+ * Start router middleware
+ */
+$app->enableRouterHandler();
+
+/**
+ * Start dispatcher middleware
+ */
+$app->enableDispatcherHandler();
 
 $app->run();
 ```

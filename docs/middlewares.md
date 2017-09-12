@@ -39,7 +39,7 @@ $app->pipe('MyApp\\MyCustomMiddleware');
 /* OR */
 $app->pipe(['MyApp\\MyCustomMiddleware', 'process']);
 
-/* OR with closuse */
+/* OR with closure */
 /* It's automatically transform become CallableMiddlewareDecorator object */
 $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate) {
     /* ... My treatment ... */
@@ -59,8 +59,7 @@ require dirname(__FILE__).'/../vendor/autoload.php';
 use EnderLab\Application\AppFactory;
 
 $app = AppFactory::create();
-
-$app->enableErrorHandler(true);
+$app->enableErrorHandler();
 ```
 
 #### Enable with custom class middleware
@@ -84,7 +83,7 @@ class MyCustomErrorHandler implements MiddlewareInterface
 }
 
 $app = AppFactory::create();
-$app->enableErrorHandler(new MyCustomErrorHandler());
+$app->pipe(new MyCustomErrorHandler());
 ```
 
 #### Enable with custom closure
@@ -98,9 +97,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 $app = AppFactory::create();
-$app->enableErrorHandler(new MyCustomErrorHandler());
-
-$app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface {
+$app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface {
     /* ... My treatment ... */
     /* Return ResponseInterface */
 });
@@ -113,10 +110,10 @@ $app->enableErrorHandler(function(ServerRequestInterface $request, DelegateInter
 require dirname(__FILE__).'/../vendor/autoload.php';
 
 use EnderLab\Application\AppFactory;
+use EnderLab\Router\TrailingSlashMiddleware;
 
 $app = AppFactory::create();
-$app->enableTrailingSlash(true);
-
+$app->pipe(new TrailingSlashMiddleware());
 ```
 
 ### Logger middleware
