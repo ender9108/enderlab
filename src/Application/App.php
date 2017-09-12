@@ -16,6 +16,11 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Class App
+ * @package EnderLab\Application
+ * @todo remove container
+ */
 class App extends MiddlewareBuilder
 {
     const ENV_DEV = 'dev';
