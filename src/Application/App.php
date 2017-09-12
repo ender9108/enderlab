@@ -168,8 +168,8 @@ class App extends MiddlewareBuilder
 
     public function setEnv($env)
     {
-        if( !in_array($env, [self::ENV_PROD, self::ENV_DEV, self::ENV_TEST]) ){
-            throw new \InvalidArgumentException('Environment must be "'.implode(', ', [self::ENV_PROD, self::ENV_DEV, self::ENV_TEST]).'".');
+        if (!in_array($env, [self::ENV_PROD, self::ENV_DEV, self::ENV_TEST], true)) {
+            throw new \InvalidArgumentException('Environment must be "' . implode(', ', [self::ENV_PROD, self::ENV_DEV, self::ENV_TEST]) . '".');
         }
 
         $this->env = $env;

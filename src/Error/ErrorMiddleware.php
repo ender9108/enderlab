@@ -59,11 +59,11 @@ class ErrorMiddleware implements MiddlewareInterface
         } catch (\Exception | \Throwable $e) {
             $response = $this->response->withStatus($e->getCode());
 
-            $message  = 'Error : <br>';
-            $message .= 'File : '.$e->getFile().'<br>';
-            $message .= 'Line : '.$e->getLine().'<br>';
-            $message .= 'Message : '.$e->getMessage().'<br>';
-            $message .= 'Trace : <pre>'.print_r($e->getTrace(), true).'</pre><br>';
+            $message = 'Error : <br>';
+            $message .= 'File : ' . $e->getFile() . '<br>';
+            $message .= 'Line : ' . $e->getLine() . '<br>';
+            $message .= 'Message : ' . $e->getMessage() . '<br>';
+            $message .= 'Trace : <pre>' . print_r($e->getTrace(), true) . '</pre><br>';
 
             $response->getBody()->write($message);
         }

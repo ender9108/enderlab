@@ -271,7 +271,6 @@ class AppTest extends TestCase
         });
         $response = $app->run($this->makeRequest(), true);
         $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertSame('Error: Test error handler', (string) $response->getBody());
         $this->assertSame(500, $response->getStatusCode());
     }
 
