@@ -11,6 +11,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
+            "App\\Api\\": "app/api/",
+            "App\\Middlewares\\": "app/middlewares/",
             "EnderLab\\": "src/"
         }
     },
