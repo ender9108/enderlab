@@ -17,8 +17,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class App
- * @package EnderLab\Application
+ * Class App.
+ *
  * @todo remove container
  */
 class App extends MiddlewareBuilder
