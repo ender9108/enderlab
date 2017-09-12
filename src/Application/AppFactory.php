@@ -31,14 +31,20 @@ final class AppFactory
         $dispatcher = $dispatcher ?: new Dispatcher();
         $router = $router ?: new Router();
 
-        if ($container->has('routes') && is_array($container->get('routes'))) {
-            $router->addRoutes($container->get('routes'));
+        if ($container->has('app.routes') && is_array($container->get('app.routes'))) {
+            $router->addRoutes($container->get('app.routes'));
         }
 
         $container->set(Dispatcher::class, $dispatcher);
         $container->set(Router::class, $router);
 
-        return new App($container, $router, $dispatcher);
+        $app = new App($container, $router, $dispatcher);
+
+        if ($container->has('app.env') && is_array($container->get('app.env'))) {
+            $app->setEnv($container->get('app.env'));
+        }
+
+        return $app;
     }
 
     /**

@@ -22,6 +22,8 @@ class App extends MiddlewareBuilder
     const ENV_TEST = 'test';
     const ENV_PROD = 'prod';
 
+    private $env = self::ENV_PROD;
+
     /**
      * App constructor.
      *
@@ -53,6 +55,7 @@ class App extends MiddlewareBuilder
             case 'get':
             case 'post':
             case 'put':
+            case 'patch':
             case 'delete':
             case 'head':
             case 'options':
@@ -118,9 +121,9 @@ class App extends MiddlewareBuilder
      *
      * @return App
      */
-    public function pipe($path, $middlewares = null, bool $first = false, string $env = null): App
+    public function pipe($path, $middlewares = null, string $env = null): App
     {
-        if (null !== $env && $this->container->get('global.env') !== $env) {
+        if (null !== $env && $this->env !== $env) {
             return $this;
         }
 
@@ -133,7 +136,7 @@ class App extends MiddlewareBuilder
             $middlewares = $this->buildMiddleware($middlewares);
         }
 
-        $this->dispatcher->pipe(new Route($path, $middlewares), $first);
+        $this->dispatcher->pipe(new Route($path, $middlewares));
 
         return $this;
     }
@@ -161,6 +164,15 @@ class App extends MiddlewareBuilder
         } else {
             \Http\Response\send($response);
         }
+    }
+
+    public function setEnv($env)
+    {
+        if( !in_array($env, [self::ENV_PROD, self::ENV_DEV, self::ENV_TEST]) ){
+            throw new \InvalidArgumentException('Environment must be "'.implode(', ', [self::ENV_PROD, self::ENV_DEV, self::ENV_TEST]).'".');
+        }
+
+        $this->env = $env;
     }
 
     /**
