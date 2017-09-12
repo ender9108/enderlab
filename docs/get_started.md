@@ -1,4 +1,4 @@
-# Basic usage
+# Get started
 
 Create file index.php in public directory.
 
