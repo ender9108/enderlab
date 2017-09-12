@@ -22,7 +22,7 @@ I created it just for fun and understand the use of PSR15 middlewares.
 - zendframework/zend-expressive-fastroute
 
 ## Summary
-* [Basic usage](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/basic_usage.md)
+* [Get started](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/get_started.md)
 * [Configuration](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/configuration.md)
 * [Middlewares](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md)
     * [How to create middleware](https://github.com/ender9108/psr15-middle-earth-framework/tree/master/docs/middlewares.md#how-to-create-middleware)
