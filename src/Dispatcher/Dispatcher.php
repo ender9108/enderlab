@@ -72,7 +72,7 @@ class Dispatcher implements DispatcherInterface
 
         $middleware = $this->middlewares->dequeue();
 
-        if ($middleware->getPath() !== '*') {
+        if ('*' !== $middleware->getPath()) {
             $uri = $request->getUri()->getPath();
             $regex = '#^' . $middleware->getPath() . '#';
 

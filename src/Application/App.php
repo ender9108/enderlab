@@ -68,7 +68,7 @@ class App extends MiddlewareBuilder
                 $args = [
                     $arguments[0],
                     (count($arguments) > 1 ? $arguments[1] : null),
-                    ($name === 'any' ? null : mb_strtoupper($name)),
+                    ('any' === $name ? null : mb_strtoupper($name)),
                     (count($arguments) > 2 ? $arguments[2] : null)
                 ];
                 break;

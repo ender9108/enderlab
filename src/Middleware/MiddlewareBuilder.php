@@ -147,7 +147,7 @@ class MiddlewareBuilder
             $reflection = new \ReflectionMethod($middleware, '__invoke');
         }
 
-        return $reflection->getNumberOfParameters() === 2;
+        return 2 === $reflection->getNumberOfParameters();
     }
 
     /**

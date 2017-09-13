@@ -81,7 +81,7 @@ class Router implements RouterInterface
     {
         foreach ($route->getMethod() as $method) {
             if (!in_array($method, $this->getAllowedMethods(), true) &&
-                $method !== ZendRoute::HTTP_METHOD_ANY
+                ZendRoute::HTTP_METHOD_ANY !== $method
             ) {
                 throw new RouterException('Invalid method "' . $method . '"');
             }
@@ -92,7 +92,7 @@ class Router implements RouterInterface
             new ZendRoute(
                 $route->getPath(),
                 $route->getMiddlewares(),
-                (count($route->getMethod()) === 0 ? ZendRoute::HTTP_METHOD_ANY : $route->getMethod()),
+                (0 === count($route->getMethod()) ? ZendRoute::HTTP_METHOD_ANY : $route->getMethod()),
                 $route->getName()
             )
         );
