@@ -23,6 +23,12 @@ class ErrorMiddlewareTest extends TestCase
         $dispatcher->pipe(
             new Route(
                 '*',
+                $middleware
+            )
+        );
+        $dispatcher->pipe(
+            new Route(
+                '*',
                 new CallableMiddlewareDecorator(function (ServerRequestInterface $request, DelegateInterface $delegate) {
                     return 'Bad response';
                 })

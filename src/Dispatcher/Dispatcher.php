@@ -32,10 +32,11 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
-     * @param $middlewar
+     * @param $middleware
+     *
      * @return Dispatcher
      */
-    public function pipe($middlewar): Dispatcher
+    public function pipe($middleware): Dispatcher
     {
         if (!$middleware instanceof MiddlewareInterface &&
             !$middleware instanceof RouteInterface
@@ -50,9 +51,10 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * @param ServerRequestInterface $request
+     *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request): ResponseInterface
+    public function process(ServerRequestInterface $request)/*: ResponseInterface*/
     {
         if ($this->middlewares->isEmpty()) {
             if (null !== $this->delegate) {
@@ -76,6 +78,10 @@ class Dispatcher implements DispatcherInterface
         ++$this->index;
         $middleware = $middleware->getMiddlewares();
         $response = $middleware->process($request, $this);
+
+        /*if (!$response instanceof ResponseInterface) {
+            throw new \RuntimeException('No valid response sending.');
+        }*/
 
         return $response;
     }

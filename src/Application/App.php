@@ -120,9 +120,11 @@ class App extends MiddlewareBuilder
      * Add middleware on pipe.
      *
      * @param $path
-     * @param null $middlewares
+     * @param null        $middlewares
      * @param string|null $env
+     *
      * @return App
+     *
      * @internal param bool $first
      */
     public function pipe($path, $middlewares = null, string $env = null): App

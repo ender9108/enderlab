@@ -6,7 +6,6 @@ use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Middleware\CallableMiddlewareDecorator;
 use EnderLab\Router\Route;
 use EnderLab\Router\Router;
-use EnderLab\Router\RouterException;
 use EnderLab\Router\RouterMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -35,8 +34,8 @@ class RouterMiddlewareTest extends TestCase
         ));
 
         $middleware = new RouterMiddleware($router, $response);
-        $this->expectException(RouterException::class);
-        $middleware->process($request, $dispatcher);
+        $response = $middleware->process($request, $dispatcher);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
     public function testRouteWithInvalidMethod()
@@ -59,8 +58,8 @@ class RouterMiddlewareTest extends TestCase
         ));
 
         $middleware = new RouterMiddleware($router, $response);
-        $this->expectException(RouterException::class);
-        $middleware->process($request, $dispatcher);
+        $response = $middleware->process($request, $dispatcher);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
     public function testRouteFoundWithAttributes()
