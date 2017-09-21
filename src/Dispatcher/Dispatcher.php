@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use InvalidArgumentException;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SplQueue;
 
@@ -31,12 +32,10 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
-     * @param $middleware
-     * @param bool $first
-     *
+     * @param $middlewar
      * @return Dispatcher
      */
-    public function pipe($middleware, bool $first = false): Dispatcher
+    public function pipe($middlewar): Dispatcher
     {
         if (!$middleware instanceof MiddlewareInterface &&
             !$middleware instanceof RouteInterface
@@ -44,23 +43,16 @@ class Dispatcher implements DispatcherInterface
             throw new InvalidArgumentException('Middleware must be implement "MiddlewareInterface" or "RouteInterface"');
         }
 
-        if (true === $first) {
-            $this->middlewares->unshift($middleware);
-        } else {
-            $this->middlewares->enqueue($middleware);
-        }
+        $this->middlewares->enqueue($middleware);
 
         return $this;
     }
 
     /**
      * @param ServerRequestInterface $request
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return Response|\Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request)/*: ResponseInterface*/
+    public function process(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->middlewares->isEmpty()) {
             if (null !== $this->delegate) {
