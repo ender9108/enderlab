@@ -47,7 +47,8 @@ class RouterMiddleware implements MiddlewareInterface
         $route = $this->router->match($request);
 
         if (null === $route) {
-            throw new RouterException('Route not found for path "' . $request->getUri()->getPath() . '"', 404);
+            return $delegate->process($request);
+            //throw new RouterException('Route not found for path "' . $request->getUri()->getPath() . '"', 404);
         }
 
         $request = $request->withAttribute(Route::class, $route);
@@ -56,8 +57,6 @@ class RouterMiddleware implements MiddlewareInterface
             $request = $request->withAttribute($label, $value);
         }
 
-        $response = $delegate->process($request);
-
-        return $response;
+        return $delegate->process($request);
     }
 }

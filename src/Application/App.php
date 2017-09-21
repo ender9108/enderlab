@@ -120,11 +120,10 @@ class App extends MiddlewareBuilder
      * Add middleware on pipe.
      *
      * @param $path
-     * @param null        $middlewares
-     * @param bool        $first
+     * @param null $middlewares
      * @param string|null $env
-     *
      * @return App
+     * @internal param bool $first
      */
     public function pipe($path, $middlewares = null, string $env = null): App
     {
@@ -164,7 +163,7 @@ class App extends MiddlewareBuilder
             return $response;
         }
 
-        if (PHP_SAPI === 'cli') {
+        if (PHP_SAPI === 'cli' || PHP_SAPI === 'cli-server') {
             echo (string) $response->getBody();
         } else {
             \Http\Response\send($response);
