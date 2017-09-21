@@ -102,31 +102,3 @@ $app->pipe(function(ServerRequestInterface $request, DelegateInterface $delegate
     /* Return ResponseInterface */
 });
 ```
-
-### Trailing slash middleware
-
-```php
-<?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
-use EnderLab\Application\AppFactory;
-use EnderLab\Router\TrailingSlashMiddleware;
-
-$app = AppFactory::create();
-$app->pipe(new TrailingSlashMiddleware());
-```
-
-### Logger middleware
-
-```php
-<?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
-use EnderLab\Application\AppFactory;
-
-$app = AppFactory::create();
-$app->pipe(new \EnderLab\Logger\LoggerMiddleware(
-    /* My class logger implementing Psr\Log\LoggerInterface */
-));
-
-```
