@@ -18,7 +18,11 @@ $app = AppFactory::create(__DIR__.'/../config/');
 <?php
 return [
     'app.env' => '{MY ENV}',            /* accept 'dev', 'prod', 'test' */
-    'app.routes' => [],                 /* define all routes load by AppFactory */
+    'router.routes' => [],              /* define all routes load by AppFactory */
+    'router.options' => [
+        'cache_enabled' => true,        /* true or false */
+        'cache_file' => 'tmp/router'    /* dir cache */
+    ],
     'app.enableErrorHandler' => true,   /* accept true, false */
     'my.custom.key' => 'hello'          /* define your custom key and custom value */
 ];

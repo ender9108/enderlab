@@ -29,10 +29,13 @@ final class AppFactory
     ): App {
         $container = self::buildContainer($containerConfig);
         $dispatcher = $dispatcher ?: new Dispatcher();
-        $router = $router ?: new Router();
+        $router = $router ?: new Router(
+            [],
+            ( $container->has('router.options') ? $container->get('router.options') : [] )
+        );
 
-        if ($container->has('app.routes') && is_array($container->get('app.routes'))) {
-            $router->addRoutes($container->get('app.routes'));
+        if ($container->has('router.routes') && is_array($container->get('router.routes'))) {
+            $router->addRoutes($container->get('router.routes'));
         }
 
         $container->set(Dispatcher::class, $dispatcher);
