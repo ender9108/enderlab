@@ -56,7 +56,6 @@ class MiddlewareBuilder
 
     /**
      * @param array|callable|MiddlewareInterface|string $middlewares
-     *
      * @return MiddlewareInterface
      */
     public function buildMiddleware($middlewares): MiddlewareInterface
@@ -90,7 +89,6 @@ class MiddlewareBuilder
             }
         }
 
-        // TODO pipe middlewares
         if (is_array($middlewares)) {
             $queue = new \SplQueue();
             $middlewares = array_reverse($middlewares);

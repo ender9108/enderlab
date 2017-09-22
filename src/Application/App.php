@@ -27,7 +27,20 @@ class App extends MiddlewareBuilder
     const ENV_TEST = 'test';
     const ENV_PROD = 'prod';
 
+    /**
+     * @var string
+     */
     private $env = self::ENV_PROD;
+
+    /**
+     * @var string
+     */
+    private $groupPath = '';
+
+    /**
+     * @var array
+     */
+    private $groupMiddleware = [];
 
     /**
      * App constructor.
@@ -107,6 +120,15 @@ class App extends MiddlewareBuilder
         }
 
         if (!isset($route)) {
+            $path = $this->groupPath.$path;
+
+            if (count($this->groupMiddleware) > 0) {
+                $temp = $middlewares;
+                $middlewares = $this->groupMiddleware;
+
+                array_push($middlewares, $temp);
+            }
+
             $middlewares = $this->buildMiddleware($middlewares);
             $route = new Route($path, $middlewares, $method, $name);
         }
@@ -114,6 +136,40 @@ class App extends MiddlewareBuilder
         $this->router->addRoute($route);
 
         return $route;
+    }
+
+    public function addGroup(string $path, callable $callable, $middleware = null): App
+    {
+        $reflection = new \ReflectionFunction($callable);
+        $params = $reflection->getParameters();
+
+        if (count($params) != 1) {
+            throw new \InvalidArgumentException('Invalid number argument');
+        }
+
+        $arg = $params[0];
+
+        if (!$arg->getClass()->isInstance($this)) {
+            throw new \InvalidArgumentException('Callback argument must be implement '.get_class($this));
+        }
+
+        $previousGroupPath = $this->groupPath;
+        $this->groupPath = $previousGroupPath.$path;
+
+        if (null !== $middleware) {
+            $previousGroupMiddleware = $this->groupMiddleware;
+            $this->groupMiddleware[] = $middleware;
+        }
+
+        $callable($this);
+
+        $this->groupPath = $previousGroupPath;
+
+        if (null !== $middleware) {
+            $this->groupMiddleware = $previousGroupMiddleware;
+        }
+
+        return $this;
     }
 
     /**
