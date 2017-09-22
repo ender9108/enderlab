@@ -1,7 +1,4 @@
 # Get started
-
-Create file index.php in public directory.
-
 ```php
 <?php
 require dirname(__FILE__).'/../vendor/autoload.php';
