@@ -120,7 +120,7 @@ class App extends MiddlewareBuilder
         }
 
         if (!isset($route)) {
-            $path = $this->groupPath.$path;
+            $path = $this->groupPath . $path;
 
             if (count($this->groupMiddleware) > 0) {
                 $temp = $middlewares;
@@ -139,9 +139,10 @@ class App extends MiddlewareBuilder
     }
 
     /**
-     * @param string $path
+     * @param string   $path
      * @param callable $callable
-     * @param null $middleware
+     * @param null     $middleware
+     *
      * @return App
      */
     public function addGroup(string $path, callable $callable, $middleware = null): App
@@ -149,18 +150,18 @@ class App extends MiddlewareBuilder
         $reflection = new \ReflectionFunction($callable);
         $params = $reflection->getParameters();
 
-        if (count($params) != 1) {
+        if (1 !== count($params)) {
             throw new \InvalidArgumentException('Invalid number argument');
         }
 
         $arg = $params[0];
 
         if (!$arg->getClass()->isInstance($this)) {
-            throw new \InvalidArgumentException('Callback argument must be implement '.get_class($this));
+            throw new \InvalidArgumentException('Callback argument must be implement ' . get_class($this));
         }
 
         $previousGroupPath = $this->groupPath;
-        $this->groupPath = $previousGroupPath.$path;
+        $this->groupPath = $previousGroupPath . $path;
 
         if (null !== $middleware) {
             $previousGroupMiddleware = $this->groupMiddleware;

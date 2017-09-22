@@ -56,6 +56,7 @@ class MiddlewareBuilder
 
     /**
      * @param array|callable|MiddlewareInterface|string $middlewares
+     *
      * @return MiddlewareInterface
      */
     public function buildMiddleware($middlewares): MiddlewareInterface
