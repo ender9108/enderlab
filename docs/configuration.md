@@ -6,10 +6,11 @@ Class AppFactory load all files in directory.
 
 ```php
 <?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
 use EnderLab\Application\AppFactory;
 
+/**
+ * Parameters can be an array or directory or file path
+ */
 $app = AppFactory::create(__DIR__.'/../config/');
 ```
 

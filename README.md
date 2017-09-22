@@ -19,8 +19,6 @@ composer require enderlab/psr15-middle-earth-framework
 # Get started
 ```php
 <?php
-require dirname(__FILE__).'/../vendor/autoload.php';
-
 use EnderLab\Application\AppFactory;
 use EnderLab\Logger\LoggerMiddleware;
 use EnderLab\Router\TrailingSlashMiddleware;
