@@ -31,7 +31,7 @@ final class AppFactory
         $dispatcher = $dispatcher ?: new Dispatcher();
         $router = $router ?: new Router(
             [],
-            ( $container->has('router.options') ? $container->get('router.options') : [] )
+            ($container->has('router.options') ? $container->get('router.options') : [])
         );
 
         if ($container->has('router.routes') && is_array($container->get('router.routes'))) {

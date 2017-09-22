@@ -20,15 +20,16 @@ class AppFactoryTest extends TestCase
         $this->assertInstanceOf(App::class, $app);
     }
 
-    public function testCreateAppWithArg(): void
+    public function testCreateAppWithArrayConfig(): void
     {
         $app = AppFactory::create(
             [
-                'global.env'       => \DI\env('global_env', 'dev'),
-                'logger.name'      => 'default-logger',
-                'logger.handler'   => [\DI\object(NullHandler::class)],
-                'logger.processor' => [],
-                'logger'           => \DI\object(Logger::class)->constructor(
+                'app.env'                => \DI\env('global_env', 'dev'),
+                'app.enableErrorHandler' => \DI\env('ERROR', true),
+                'logger.name'            => 'default-logger',
+                'logger.handler'         => [\DI\object(NullHandler::class)],
+                'logger.processor'       => [],
+                'logger'                 => \DI\object(Logger::class)->constructor(
                     \DI\get('logger.name'),
                     \DI\get('logger.handler'),
                     \DI\get('logger.processor')
@@ -38,24 +39,8 @@ class AppFactoryTest extends TestCase
             new Dispatcher()
         );
         $this->assertInstanceOf(App::class, $app);
-    }
-
-    public function testCreateAppWithArrayConfig(): void
-    {
-        $app = AppFactory::create(
-            [
-                'logger.name'      => 'default-logger',
-                'logger.handler'   => [\DI\object(NullHandler::class)],
-                'logger.processor' => [],
-                'logger'           => \DI\object(Logger::class)->constructor(
-                    \DI\get('logger.name'),
-                    \DI\get('logger.handler'),
-                    \DI\get('logger.processor')
-                )
-            ]
-        );
-        $this->assertInstanceOf(App::class, $app);
         $this->assertInstanceOf(Logger::class, $app->getContainer()->get('logger'));
+        $this->assertSame('dev', $app->getContainer()->get('app.env'));
     }
 
     public function testCreateAppWithFileConfig(): void
