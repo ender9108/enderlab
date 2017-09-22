@@ -47,7 +47,7 @@ class Route implements RouteInterface
         string $name = null,
         array $params = []
     ) {
-        $this->path = ( trim($path) != '/' ) ? rtrim($path, '/') : $path;
+        $this->path = ('/' !== trim($path)) ? rtrim($path, '/') : $path;
         $this->method = (is_string($method) ? [$method] : (null === $method ? [] : $method));
         $this->middlewares = $middlewares;
         $this->name = $name;

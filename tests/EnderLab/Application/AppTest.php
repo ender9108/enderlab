@@ -227,7 +227,7 @@ class AppTest extends TestCase
 
         $app->addGroup(
             '/admin',
-            function(App $app) {
+            function (App $app) {
                 $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
                     $response = $delegate->process($request);
                     $response->getBody()->write('Test phpunit process app !');
@@ -235,13 +235,13 @@ class AppTest extends TestCase
                     return $response;
                 }, 'GET');
             },
-            function(ServerRequestInterface $request, DelegateInterface $delegate) {
+            function (ServerRequestInterface $request, DelegateInterface $delegate) {
                 $response = $delegate->process($request);
                 $response->getBody()->write('Middleware group !!!<br>');
+
                 return $response;
             }
         );
-
 
         ob_start();
         $app->run($this->makeRequest('GET', '/admin'));
