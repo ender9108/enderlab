@@ -43,11 +43,11 @@ final class AppFactory
 
         $app = new App($container, $router, $dispatcher);
 
-        if ($container->has('app.env') && is_array($container->get('app.env'))) {
+        if ($container->has('app.env') && is_string($container->get('app.env'))) {
             $app->setEnv($container->get('app.env'));
         }
 
-        if ($container->has('app.enableErrorHandler') && is_array($container->get('app.enableErrorHandler'))) {
+        if ($container->has('app.enableErrorHandler') && is_bool($container->get('app.enableErrorHandler'))) {
             $app->enableErrorHandler();
         }
 

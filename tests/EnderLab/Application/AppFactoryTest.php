@@ -80,7 +80,7 @@ class AppFactoryTest extends TestCase
     public function testCreateAppWithInvalidContainer(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $app = AppFactory::create('myConfigFileInvalid.php');
+        AppFactory::create('myConfigFileInvalid.php');
     }
 
     public function testCreateAppWithRouteConfig(): void
