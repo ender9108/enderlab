@@ -219,6 +219,38 @@ class AppTest extends TestCase
         $this->assertSame('Test phpunit process app !', $result);
     }
 
+    public function testRunAppWithGroupRoute(): void
+    {
+        $app = $this->makeInstanceApp();
+        $app->enableRouterHandler();
+        $app->enableDispatcherHandler();
+
+        $app->addGroup(
+            '/admin',
+            function(App $app) {
+                $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                    $response = $delegate->process($request);
+                    $response->getBody()->write('Test phpunit process app !');
+
+                    return $response;
+                }, 'GET');
+            },
+            function(ServerRequestInterface $request, DelegateInterface $delegate) {
+                $response = $delegate->process($request);
+                $response->getBody()->write('Middleware group !!!<br>');
+                return $response;
+            }
+        );
+
+
+        ob_start();
+        $app->run($this->makeRequest('GET', '/admin'));
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertSame('Middleware group !!!<br>Test phpunit process app !', $result);
+    }
+
     public function testRunWithErrorHandlerApp(): void
     {
         $app = $this->makeInstanceApp();
