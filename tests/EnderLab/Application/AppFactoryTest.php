@@ -86,7 +86,7 @@ class AppFactoryTest extends TestCase
     public function testCreateAppWithRouteConfig(): void
     {
         $app = AppFactory::create([
-            'routes' => [
+            'router.routes' => [
                 \DI\object(Route::class)->constructor(
                     '/blog/:id/:pouette',
                     function (ServerRequestInterface $request, DelegateInterface $delegate) {
