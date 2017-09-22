@@ -138,6 +138,12 @@ class App extends MiddlewareBuilder
         return $route;
     }
 
+    /**
+     * @param string $path
+     * @param callable $callable
+     * @param null $middleware
+     * @return App
+     */
     public function addGroup(string $path, callable $callable, $middleware = null): App
     {
         $reflection = new \ReflectionFunction($callable);
