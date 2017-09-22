@@ -10,6 +10,12 @@ I created it just for fun and understand the use of PSR15 middlewares.
 [![Total Downloads](https://poser.pugx.org/enderlab/psr15-middle-earth-framework/downloads)](https://packagist.org/packages/enderlab/psr15-middle-earth-framework)
 
 
+# Installation
+```
+composer require enderlab/psr15-middle-earth-framework
+```
+
+
 # Get started
 ```php
 <?php
