@@ -38,7 +38,7 @@ class AppTest extends TestCase
         };
     }
 
-    public function testCreateAppObject(): void
+    public function testCreateApp(): void
     {
         $app = $this->makeInstanceApp();
         $this->assertInstanceOf(App::class, $app);
@@ -48,7 +48,7 @@ class AppTest extends TestCase
     {
         $app = $this->makeInstanceApp();
         $this->expectException(\InvalidArgumentException::class);
-        $app->pipe('InvalideMiddleware');
+        $app->pipe('InvalidMiddleware');
     }
 
     public function testPipeWithValidMiddlewareInterface(): void
