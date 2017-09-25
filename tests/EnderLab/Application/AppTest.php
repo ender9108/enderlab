@@ -64,7 +64,6 @@ class AppTest extends TestCase
             )
         ]);
         $app->pipe('EnderLab\\Logger\\LoggerMiddleware');
-
         $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
