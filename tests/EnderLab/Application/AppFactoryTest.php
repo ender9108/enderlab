@@ -59,13 +59,18 @@ class AppFactoryTest extends TestCase
     {
         mkdir(__DIR__ . '/config/', 0777);
         file_put_contents(__DIR__ . '/config/config.php', '<?php return [\'test\' => \'truc\'] ?>');
+        file_put_contents(__DIR__ . '/config/otherConfig.php', '<?php return [\'bidule\' => \'chouette\'] ?>');
 
         $app = AppFactory::create(__DIR__ . '/config/');
         $this->assertInstanceOf(App::class, $app);
         $this->assertSame('truc', $app->getContainer()->get('test'));
+        $this->assertSame('chouette', $app->getContainer()->get('bidule'));
 
-        if (file_exists(__DIR__ . '/config/config.php')) {
+        if (file_exists(__DIR__ . '/config/config.php') &&
+            file_exists(__DIR__ . '/config/otherconfig.php')
+        ) {
             unlink(__DIR__ . '/config/config.php');
+            unlink(__DIR__ . '/config/otherConfig.php');
             rmdir(__DIR__ . '/config/');
         }
     }
@@ -73,8 +78,11 @@ class AppFactoryTest extends TestCase
     public function testCreateAppWithValidContainerObject(): void
     {
         $containerBuilder = new ContainerBuilder();
-        $app = AppFactory::create($containerBuilder->build());
+        $containerBuilder->addDefinitions(['app.name' => 'MyAppTest']);
+        $container = $containerBuilder->build();
+        $app = AppFactory::create($container);
         $this->assertInstanceOf(App::class, $app);
+        $this->assertSame('MyAppTest', $app->getContainer()->get('app.name'));
     }
 
     public function testCreateAppWithInvalidContainer(): void
@@ -101,5 +109,6 @@ class AppFactoryTest extends TestCase
             ]
         ]);
         $this->assertInstanceOf(App::class, $app);
+        $this->assertSame(1, count($app->getRouter()->getRoutes()));
     }
 }
