@@ -66,7 +66,7 @@ class AppFactoryTest extends TestCase
         $this->assertSame('truc', $app->getContainer()->get('test'));
         $this->assertSame('chouette', $app->getContainer()->get('bidule'));
 
-        if (is_dir(__DIR__.'/config/')) {
+        if (is_dir(__DIR__ . '/config/')) {
             @unlink(__DIR__ . '/config/config.php');
             @unlink(__DIR__ . '/config/otherConfig.php');
             @rmdir(__DIR__ . '/config/');
