@@ -1,23 +1,13 @@
 <?php 
 namespace EnderLab\Initializer;
 
-use Composer\Composer;
-use Composer\IO\IOInterface;
-use Composer\Plugin\PluginInterface;
+use Composer\Script\Event;
 
-class Initializer implements PluginInterface, EventSubscriberInterface {
-    private $composer;
-    private $io;
-
-    public function __construct(Composer $composer, IOInterface $io) {
-        $this->composer = $composer;
-        $this->io = $io;
-
+class Initializer {
+    public static function postInstall(Event $event)
+    {
+        $composer = $event->getComposer();
+        // do stuff
         print_r($composer);
-        print_r($io);
-    }
-
-    public static function test() {
-
     }
 }
