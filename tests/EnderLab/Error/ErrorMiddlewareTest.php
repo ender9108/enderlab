@@ -35,8 +35,8 @@ class ErrorMiddlewareTest extends TestCase
             ),
             true
         );
-        //$this->expectException(\RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $response = $dispatcher->handle($request);
-        $this->assertSame(500, $response->getStatusCode());
+        //$this->assertSame(500, $response->getStatusCode());
     }
 }
