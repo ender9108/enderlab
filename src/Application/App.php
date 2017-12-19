@@ -145,7 +145,7 @@ class App extends MiddlewareBuilder
      *
      * @return App
      */
-    public function addGroup(string $path, callable $callable, $middleware = null): App
+    public function addGroup(string $path, callable $callable, $middleware = null): self
     {
         $reflection = new \ReflectionFunction($callable);
         $params = $reflection->getParameters();
@@ -190,7 +190,7 @@ class App extends MiddlewareBuilder
      *
      * @internal param bool $first
      */
-    public function pipe($path, $middlewares = null, string $env = null): App
+    public function pipe($path, $middlewares = null, string $env = null): self
     {
         if (null !== $env && $this->env !== $env) {
             return $this;
@@ -222,7 +222,7 @@ class App extends MiddlewareBuilder
     {
         $request = (null !== $request) ? $request : ServerRequest::fromGlobals();
         $request = $request->withAttribute('originalResponse', $this->response);
-        $response = $this->dispatcher->process($request);
+        $response = $this->dispatcher->handle($request);
 
         if (true === $returnResponse) {
             return $response;
@@ -277,7 +277,7 @@ class App extends MiddlewareBuilder
     /**
      * @return App
      */
-    public function enableErrorHandler(): App
+    public function enableErrorHandler(): self
     {
         $this->pipe(new ErrorMiddleware($this->response));
 
@@ -287,7 +287,7 @@ class App extends MiddlewareBuilder
     /**
      * @return App
      */
-    public function enableRouterHandler(): App
+    public function enableRouterHandler(): self
     {
         $this->pipe(new RouterMiddleware($this->router, $this->response));
 
@@ -297,7 +297,7 @@ class App extends MiddlewareBuilder
     /**
      * @return App
      */
-    public function enableDispatcherHandler(): App
+    public function enableDispatcherHandler(): self
     {
         $this->pipe(new DispatcherMiddleware($this->container, $this->router));
 

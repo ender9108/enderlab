@@ -2,8 +2,8 @@
 
 namespace EnderLab\Logger;
 
-use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -29,8 +29,8 @@ class LoggerMiddleware implements MiddlewareInterface
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param ServerRequestInterface    $request
-     * @param RequestHandlerInterface   $requestHandler
+     * @param ServerRequestInterface  $request
+     * @param RequestHandlerInterface $requestHandler
      *
      * @return ResponseInterface
      */

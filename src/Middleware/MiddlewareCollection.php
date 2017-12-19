@@ -3,8 +3,8 @@
 namespace EnderLab\Middleware;
 
 use EnderLab\Dispatcher\Dispatcher;
-use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -23,8 +23,8 @@ class MiddlewareCollection implements MiddlewareInterface
     }
 
     /**
-     * @param ServerRequestInterface    $request
-     * @param RequestHandlerInterface   $requestHandler
+     * @param ServerRequestInterface  $request
+     * @param RequestHandlerInterface $requestHandler
      *
      * @return ResponseInterface
      */
@@ -32,6 +32,6 @@ class MiddlewareCollection implements MiddlewareInterface
     {
         $dispatcher = new Dispatcher($this->middlewares, $requestHandler);
 
-        return $dispatcher->process($request);
+        return $dispatcher->handle($request);
     }
 }

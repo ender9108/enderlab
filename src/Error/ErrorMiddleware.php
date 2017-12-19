@@ -2,8 +2,8 @@
 
 namespace EnderLab\Error;
 
-use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -25,8 +25,8 @@ class ErrorMiddleware implements MiddlewareInterface
     }
 
     /**
-     * @param ServerRequestInterface    $request
-     * @param RequestHandlerInterface   $requestHandler
+     * @param ServerRequestInterface  $request
+     * @param RequestHandlerInterface $requestHandler
      *
      * @throws \Exception
      *

@@ -50,7 +50,7 @@ class Router implements RouterInterface
      *
      * @return Router
      */
-    public function addRoutes(array $routes = []): Router
+    public function addRoutes(array $routes = []): self
     {
         foreach ($routes as $key => $routesDetails) {
             if ($routesDetails instanceof Route) {
@@ -77,7 +77,7 @@ class Router implements RouterInterface
      *
      * @return Router
      */
-    public function addRoute(Route $route): Router
+    public function addRoute(Route $route): self
     {
         foreach ($route->getMethod() as $method) {
             if (!in_array($method, $this->getAllowedMethods(), true) &&

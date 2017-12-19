@@ -4,8 +4,8 @@ namespace EnderLab\Dispatcher;
 
 use EnderLab\Router\RouteInterface;
 use GuzzleHttp\Psr7\Response;
-use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,8 +21,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * Dispatcher constructor.
      *
-     * @param SplQueue|null                 $middlewares
-     * @param RequestHandlerInterface|null  $requestHandler
+     * @param SplQueue|null                $middlewares
+     * @param RequestHandlerInterface|null $requestHandler
      */
     public function __construct(SplQueue $middlewares = null, RequestHandlerInterface $requestHandler = null)
     {
@@ -36,7 +36,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @return Dispatcher
      */
-    public function pipe($middleware): Dispatcher
+    public function pipe($middleware): self
     {
         if (!$middleware instanceof MiddlewareInterface &&
             !$middleware instanceof RouteInterface
@@ -54,7 +54,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request)/*: ResponseInterface*/
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->middlewares->isEmpty()) {
             if (null !== $this->delegate) {

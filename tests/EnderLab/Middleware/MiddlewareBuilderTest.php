@@ -9,8 +9,8 @@ use EnderLab\Middleware\MiddlewareCollection;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
@@ -137,7 +137,7 @@ class MiddlewareInstance implements MiddlewareInterface
     ) {
     }
 
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return new Response();
     }
@@ -145,7 +145,7 @@ class MiddlewareInstance implements MiddlewareInterface
 
 class MiddlewareInvokable
 {
-    public function __invoke(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return new Response();
     }
@@ -153,7 +153,7 @@ class MiddlewareInvokable
 
 class MiddlewareObject
 {
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return new Response();
     }
@@ -161,7 +161,7 @@ class MiddlewareObject
 
 class MiddlewareObjectMiddleware implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return new Response();
     }
@@ -169,7 +169,7 @@ class MiddlewareObjectMiddleware implements MiddlewareInterface
 
 class MiddlewareInvalid
 {
-    public function test(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function test(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return new Response();
     }

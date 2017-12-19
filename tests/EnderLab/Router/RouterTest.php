@@ -121,7 +121,7 @@ class RouterTest extends TestCase
         $router->addRoute(new Route('/', function () {
         }, 'GET'));
         $request = $this->makeRequest('GET', '/test');
-        $this->assertSame(null, $router->match($request));
+        $this->assertNull($router->match($request));
     }
 
     public function testGetAllowedMethods(): void
