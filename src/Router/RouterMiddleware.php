@@ -2,7 +2,7 @@
 
 namespace EnderLab\Router;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,19 +35,19 @@ class RouterMiddleware implements MiddlewareInterface
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param ServerRequestInterface $request
-     * @param DelegateInterface      $delegate
+     * @param ServerRequestInterface    $request
+     * @param RequestHandlerInterface   $requestHandler
      *
      * @throws RouterException
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler)
     {
         $route = $this->router->match($request);
 
         if (null === $route) {
-            return $delegate->process($request);
+            return $requestHandler->process($request);
         }
 
         $request = $request->withAttribute(Route::class, $route);
@@ -56,6 +56,6 @@ class RouterMiddleware implements MiddlewareInterface
             $request = $request->withAttribute($label, $value);
         }
 
-        return $delegate->process($request);
+        return $requestHandler->process($request);
     }
 }

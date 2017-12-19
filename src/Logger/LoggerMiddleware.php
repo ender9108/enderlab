@@ -2,7 +2,7 @@
 
 namespace EnderLab\Logger;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,12 +29,12 @@ class LoggerMiddleware implements MiddlewareInterface
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param ServerRequestInterface $request
-     * @param DelegateInterface      $delegate
+     * @param ServerRequestInterface    $request
+     * @param RequestHandlerInterface   $requestHandler
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler): ResponseInterface
     {
         $this->logger->info(
             'Request: ' . "\n" .
@@ -47,6 +47,6 @@ class LoggerMiddleware implements MiddlewareInterface
             "\t" . 'Upload: ' . print_r($request->getUploadedFiles(), true) . "\n"
         );
 
-        return $delegate->process($request);
+        return $requestHandler->process($request);
     }
 }

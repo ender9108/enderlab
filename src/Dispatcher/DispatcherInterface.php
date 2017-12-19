@@ -2,9 +2,9 @@
 
 namespace EnderLab\Dispatcher;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 
-interface DispatcherInterface extends DelegateInterface
+interface DispatcherInterface extends RequestHandlerInterface
 {
     /**
      * @param $middleware

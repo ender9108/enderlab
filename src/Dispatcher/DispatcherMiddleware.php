@@ -5,7 +5,7 @@ namespace EnderLab\Dispatcher;
 use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
 use EnderLab\Router\RouterInterface;
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -34,30 +34,30 @@ class DispatcherMiddleware implements MiddlewareInterface
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param ServerRequestInterface $request
-     * @param DelegateInterface      $delegate
+     * @param ServerRequestInterface    $request
+     * @param RequestHandlerInterface   $requestHandler
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler)
     {
         $route = $request->getAttribute(Route::class, false);
 
         if (!$route) {
-            return $delegate->process($request);
+            return $requestHandler->process($request);
         }
 
         $middleware = $route->getMiddlewares();
         $middlewareBuilder = new MiddlewareBuilder(
             $this->container,
             $this->router,
-            $delegate
+            $requestHandler
         );
 
         if (!$middleware instanceof MiddlewareInterface) {
             $middleware = $middlewareBuilder->buildMiddleware($middleware);
         }
 
-        return $middleware->process($request, $delegate);
+        return $middleware->process($request, $requestHandler);
     }
 }

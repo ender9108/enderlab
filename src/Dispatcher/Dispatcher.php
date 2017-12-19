@@ -4,7 +4,7 @@ namespace EnderLab\Dispatcher;
 
 use EnderLab\Router\RouteInterface;
 use GuzzleHttp\Psr7\Response;
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
@@ -21,13 +21,13 @@ class Dispatcher implements DispatcherInterface
     /**
      * Dispatcher constructor.
      *
-     * @param SplQueue|null          $middlewares
-     * @param DelegateInterface|null $delegate
+     * @param SplQueue|null                 $middlewares
+     * @param RequestHandlerInterface|null  $requestHandler
      */
-    public function __construct(SplQueue $middlewares = null, DelegateInterface $delegate = null)
+    public function __construct(SplQueue $middlewares = null, RequestHandlerInterface $requestHandler = null)
     {
         $this->middlewares = $middlewares ?: new SplQueue();
-        $this->delegate = $delegate;
+        $this->delegate = $requestHandler;
         $this->response = new Response();
     }
 
