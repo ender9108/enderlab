@@ -22,12 +22,6 @@ class ErrorMiddlewareTest extends TestCase
         $dispatcher->pipe(
             new Route(
                 '*',
-                $middleware
-            )
-        );
-        $dispatcher->pipe(
-            new Route(
-                '*',
                 new CallableMiddlewareDecorator(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     return 'Bad response';
                 })
@@ -43,6 +37,6 @@ class ErrorMiddlewareTest extends TestCase
         );
         //$this->expectException(\RuntimeException::class);
         $response = $dispatcher->handle($request);
-        var_dump($response);
+        $this->assertSame(500, $response->getStatusCode());
     }
 }
