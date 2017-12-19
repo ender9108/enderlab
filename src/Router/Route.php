@@ -2,7 +2,7 @@
 
 namespace EnderLab\Router;
 
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
 
 class Route implements RouteInterface
 {

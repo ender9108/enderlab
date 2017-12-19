@@ -6,7 +6,7 @@ use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Router\Route;
 use EnderLab\Router\RouterInterface;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;

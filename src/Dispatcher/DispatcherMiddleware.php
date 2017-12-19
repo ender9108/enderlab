@@ -6,7 +6,7 @@ use EnderLab\Middleware\MiddlewareBuilder;
 use EnderLab\Router\Route;
 use EnderLab\Router\RouterInterface;
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
