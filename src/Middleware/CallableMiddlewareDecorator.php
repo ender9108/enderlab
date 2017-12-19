@@ -25,7 +25,7 @@ class CallableMiddlewareDecorator implements MiddlewareInterface
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler): ResponseInterface
     {
         return call_user_func_array($this->middleware, [$request, $requestHandler]);
     }

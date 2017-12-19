@@ -52,7 +52,7 @@ class DispatcherTest extends TestCase
         $dispatcher = $this->makeDispatcher();
         $middlewareBuilder = $this->makeMiddlewareBuilder();
         $return = $dispatcher->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('<br>Middleware callable !!!<br>');
 
             return $response;
@@ -80,14 +80,14 @@ class DispatcherTest extends TestCase
             new Route(
                 '*',
                 $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                    $response = $delegate->process($request);
+                    $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                     return $response;
                 })
             )
         );
-        $response = $dispatcher->process($this->makeRequest());
+        $response = $dispatcher->handle($this->makeRequest());
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
@@ -99,7 +99,7 @@ class DispatcherTest extends TestCase
             new Route(
                 '/admin',
                 $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                    $response = $delegate->process($request);
+                    $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                     return $response;
@@ -107,7 +107,7 @@ class DispatcherTest extends TestCase
             )
         );
         $request = new ServerRequest('GET', '/admin');
-        $response = $dispatcher->process($request);
+        $response = $dispatcher->handle($request);
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
@@ -119,7 +119,7 @@ class DispatcherTest extends TestCase
             new Route(
                 '/toto',
                 $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                    $response = $delegate->process($request);
+                    $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                     return $response;
@@ -127,7 +127,7 @@ class DispatcherTest extends TestCase
             )
         );
         $request = new ServerRequest('GET', '/admin');
-        $response = $dispatcher->process($request);
+        $response = $dispatcher->handle($request);
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 
@@ -145,7 +145,7 @@ class DispatcherTest extends TestCase
         );
         $request = new ServerRequest('GET', '/admin');
         //$this->expectException(\InvalidArgumentException::class);
-        $response = $dispatcher->process($request);
+        $response = $dispatcher->handle($request);
         $this->assertNotInstanceOf(ResponseInterface::class, $response);
     }
 
@@ -157,7 +157,7 @@ class DispatcherTest extends TestCase
             new Route(
                 '*',
                 $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                    $response = $delegate->process($request);
+                    $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                     return $response;
@@ -170,7 +170,7 @@ class DispatcherTest extends TestCase
             new Route(
                 '*',
                 $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                    $response = $delegate->process($request);
+                    $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                     return $response;
@@ -178,7 +178,7 @@ class DispatcherTest extends TestCase
             )
         );
 
-        $response = $dispatcherB->process($this->makeRequest());
+        $response = $dispatcherB->handle($this->makeRequest());
         $this->assertInstanceOf(ResponseInterface::class, $response);
     }
 }

@@ -31,7 +31,7 @@ class AppTest extends TestCase
     private function makeMiddleware(): callable
     {
         return function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Welcome !!!<br>');
 
             return $response;
@@ -81,7 +81,7 @@ class AppTest extends TestCase
         $result = $app->pipe(
             '/',
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                $response = $delegate->process($request);
+                $response = $delegate->handle($request);
                 $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                 return $response;
@@ -95,7 +95,7 @@ class AppTest extends TestCase
     {
         $app = $this->makeInstanceApp();
         $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('<br>Middleware callable !!!<br>');
 
             return $response;
@@ -110,7 +110,7 @@ class AppTest extends TestCase
         $route = $app->addRoute(
             '/',
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                $response = $delegate->process($request);
+                $response = $delegate->handle($request);
                 $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                 return $response;
@@ -127,7 +127,7 @@ class AppTest extends TestCase
         $route = $app->addRoute(new Route(
             '/',
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                $response = $delegate->process($request);
+                $response = $delegate->handle($request);
                 $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                 return $response;
@@ -168,7 +168,7 @@ class AppTest extends TestCase
     {
         $app = $this->makeInstanceApp();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
             return $response;
@@ -184,7 +184,7 @@ class AppTest extends TestCase
         $app->enableRouterHandler();
         $app->enableDispatcherHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
             return $response;
@@ -204,7 +204,7 @@ class AppTest extends TestCase
         $app->enableRouterHandler();
         $app->enableDispatcherHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
             return $response;
@@ -228,14 +228,14 @@ class AppTest extends TestCase
             '/admin',
             function (App $app) {
                 $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                    $response = $delegate->process($request);
+                    $response = $delegate->handle($request);
                     $response->getBody()->write('Test phpunit process app !');
 
                     return $response;
                 }, 'GET');
             },
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                $response = $delegate->process($request);
+                $response = $delegate->handle($request);
                 $response->getBody()->write('Middleware group !!!<br>');
 
                 return $response;
@@ -257,7 +257,7 @@ class AppTest extends TestCase
         $app->enableRouterHandler();
         $app->enableDispatcherHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
             $a = 3 / 0;
@@ -277,7 +277,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->enableErrorHandler();
         $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
             $a = 3 / 0;
@@ -296,7 +296,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->enableErrorHandler();
         $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Attention une exception va être lancée.');
             throw new \Exception('Test error handler', 500);
         });

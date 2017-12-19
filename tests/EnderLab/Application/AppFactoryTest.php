@@ -96,7 +96,7 @@ class AppFactoryTest extends TestCase
                 \DI\object(Route::class)->constructor(
                     '/blog/:id/:pouette',
                     function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                        $response = $delegate->process($request);
+                        $response = $delegate->handle($request);
                         $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                         return $response;

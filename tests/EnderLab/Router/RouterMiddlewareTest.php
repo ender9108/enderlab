@@ -24,7 +24,7 @@ class RouterMiddlewareTest extends TestCase
         $router->addRoute(new Route(
             '/toto',
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                $response = $delegate->process($request);
+                $response = $delegate->handler($request);
                 $response->getBody()->write('Test phpunit process app !');
 
                 return $response;
@@ -48,7 +48,7 @@ class RouterMiddlewareTest extends TestCase
         $router->addRoute(new Route(
             '/',
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                $response = $delegate->process($request);
+                $response = $delegate->handle($request);
                 $response->getBody()->write('Test phpunit process app !');
 
                 return $response;
@@ -69,7 +69,7 @@ class RouterMiddlewareTest extends TestCase
         $response = new Response();
         $router = new Router();
         $callable = new CallableMiddlewareDecorator(function (ServerRequestInterface $request, DelegateInterface $delegate) {
-            $response = $delegate->process($request);
+            $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
             return $response;

@@ -39,7 +39,7 @@ class DispatcherMiddleware implements MiddlewareInterface
      *
      * @return ResponseInterface
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler): ResponseInterface
     {
         $route = $request->getAttribute(Route::class, false);
 

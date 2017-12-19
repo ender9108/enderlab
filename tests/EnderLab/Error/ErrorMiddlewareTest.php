@@ -43,7 +43,7 @@ class ErrorMiddlewareTest extends TestCase
             true
         );
         //$this->expectException(\InvalidArgumentException::class);
-        $response = $dispatcher->process($request);
+        $response = $dispatcher->handler($request);
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertSame(500, $response->getStatusCode());
     }

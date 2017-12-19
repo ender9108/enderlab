@@ -24,7 +24,7 @@ class DispatcherMiddlewareTest extends TestCase
         $route = new Route(
             '/',
             function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                $response = $delegate->process($request);
+                $response = $delegate->handle($request);
                 $response->getBody()->write('Test phpunit process app !');
 
                 return $response;
