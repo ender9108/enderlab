@@ -8,9 +8,8 @@ use EnderLab\Middleware\CallableMiddlewareDecorator;
 use EnderLab\Router\Route;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ErrorMiddlewareTest extends TestCase
@@ -29,7 +28,7 @@ class ErrorMiddlewareTest extends TestCase
         $dispatcher->pipe(
             new Route(
                 '*',
-                new CallableMiddlewareDecorator(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                new CallableMiddlewareDecorator(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     return 'Bad response';
                 })
             )
@@ -42,9 +41,8 @@ class ErrorMiddlewareTest extends TestCase
             ),
             true
         );
-        //$this->expectException(\InvalidArgumentException::class);
-        $response = $dispatcher->handler($request);
-        $this->assertInstanceOf(ResponseInterface::class, $response);
-        $this->assertSame(500, $response->getStatusCode());
+        //$this->expectException(\RuntimeException::class);
+        $response = $dispatcher->handle($request);
+        var_dump($response);
     }
 }

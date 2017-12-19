@@ -8,7 +8,7 @@ use EnderLab\Dispatcher\DispatcherMiddleware;
 use EnderLab\Router\Route;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,7 +23,7 @@ class DispatcherMiddlewareTest extends TestCase
         $router = new Router();
         $route = new Route(
             '/',
-            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                 $response = $delegate->handle($request);
                 $response->getBody()->write('Test phpunit process app !');
 

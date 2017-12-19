@@ -51,13 +51,14 @@ class ErrorMiddleware implements MiddlewareInterface
         );
 
         try {
-            $response = $requestHandler->process($request);
+            $response = $requestHandler->handle($request);
 
             if (!$response instanceof ResponseInterface) {
                 throw new \Exception('Application did not return a response', 500);
             }
-        } catch (\Exception | \Throwable $e) {
-            $response = $this->response->withStatus($e->getCode());
+        } catch (\Exception | \Throwable | \ErrorException $e) {
+            $response = $this->response;
+            $response = $response->withStatus($e->getCode());
 
             $message = 'Error : <br>';
             $message .= 'File : ' . $e->getFile() . '<br>';

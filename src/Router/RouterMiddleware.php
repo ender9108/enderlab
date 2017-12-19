@@ -47,7 +47,7 @@ class RouterMiddleware implements MiddlewareInterface
         $route = $this->router->match($request);
 
         if (null === $route) {
-            return $requestHandler->process($request);
+            return $requestHandler->handle($request);
         }
 
         $request = $request->withAttribute(Route::class, $route);
@@ -56,6 +56,6 @@ class RouterMiddleware implements MiddlewareInterface
             $request = $request->withAttribute($label, $value);
         }
 
-        return $requestHandler->process($request);
+        return $requestHandler->handle($request);
     }
 }

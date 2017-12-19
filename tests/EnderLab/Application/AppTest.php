@@ -8,7 +8,7 @@ use EnderLab\Dispatcher\Dispatcher;
 use EnderLab\Router\Route;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ class AppTest extends TestCase
 
     private function makeMiddleware(): callable
     {
-        return function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        return function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('Welcome !!!<br>');
 
@@ -80,7 +80,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp(['global.env' => 'prod']);
         $result = $app->pipe(
             '/',
-            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                 $response = $delegate->handle($request);
                 $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -94,7 +94,7 @@ class AppTest extends TestCase
     public function testPipeWithValidCallableMiddleware(): void
     {
         $app = $this->makeInstanceApp();
-        $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->pipe(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -109,7 +109,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $route = $app->addRoute(
             '/',
-            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                 $response = $delegate->handle($request);
                 $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -126,7 +126,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $route = $app->addRoute(new Route(
             '/',
-            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                 $response = $delegate->handle($request);
                 $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -167,7 +167,7 @@ class AppTest extends TestCase
     public function testRunApp(): void
     {
         $app = $this->makeInstanceApp();
-        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->addRoute('/', function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
@@ -183,7 +183,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->enableRouterHandler();
         $app->enableDispatcherHandler();
-        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->addRoute('/', function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
@@ -203,7 +203,7 @@ class AppTest extends TestCase
         $app = $this->makeInstanceApp();
         $app->enableRouterHandler();
         $app->enableDispatcherHandler();
-        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->addRoute('/', function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
@@ -227,14 +227,14 @@ class AppTest extends TestCase
         $app->addGroup(
             '/admin',
             function (App $app) {
-                $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $app->addRoute('/', function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     $response = $delegate->handle($request);
                     $response->getBody()->write('Test phpunit process app !');
 
                     return $response;
                 }, 'GET');
             },
-            function (ServerRequestInterface $request, DelegateInterface $delegate) {
+            function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                 $response = $delegate->handle($request);
                 $response->getBody()->write('Middleware group !!!<br>');
 
@@ -256,7 +256,7 @@ class AppTest extends TestCase
         $app->enableErrorHandler();
         $app->enableRouterHandler();
         $app->enableDispatcherHandler();
-        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->addRoute('/', function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
@@ -276,7 +276,7 @@ class AppTest extends TestCase
         $errorLevel = error_reporting(0);
         $app = $this->makeInstanceApp();
         $app->enableErrorHandler();
-        $app->addRoute('/', function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->addRoute('/', function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('Test phpunit process app !');
 
@@ -295,7 +295,7 @@ class AppTest extends TestCase
     {
         $app = $this->makeInstanceApp();
         $app->enableErrorHandler();
-        $app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $app->pipe(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('Attention une exception va être lancée.');
             throw new \Exception('Test error handler', 500);

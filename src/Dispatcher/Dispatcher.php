@@ -58,7 +58,7 @@ class Dispatcher implements DispatcherInterface
     {
         if ($this->middlewares->isEmpty()) {
             if (null !== $this->delegate) {
-                return $this->delegate->process($request);
+                return $this->delegate->handle($request);
             }
 
             return $this->response;
@@ -71,7 +71,7 @@ class Dispatcher implements DispatcherInterface
             $regex = '#^' . $middleware->getPath() . '#';
 
             if (!preg_match($regex, $uri, $matches)) {
-                return $this->process($request);
+                return $this->handle($request);
             }
         }
 
@@ -79,9 +79,9 @@ class Dispatcher implements DispatcherInterface
         $middleware = $middleware->getMiddlewares();
         $response = $middleware->process($request, $this);
 
-        /*if (!$response instanceof ResponseInterface) {
+        if (!$response instanceof ResponseInterface) {
             throw new \RuntimeException('No valid response sending.');
-        }*/
+        }
 
         return $response;
     }

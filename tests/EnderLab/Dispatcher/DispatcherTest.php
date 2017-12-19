@@ -9,7 +9,7 @@ use EnderLab\Router\Route;
 use EnderLab\Router\Router;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,12 +17,12 @@ use Psr\Http\Message\ServerRequestInterface;
 class DispatcherTest extends TestCase
 {
     /**
-     * @param null|\SplQueue         $queue
-     * @param DelegateInterface|null $delegate
+     * @param null|\SplQueue               $queue
+     * @param RequestHandlerInterface|null $delegate
      *
      * @return Dispatcher
      */
-    private function makeDispatcher(?\SplQueue $queue = null, ?DelegateInterface $delegate = null): Dispatcher
+    private function makeDispatcher(?\SplQueue $queue = null, ?RequestHandlerInterface $delegate = null): Dispatcher
     {
         return new Dispatcher($queue, $delegate);
     }
@@ -51,7 +51,7 @@ class DispatcherTest extends TestCase
     {
         $dispatcher = $this->makeDispatcher();
         $middlewareBuilder = $this->makeMiddlewareBuilder();
-        $return = $dispatcher->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+        $return = $dispatcher->pipe($middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
             $response = $delegate->handle($request);
             $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -79,7 +79,7 @@ class DispatcherTest extends TestCase
         $dispatcher->pipe(
             new Route(
                 '*',
-                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -98,7 +98,7 @@ class DispatcherTest extends TestCase
         $dispatcher->pipe(
             new Route(
                 '/admin',
-                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -118,7 +118,7 @@ class DispatcherTest extends TestCase
         $dispatcher->pipe(
             new Route(
                 '/toto',
-                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -138,15 +138,14 @@ class DispatcherTest extends TestCase
         $dispatcher->pipe(
             new Route(
                 '/admin',
-                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     return 'Bad response';
                 })
             )
         );
         $request = new ServerRequest('GET', '/admin');
-        //$this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\Exception::class);
         $response = $dispatcher->handle($request);
-        $this->assertNotInstanceOf(ResponseInterface::class, $response);
     }
 
     public function testProcessWithDoubleDispatcher(): void
@@ -156,7 +155,7 @@ class DispatcherTest extends TestCase
         $dispatcherA->pipe(
             new Route(
                 '*',
-                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 
@@ -169,7 +168,7 @@ class DispatcherTest extends TestCase
         $dispatcherB->pipe(
             new Route(
                 '*',
-                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+                $middlewareBuilder->buildMiddleware(function (ServerRequestInterface $request, RequestHandlerInterface $delegate) {
                     $response = $delegate->handle($request);
                     $response->getBody()->write('<br>Middleware callable !!!<br>');
 

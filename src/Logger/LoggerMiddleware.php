@@ -47,6 +47,6 @@ class LoggerMiddleware implements MiddlewareInterface
             "\t" . 'Upload: ' . print_r($request->getUploadedFiles(), true) . "\n"
         );
 
-        return $requestHandler->process($request);
+        return $requestHandler->handle($request);
     }
 }

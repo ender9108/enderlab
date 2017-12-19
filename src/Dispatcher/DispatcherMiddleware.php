@@ -44,7 +44,7 @@ class DispatcherMiddleware implements MiddlewareInterface
         $route = $request->getAttribute(Route::class, false);
 
         if (!$route) {
-            return $requestHandler->process($request);
+            return $requestHandler->handle($request);
         }
 
         $middleware = $route->getMiddlewares();

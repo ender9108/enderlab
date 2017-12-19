@@ -27,6 +27,12 @@ class CallableMiddlewareDecorator implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler): ResponseInterface
     {
-        return call_user_func_array($this->middleware, [$request, $requestHandler]);
+        $response = call_user_func_array($this->middleware, [$request, $requestHandler]);
+
+        if (!$response instanceof ResponseInterface) {
+            throw new \RuntimeException('No valid response sending.');
+        }
+
+        return $response;
     }
 }
