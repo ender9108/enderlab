@@ -35,7 +35,7 @@ class RouterMiddleware implements MiddlewareInterface
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param ServerRequestInterface $request
+     * @param ServerRequestInterface  $request
      * @param RequestHandlerInterface $requestHandler
      *
      * @return ResponseInterface
