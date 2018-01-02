@@ -26,26 +26,16 @@ class Events
         'Template/router.php' => 'config/router.php'
     ];
 
-    public static function postInstall(Event $event)
-    {
-        $event->getIO()->write('Test message "post install"');
-    }
-
-    public static function postUpdate(Event $event)
-    {
-        $event->getIO()->write('Test message "post update"');
-    }
-
     public static function postCreateProject(Event $event)
     {
         $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir') . '/';
         $rootDir = $vendorDir . '../';
 
         // Step 1: build directory tree
-        self::createDirectories($event->getIO(), $rootDir, true);
+        self::createDirectories($event->getIO(), $rootDir, $event->isDevMode());
 
         // Step 2: create config file
-        self::createConfigFiles($event->getIO(), $rootDir, true);
+        self::createConfigFiles($event->getIO(), $rootDir, $event->isDevMode());
 
         $event->getIO()->write('Create project down.');
     }
