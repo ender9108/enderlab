@@ -16,11 +16,6 @@ use Interop\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Class App.
- *
- * @todo remove container
- */
 class App extends MiddlewareBuilder
 {
     const ENV_DEV = 'dev';
