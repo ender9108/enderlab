@@ -42,10 +42,10 @@ class Events
         $rootDir = $vendorDir . '../';
 
         // Step 1: build directory tree
-        self::createDirectories($rootDir, true);
+        self::createDirectories($event->getIO(), $rootDir, true);
 
         // Step 2: create config file
-        self::createConfigFiles($rootDir, true);
+        self::createConfigFiles($event->getIO(), $rootDir, true);
 
         $event->getIO()->write('Create project down.');
     }
