@@ -2,8 +2,8 @@
 
 namespace EnderLab\Installer;
 
-use Composer\Script\Event;
 use Composer\IO\IOInterface;
+use Composer\Script\Event;
 
 class Events
 {
@@ -22,7 +22,7 @@ class Events
 
     private static $templateFile = [
         'template/config.php' => 'config/config.php',
-        'template/index.php' => 'public/index.php',
+        'template/index.php'  => 'public/index.php',
         'template/router.php' => 'config/router.php'
     ];
 
@@ -38,8 +38,8 @@ class Events
 
     public static function postCreateProject(Event $event)
     {
-        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir').'/';
-        $rootDir = $vendorDir.'../';
+        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir') . '/';
+        $rootDir = $vendorDir . '../';
 
         // Step 1: build directory tree
         self::createDirectories($rootDir, true);
@@ -50,19 +50,21 @@ class Events
         $event->getIO()->write('Create project down.');
     }
 
-    private static function createDirectories(IOInterface $io, string $rootDir, bool $verbose = true) {
+    private static function createDirectories(IOInterface $io, string $rootDir, bool $verbose = true)
+    {
         foreach (self::$directories as $directory) {
-            mkdir($rootDir.$directory);
+            mkdir($rootDir . $directory);
 
             if (true === $verbose) {
-                $io->write('Create directory "'.$rootDir.$directory.'".');
+                $io->write('Create directory "' . $rootDir . $directory . '".');
             }
         }
     }
 
-    private static function createConfigFiles(IOInterface $io, $rootDir, bool $verbose = true) {
+    private static function createConfigFiles(IOInterface $io, $rootDir, bool $verbose = true)
+    {
         foreach (self::$templateFile as $source => $dest) {
-            copy(dirname(__FILE__).$source, $rootDir.$dest);
+            copy(__DIR__ . $source, $rootDir . $dest);
 
             if (true === $verbose) {
                 $io->write('Create file "' . $dest . '".');
