@@ -104,8 +104,6 @@ class Router implements RouterInterface
     /**
      * @param ServerRequestInterface $request
      *
-     * @throws RouterException
-     *
      * @return Route|null
      */
     public function match(ServerRequestInterface $request): ?Route

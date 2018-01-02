@@ -275,6 +275,8 @@ class App extends MiddlewareBuilder
     }
 
     /**
+     * Enable error handler.
+     *
      * @return App
      */
     public function enableErrorHandler(): self

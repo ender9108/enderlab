@@ -13,7 +13,14 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class DispatcherMiddleware implements MiddlewareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
     private $container;
+
+    /**
+     * @var RouterInterface|null
+     */
     private $router;
 
     /**

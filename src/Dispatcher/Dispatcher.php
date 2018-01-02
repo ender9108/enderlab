@@ -13,10 +13,25 @@ use SplQueue;
 
 class Dispatcher implements DispatcherInterface
 {
+    /**
+     * @var SplQueue
+     */
     private $middlewares;
+
+    /**
+     * @var int
+     */
     private $index = 0;
+
+    /**
+     * @var Response
+     */
     private $response;
-    private $delegate;
+
+    /**
+     * @var RequestHandlerInterface|null
+     */
+    private $requestHandler;
 
     /**
      * Dispatcher constructor.
@@ -27,7 +42,7 @@ class Dispatcher implements DispatcherInterface
     public function __construct(SplQueue $middlewares = null, RequestHandlerInterface $requestHandler = null)
     {
         $this->middlewares = $middlewares ?: new SplQueue();
-        $this->delegate = $requestHandler;
+        $this->requestHandler = $requestHandler;
         $this->response = new Response();
     }
 
@@ -57,8 +72,8 @@ class Dispatcher implements DispatcherInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->middlewares->isEmpty()) {
-            if (null !== $this->delegate) {
-                return $this->delegate->handle($request);
+            if (null !== $this->requestHandler) {
+                return $this->requestHandler->handle($request);
             }
 
             return $this->response;
@@ -86,11 +101,17 @@ class Dispatcher implements DispatcherInterface
         return $response;
     }
 
+    /**
+     * @return int
+     */
     public function countMiddlewares()
     {
         return $this->middlewares->count();
     }
 
+    /**
+     * @return SplQueue
+     */
     public function getQueue()
     {
         return $this->middlewares;

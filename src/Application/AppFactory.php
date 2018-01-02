@@ -17,8 +17,12 @@ final class AppFactory
      * Build App object and load config.
      *
      * @param string|ContainerInterface|null $containerConfig
-     * @param RouterInterface|null           $router
-     * @param DispatcherInterface|null       $dispatcher
+     * @param RouterInterface|null $router
+     * @param DispatcherInterface|null $dispatcher
+     *
+     * @throws \EnderLab\Router\RouterException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      *
      * @return App
      */

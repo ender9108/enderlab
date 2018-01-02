@@ -152,6 +152,9 @@ class MiddlewareBuilder
     /**
      * @param ReflectionClass $reflection
      *
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     *
      * @return array
      */
     private function getParameters(ReflectionClass $reflection): array
