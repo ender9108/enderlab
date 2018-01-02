@@ -21,9 +21,9 @@ class Events
     ];
 
     private static $templateFile = [
-        'template/config.php' => 'config/config.php',
-        'template/index.php'  => 'public/index.php',
-        'template/router.php' => 'config/router.php'
+        'Template/config.php' => 'config/config.php',
+        'Template/index.php'  => 'public/index.php',
+        'Template/router.php' => 'config/router.php'
     ];
 
     public static function postInstall(Event $event)
