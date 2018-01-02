@@ -3,6 +3,7 @@
 namespace EnderLab\Installer;
 
 use Composer\Script\Event;
+use Composer\IO\IOInterface;
 
 class Events
 {
@@ -13,7 +14,16 @@ class Events
         'public',
         'public/js',
         'public/css',
-        'tests'
+        'tests',
+        'tmp',
+        'tmp/log',
+        'tmp/cache'
+    ];
+
+    private static $templateFile = [
+        'template/config.php' => 'config/config.php',
+        'template/index.php' => 'public/index.php',
+        'template/router.php' => 'config/router.php'
     ];
 
     public static function postInstall(Event $event)
@@ -31,11 +41,32 @@ class Events
         $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir').'/';
         $rootDir = $vendorDir.'../';
 
-        foreach (self::$directories as $directory) {
-            mkdir($rootDir.$directory);
-            $event->getIO()->write('Create directory "'.$rootDir.$directory.'".');
-        }
+        // Step 1: build directory tree
+        self::createDirectories($rootDir, true);
+
+        // Step 2: create config file
+        self::createConfigFiles($rootDir, true);
 
         $event->getIO()->write('Create project down.');
+    }
+
+    private static function createDirectories(IOInterface $io, string $rootDir, bool $verbose = true) {
+        foreach (self::$directories as $directory) {
+            mkdir($rootDir.$directory);
+
+            if (true === $verbose) {
+                $io->write('Create directory "'.$rootDir.$directory.'".');
+            }
+        }
+    }
+
+    private static function createConfigFiles(IOInterface $io, $rootDir, bool $verbose = true) {
+        foreach (self::$templateFile as $source => $dest) {
+            copy(dirname(__FILE__).$source, $rootDir.$dest);
+
+            if (true === $verbose) {
+                $io->write('Create file "' . $dest . '".');
+            }
+        }
     }
 }
