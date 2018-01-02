@@ -1,5 +1,4 @@
 <?php
-
 use EnderLab\Application\AppFactory;
 use GuzzleHttp\Psr7\Response;
 use Interop\Http\Server\RequestHandlerInterface;
@@ -13,7 +12,7 @@ include 'vendor/autoload.php';
 $app = AppFactory::create('config/');
 
 $app->get('/', function (ServerRequestInterface $request, RequestHandlerInterface $requestHandler) {
-    $response = $requestHandler->process($request);
+    $response = $requestHandler->handle($request);
     $response->getBody()->write('<center><h1>Welcome to middle earth framework !!!</h1></center>');
 
     return $response;
@@ -22,7 +21,7 @@ $app->get('/', function (ServerRequestInterface $request, RequestHandlerInterfac
 $app->enableRouterHandler();
 $app->enableDispatcherHandler();
 
-$app->pipe(function (ServerRequestInterface $request, DelegateInterface $delegate) {
+$app->pipe(function (ServerRequestInterface $request, RequestHandlerInterface $requestHandler) {
     return new Response(404, [], '<center><h1>404 not found !!</h1></center>');
 });
 
