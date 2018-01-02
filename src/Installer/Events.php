@@ -8,6 +8,11 @@ class Events
 {
     public static function postInstall(Event $event)
     {
-        $event->getIO()->write('Test message');
+        $event->getIO()->write('Test message "post install"');
+    }
+
+    public static function postUpdatel(Event $event)
+    {
+        $event->getIO()->write('Test message "post update"');
     }
 }
