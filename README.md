@@ -1,4 +1,4 @@
-# PSR15-MIDDLE-EARTH-FRAMEWORK
+# MIDDLE-EARTH-FRAMEWORK
 It's a micro framework that implements [middleware PSR-15 convention](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md)
 
 I created it just for fun and understand the use of PSR15 middlewares.
@@ -12,7 +12,7 @@ I created it just for fun and understand the use of PSR15 middlewares.
 
 # Installation
 ```
-composer require enderlab/psr15-middle-earth-framework
+composer require enderlab/middle-earth-framework
 ```
 
 
