@@ -5,9 +5,9 @@ I created it just for fun and understand the use of PSR15 middlewares.
 
 [![Build Status](https://travis-ci.org/ender9108/psr15-middle-earth-framework.svg?branch=master)](https://travis-ci.org/ender9108/psr15-middle-earth-framework)
 [![Coverage Status](https://coveralls.io/repos/github/ender9108/psr15-middle-earth-framework/badge.svg?branch=master)](https://coveralls.io/github/ender9108/psr15-middle-earth-framework?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/enderlab/psr15-middle-earth-framework/v/stable)](https://packagist.org/packages/enderlab/psr15-middle-earth-framework)
-[![License](https://poser.pugx.org/enderlab/psr15-middle-earth-framework/license)](https://packagist.org/packages/enderlab/psr15-middle-earth-framework)
-[![Total Downloads](https://poser.pugx.org/enderlab/psr15-middle-earth-framework/downloads)](https://packagist.org/packages/enderlab/psr15-middle-earth-framework)
+[![Latest Stable Version](https://poser.pugx.org/enderlab/middle-earth-framework/v/stable)](https://packagist.org/packages/enderlab/middle-earth-framework)
+[![Total Downloads](https://poser.pugx.org/enderlab/middle-earth-framework/downloads)](https://packagist.org/packages/enderlab/middle-earth-framework)
+[![License](https://poser.pugx.org/enderlab/middle-earth-framework/license)](https://packagist.org/packages/enderlab/middle-earth-framework)
 
 
 # Installation
