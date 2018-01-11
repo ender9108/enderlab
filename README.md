@@ -15,7 +15,6 @@ I created it just for fun and understand the use of PSR15 middlewares.
 composer require enderlab/middle-earth-framework
 ```
 
-
 # Get started
 ```php
 <?php
