@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\Middleware;
 
 use Interop\Http\Server\MiddlewareInterface;
