@@ -63,14 +63,14 @@ class AppTest extends TestCase
                 \DI\get('logger.processor')
             )
         ]);
-        $app->pipe('EnderLab\\Logger\\LoggerMiddleware');
+        $app->pipe('EnderLab\\Error\\ErrorMiddleware');
         $this->assertSame(1, $app->getDispatcher()->countMiddlewares());
     }
 
     public function testPipeWithInvalidEnv(): void
     {
         $app = $this->makeInstanceApp(['global.env' => 'prod']);
-        $result = $app->pipe('EnderLab\\Logger\\LoggerMiddleware', null, false, 'dev');
+        $result = $app->pipe('EnderLab\\Error\\ErrorMiddleware', null, false, 'dev');
         $this->assertInstanceOf(App::class, $result);
         $this->assertSame(0, $app->getDispatcher()->countMiddlewares());
     }
