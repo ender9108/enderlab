@@ -19,11 +19,6 @@ class Dispatcher implements DispatcherInterface
     private $middlewares;
 
     /**
-     * @var int
-     */
-    private $index = 0;
-
-    /**
      * @var Response
      */
     private $response;
@@ -90,7 +85,6 @@ class Dispatcher implements DispatcherInterface
             }
         }
 
-        ++$this->index;
         $middleware = $middleware->getMiddlewares();
         $response = $middleware->process($request, $this);
 
