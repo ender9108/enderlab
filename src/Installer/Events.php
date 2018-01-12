@@ -54,7 +54,7 @@ class Events
     private static function createConfigFiles(IOInterface $io, $rootDir, bool $verbose = true)
     {
         foreach (self::$templateFile as $source => $dest) {
-            copy(__DIR__ .'/'. $source, $rootDir . $dest);
+            copy(__DIR__ . '/' . $source, $rootDir . $dest);
 
             if (true === $verbose) {
                 $io->write('Create file "' . $dest . '".');

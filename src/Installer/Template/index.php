@@ -1,4 +1,5 @@
 <?php
+
 use EnderLab\Application\AppFactory;
 use GuzzleHttp\Psr7\Response;
 use Interop\Http\Server\RequestHandlerInterface;
