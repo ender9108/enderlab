@@ -223,7 +223,7 @@ class App extends MiddlewareBuilder
             return $response;
         }
 
-        if (PHP_SAPI === 'cli' || PHP_SAPI === 'cli-server') {
+        if (PHP_SAPI === 'cli') {
             echo (string) $response->getBody();
         } else {
             \Http\Response\send($response);
