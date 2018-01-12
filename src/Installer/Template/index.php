@@ -1,6 +1,6 @@
 <?php
 
-use EnderLab\Application\AppFactory;
+use EnderLab\MiddleEarth\Application\AppFactory;
 use GuzzleHttp\Psr7\Response;
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;

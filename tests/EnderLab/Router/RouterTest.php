@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\EnderLab;
+namespace Tests\EnderLab\MiddleEarth;
 
-use EnderLab\Router\Route;
-use EnderLab\Router\Router;
-use EnderLab\Router\RouterException;
+use EnderLab\MiddleEarth\Router\Route;
+use EnderLab\MiddleEarth\Router\Router;
+use EnderLab\MiddleEarth\Router\RouterException;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 

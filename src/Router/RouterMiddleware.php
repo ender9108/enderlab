@@ -1,6 +1,6 @@
 <?php
 
-namespace EnderLab\Router;
+namespace EnderLab\MiddleEarth\Router;
 
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;

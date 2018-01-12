@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\EnderLab;
+namespace Tests\EnderLab\MiddleEarth;
 
 use DI\ContainerBuilder;
-use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Middleware\MiddlewareBuilder;
-use EnderLab\Middleware\MiddlewareCollection;
-use EnderLab\Router\Router;
+use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Middleware\MiddlewareBuilder;
+use EnderLab\MiddleEarth\Middleware\MiddlewareCollection;
+use EnderLab\MiddleEarth\Router\Router;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\Server\MiddlewareInterface;
@@ -28,7 +28,7 @@ class MiddlewareBuilderTest extends TestCase
             new Dispatcher(),
             new Response()
         );
-        $result = $middlewareBuilder->buildMiddleware('Tests\\EnderLab\\MiddlewareInvokable');
+        $result = $middlewareBuilder->buildMiddleware('Tests\\EnderLab\\MiddleEarth\\MiddlewareInvokable');
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
 
@@ -40,7 +40,7 @@ class MiddlewareBuilderTest extends TestCase
             new Dispatcher(),
             new Response()
         );
-        $result = $middlewareBuilder->buildMiddleware(['Tests\\EnderLab\\MiddlewareObject', 'process']);
+        $result = $middlewareBuilder->buildMiddleware(['Tests\\EnderLab\\MiddleEarth\\MiddlewareObject', 'process']);
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
 
@@ -52,7 +52,7 @@ class MiddlewareBuilderTest extends TestCase
             new Dispatcher(),
             new Response()
         );
-        $result = $middlewareBuilder->buildMiddleware(['Tests\\EnderLab\\MiddlewareObjectMiddleware', 'Tests\\EnderLab\\MiddlewareInvokable']);
+        $result = $middlewareBuilder->buildMiddleware(['Tests\\EnderLab\\MiddleEarth\\MiddlewareObjectMiddleware', 'Tests\\EnderLab\\MiddleEarth\\MiddlewareInvokable']);
         $this->assertInstanceOf(MiddlewareInterface::class, $result);
     }
 
@@ -77,7 +77,7 @@ class MiddlewareBuilderTest extends TestCase
             new Response()
         );
         $result = $middlewareBuilder->buildMiddleware([
-            'Tests\\EnderLab\\MiddlewareObjectMiddleware',
+            'Tests\\EnderLab\\MiddleEarth\\MiddlewareObjectMiddleware',
             new MiddlewareObjectMiddleware()
         ]);
         $this->assertInstanceOf(MiddlewareCollection::class, $result);
@@ -99,13 +99,13 @@ class MiddlewareBuilderTest extends TestCase
         $result = $middlewareBuilder->isAdmissibleMiddlewares(new MiddlewareObjectMiddleware());
         $this->assertTrue($result);
 
-        $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddlewareObjectMiddleware');
+        $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddleEarth\\MiddlewareObjectMiddleware');
         $this->assertTrue($result);
 
-        $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddlewareInvalid');
+        $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddleEarth\\MiddlewareInvalid');
         $this->assertFalse($result);
 
-        $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddlewareInvalide');
+        $result = $middlewareBuilder->isAdmissibleMiddlewares('Tests\\EnderLab\\MiddleEarth\\MiddlewareInvalide');
         $this->assertFalse($result);
     }
 
@@ -122,7 +122,7 @@ class MiddlewareBuilderTest extends TestCase
             new Dispatcher(),
             new Response()
         );
-        $middleware = $middlewareBuilder->buildMiddleware('Tests\\EnderLab\\MiddlewareInstance');
+        $middleware = $middlewareBuilder->buildMiddleware('Tests\\EnderLab\\MiddleEarth\\MiddlewareInstance');
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
     }
 }

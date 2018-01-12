@@ -1,15 +1,15 @@
 <?php
 
-namespace EnderLab\Application;
+namespace EnderLab\MiddleEarth\Application;
 
-use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Dispatcher\DispatcherInterface;
-use EnderLab\Dispatcher\DispatcherMiddleware;
-use EnderLab\Error\ErrorMiddleware;
-use EnderLab\Middleware\MiddlewareBuilder;
-use EnderLab\Router\Route;
-use EnderLab\Router\RouterInterface;
-use EnderLab\Router\RouterMiddleware;
+use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Dispatcher\DispatcherInterface;
+use EnderLab\MiddleEarth\Dispatcher\DispatcherMiddleware;
+use EnderLab\MiddleEarth\Error\ErrorMiddleware;
+use EnderLab\MiddleEarth\Middleware\MiddlewareBuilder;
+use EnderLab\MiddleEarth\Router\Route;
+use EnderLab\MiddleEarth\Router\RouterInterface;
+use EnderLab\MiddleEarth\Router\RouterMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\Server\MiddlewareInterface;

@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\EnderLab\Application;
+namespace Tests\EnderLab\MiddleEarth\Application;
 
 use DI\ContainerBuilder;
-use EnderLab\Application\App;
-use EnderLab\Application\AppFactory;
-use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Router\Route;
-use EnderLab\Router\Router;
+use EnderLab\MiddleEarth\Application\App;
+use EnderLab\MiddleEarth\Application\AppFactory;
+use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Router\Route;
+use EnderLab\MiddleEarth\Router\Router;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;

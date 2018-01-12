@@ -1,6 +1,6 @@
 <?php
 
-namespace EnderLab\Error;
+namespace EnderLab\MiddleEarth\Error;
 
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;

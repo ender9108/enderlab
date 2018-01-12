@@ -1,10 +1,10 @@
 <?php
 
-namespace EnderLab\Dispatcher;
+namespace EnderLab\MiddleEarth\Dispatcher;
 
-use EnderLab\Middleware\MiddlewareBuilder;
-use EnderLab\Router\Route;
-use EnderLab\Router\RouterInterface;
+use EnderLab\MiddleEarth\Middleware\MiddlewareBuilder;
+use EnderLab\MiddleEarth\Router\Route;
+use EnderLab\MiddleEarth\Router\RouterInterface;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Container\ContainerInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace EnderLab\Installer;
+namespace EnderLab\MiddleEarth\Installer;
 
 use Composer\IO\IOInterface;
 use Composer\Script\Event;

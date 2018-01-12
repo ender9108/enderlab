@@ -1,12 +1,12 @@
 <?php
 
-namespace EnderLab\Application;
+namespace EnderLab\MiddleEarth\Application;
 
 use DI\ContainerBuilder;
-use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Dispatcher\DispatcherInterface;
-use EnderLab\Router\Router;
-use EnderLab\Router\RouterInterface;
+use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Dispatcher\DispatcherInterface;
+use EnderLab\MiddleEarth\Router\Router;
+use EnderLab\MiddleEarth\Router\RouterInterface;
 use FilesystemIterator;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
@@ -20,7 +20,7 @@ final class AppFactory
      * @param RouterInterface|null           $router
      * @param DispatcherInterface|null       $dispatcher
      *
-     * @throws \EnderLab\Router\RouterException
+     * @throws \EnderLab\MiddleEarth\Router\RouterException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      *

@@ -1,8 +1,8 @@
 <?php
 
-namespace EnderLab\Middleware;
+namespace EnderLab\MiddleEarth\Middleware;
 
-use EnderLab\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace EnderLab\Router;
+namespace EnderLab\MiddleEarth\Router;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ServerRequestInterface;

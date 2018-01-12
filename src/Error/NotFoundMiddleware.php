@@ -1,8 +1,8 @@
 <?php
 
-namespace EnderLab\Error;
+namespace EnderLab\MiddleEarth\Error;
 
-use EnderLab\Middleware\BaseMiddleware;
+use EnderLab\MiddleEarth\Middleware\BaseMiddleware;
 use GuzzleHttp\Psr7\Response;
 
 class NotFoundMiddleware extends BaseMiddleware

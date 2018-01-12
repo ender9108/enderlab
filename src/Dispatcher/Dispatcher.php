@@ -1,8 +1,8 @@
 <?php
 
-namespace EnderLab\Dispatcher;
+namespace EnderLab\MiddleEarth\Dispatcher;
 
-use EnderLab\Router\RouteInterface;
+use EnderLab\MiddleEarth\Router\RouteInterface;
 use GuzzleHttp\Psr7\Response;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;

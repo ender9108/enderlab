@@ -1,6 +1,6 @@
 <?php
 
-namespace EnderLab\Middleware;
+namespace EnderLab\MiddleEarth\Middleware;
 
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;

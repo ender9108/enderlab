@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\EnderLab;
+namespace Tests\EnderLab\MiddleEarth;
 
-use EnderLab\Router\Route;
+use EnderLab\MiddleEarth\Router\Route;
 use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase

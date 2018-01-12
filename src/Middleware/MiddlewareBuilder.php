@@ -1,10 +1,10 @@
 <?php
 
-namespace EnderLab\Middleware;
+namespace EnderLab\MiddleEarth\Middleware;
 
-use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Router\Route;
-use EnderLab\Router\RouterInterface;
+use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Router\Route;
+use EnderLab\MiddleEarth\Router\RouterInterface;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\Server\MiddlewareInterface;
 use InvalidArgumentException;

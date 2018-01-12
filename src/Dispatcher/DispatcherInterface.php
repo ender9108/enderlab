@@ -1,6 +1,6 @@
 <?php
 
-namespace EnderLab\Dispatcher;
+namespace EnderLab\MiddleEarth\Dispatcher;
 
 use Interop\Http\Server\RequestHandlerInterface;
 

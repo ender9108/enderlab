@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\EnderLab;
+namespace Tests\EnderLab\MiddleEarth;
 
-use EnderLab\Dispatcher\Dispatcher;
-use EnderLab\Middleware\CallableMiddlewareDecorator;
-use EnderLab\Router\Route;
-use EnderLab\Router\Router;
-use EnderLab\Router\RouterMiddleware;
+use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Middleware\CallableMiddlewareDecorator;
+use EnderLab\MiddleEarth\Router\Route;
+use EnderLab\MiddleEarth\Router\Router;
+use EnderLab\MiddleEarth\Router\RouterMiddleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;

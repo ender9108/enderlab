@@ -1,6 +1,6 @@
 <?php
 
-use EnderLab\Application\App;
+use EnderLab\MiddleEarth\Application\App;
 
 return [
     'app.env'                => \DI\env('ENV', App::ENV_PROD),
