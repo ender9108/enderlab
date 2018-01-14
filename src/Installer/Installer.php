@@ -77,10 +77,10 @@ ________________________________________________________________________________
     {
         foreach ($this->config['directories'] as $directory) {
             if (!is_dir($this->rootPath . $directory)) {
-                mkdir($this->rootPath . $directory);
-
-                if (true === $verbose) {
+                if (true == mkdir($this->rootPath . $directory)) {
                     $this->io->write("\t".'- [<info>OK</info>] Create directory "<info>' . $this->rootPath . $directory . '</info>".');
+                } else {
+                    $this->io->write("\t".'- [<error>ERR</error>] Cannot create directory "<error>' . $this->rootPath . $directory . '</error>".');
                 }
             }
         }
@@ -90,10 +90,10 @@ ________________________________________________________________________________
     {
         foreach ($this->config['template-file'] as $source => $dest) {
             if (!is_file($this->rootPath . $dest)) {
-                copy(__DIR__ . '/' . $source, $this->rootPath . $dest);
-
-                if (true === $verbose) {
+                if (true == copy(__DIR__ . '/' . $source, $this->rootPath . $dest)) {
                     $this->io->write("\t".'- [<info>OK</info>] Create file "<info>' . $dest . '</info>".');
+                } else {
+                    $this->io->write("\t".'- [<error>ERR</error>] Cannot create file "<error>' . $dest . '</error>".');
                 }
             }
         }
