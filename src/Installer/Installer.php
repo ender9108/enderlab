@@ -23,7 +23,7 @@ class Installer
 
     private $rootPath;
 
-    private $logo = '
+    private static $logo = '
 ______________________________________________________________________________________________________
 
  /$$      /$$ /$$       /$$       /$$ /$$           /$$$$$$$$                       /$$     /$$      
@@ -39,7 +39,7 @@ ________________________________________________________________________________
 
     public static function postCreateProject(Event $event)
     {
-        $event->getIO()->write('<info>' . $this->logo . '</info>');
+        $event->getIO()->write('<info>' . self::$logo . '</info>');
         $installer = new self($event->getIO(), $event->getComposer());
 
         $event->getIO()->write('<info>Creation directory tree</info>');
