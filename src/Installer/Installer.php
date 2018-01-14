@@ -38,7 +38,7 @@ class Installer
 -------------------------------------------------------------------------------------------------------------
 ';
 
-    public static function postCreateProject(Event $event)
+    public static function createProject(Event $event)
     {
         $event->getIO()->write('<info>' . self::$logo . '</info>');
         $installer = new self($event->getIO(), $event->getComposer());
@@ -48,6 +48,11 @@ class Installer
 
         $event->getIO()->write('Creation configuration files');
         $installer->createConfigFiles();
+    }
+
+    public static function postCreateProject(Event $event)
+    {
+        //
     }
 
     public static function event(Event $event)
@@ -79,9 +84,9 @@ class Installer
         foreach ($this->config['directories'] as $directory) {
             if (!is_dir($this->rootPath . $directory)) {
                 if (true == mkdir($this->rootPath . $directory)) {
-                    $this->io->write("\t".'- [<info>OK</info>] Create directory "<info>' . $this->rootPath . $directory . '</info>".');
+                    $this->io->write("\t".'- [<info>OK</info>] Create directory "<info>' . $directory . '</info>".');
                 } else {
-                    $this->io->write("\t".'- [<error>ERR</error>] Cannot create directory "<error>' . $this->rootPath . $directory . '</error>".');
+                    $this->io->write("\t".'- [<error>ERR</error>] Cannot create directory "<error>' . $directory . '</error>".');
                 }
             }
         }
