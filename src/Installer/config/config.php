@@ -3,6 +3,8 @@
 return [
     'directories' => [
         'app',
+        'app/Actions',
+        'app/Templates',
         'config',
         'public',
         'public/js',
