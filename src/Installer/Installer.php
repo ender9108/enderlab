@@ -44,6 +44,8 @@ ________________________________________________________________________________
 
         $event->getIO()->write('<info>Creation directory tree</info>');
         $installer->createDirectories();
+
+        $event->getIO()->write('<info>Creation configuration files</info>');
         $installer->createConfigFiles();
     }
 
@@ -78,7 +80,7 @@ ________________________________________________________________________________
                 mkdir($this->rootPath . $directory);
 
                 if (true === $verbose) {
-                    $this->io->write("\t".'- Create directory "' . $this->rootPath . $directory . '".'."\t\t\t\t".'[<info>OK</info>]');
+                    $this->io->write("\t".'- [<info>OK</info>] Create directory "' . $this->rootPath . $directory . '".');
                 }
             }
         }
@@ -91,7 +93,7 @@ ________________________________________________________________________________
                 copy(__DIR__ . '/' . $source, $this->rootPath . $dest);
 
                 if (true === $verbose) {
-                    $this->io->write("\t".'- Create file "' . $dest . '".'."\t\t\t\t".'[<info>OK</info>]');
+                    $this->io->write("\t".'- [<info>OK</info>] Create file "' . $dest . '".');
                 }
             }
         }
