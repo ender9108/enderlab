@@ -78,7 +78,7 @@ ________________________________________________________________________________
                 mkdir($this->rootPath . $directory);
 
                 if (true === $verbose) {
-                    $this->io->write('Create directory "' . $this->rootPath . $directory . '".');
+                    $this->io->write('Create directory "' . $this->rootPath . $directory . '".              [<info>OK</info>]');
                 }
             }
         }
@@ -91,7 +91,7 @@ ________________________________________________________________________________
                 copy(__DIR__ . '/' . $source, $this->rootPath . $dest);
 
                 if (true === $verbose) {
-                    $this->io->write('Create file "' . $dest . '".');
+                    $this->io->write('Create file "' . $dest . '".              [<info>OK</info>]');
                 }
             }
         }
