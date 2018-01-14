@@ -38,6 +38,12 @@ class Installer
 -------------------------------------------------------------------------------------------------------------
 ';
 
+    /**
+     * @todo project creator a mettre dans le depot skeleton
+     * @todo package installer dans framework uniquement pour l'ajout d'un nouveau package
+     * @todo voir pour poser des questions
+     */
+
     public static function createProject(Event $event)
     {
         $event->getIO()->write('<info>' . self::$logo . '</info>');
