@@ -42,6 +42,7 @@ ________________________________________________________________________________
         $event->getIO()->write('<info>' . $this->logo . '</info>');
         $installer = new self($event->getIO(), $event->getComposer());
 
+        $event->getIO()->write('<info>Creation directory tree</info>');
         $installer->createDirectories();
         $installer->createConfigFiles();
     }
@@ -55,7 +56,6 @@ ________________________________________________________________________________
         switch ($event->getName()) {
             case 'post-install-cmd':
                 $event->getIO()->info('Event post-install-cmd');
-                $event->getIO()
                 break;
             case 'post-update-cmd':
                 $event->getIO()->info('Event post-update-cmd');
@@ -78,7 +78,7 @@ ________________________________________________________________________________
                 mkdir($this->rootPath . $directory);
 
                 if (true === $verbose) {
-                    $this->io->write('Create directory "' . $this->rootPath . $directory . '".              [<info>OK</info>]');
+                    $this->io->write("\t".'- Create directory "' . $this->rootPath . $directory . '".'."\t\t\t\t".'[<info>OK</info>]');
                 }
             }
         }
@@ -91,7 +91,7 @@ ________________________________________________________________________________
                 copy(__DIR__ . '/' . $source, $this->rootPath . $dest);
 
                 if (true === $verbose) {
-                    $this->io->write('Create file "' . $dest . '".              [<info>OK</info>]');
+                    $this->io->write("\t".'- Create file "' . $dest . '".'."\t\t\t\t".'[<info>OK</info>]');
                 }
             }
         }
