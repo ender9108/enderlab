@@ -42,10 +42,10 @@ ________________________________________________________________________________
         $event->getIO()->write('<info>' . self::$logo . '</info>');
         $installer = new self($event->getIO(), $event->getComposer());
 
-        $event->getIO()->write('<info>Creation directory tree</info>');
+        $event->getIO()->write('Creation directory tree');
         $installer->createDirectories();
 
-        $event->getIO()->write('<info>Creation configuration files</info>');
+        $event->getIO()->write('Creation configuration files');
         $installer->createConfigFiles();
     }
 
@@ -80,7 +80,7 @@ ________________________________________________________________________________
                 mkdir($this->rootPath . $directory);
 
                 if (true === $verbose) {
-                    $this->io->write("\t".'- [<info>OK</info>] Create directory "' . $this->rootPath . $directory . '".');
+                    $this->io->write("\t".'- [<info>OK</info>] Create directory "<info>' . $this->rootPath . $directory . '</info>".');
                 }
             }
         }
@@ -93,7 +93,7 @@ ________________________________________________________________________________
                 copy(__DIR__ . '/' . $source, $this->rootPath . $dest);
 
                 if (true === $verbose) {
-                    $this->io->write("\t".'- [<info>OK</info>] Create file "' . $dest . '".');
+                    $this->io->write("\t".'- [<info>OK</info>] Create file "<info>' . $dest . '</info>".');
                 }
             }
         }
