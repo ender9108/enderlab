@@ -23,13 +23,28 @@ class Installer
 
     private $rootPath;
 
-    public static function event(Event $event)
+    public static function postCreateProject(Event $event)
     {
         $event->getIO()->write('<info>' . $event->getName() . ' - Configuration MiddleEarth !!</info>');
         $installer = new self($event->getIO(), $event->getComposer());
 
         $installer->createDirectories();
         $installer->createConfigFiles();
+    }
+
+    public static function event(Event $event)
+    {
+        $event->getIO()->write('<info>' . $event->getName() . ' - Configuration MiddleEarth !!</info>');
+        $installer = new self($event->getIO(), $event->getComposer());
+
+        switch ($event->getName()) {
+            case 'post-install-cmd':
+                $event->getIO()->info('Event post-install-cmd');
+                break;
+            case 'post-update-cmd':
+                $event->getIO()->info('Event post-update-cmd');
+                break;
+        }
     }
 
     public function __construct(IOInterface $io, Composer $composer)
