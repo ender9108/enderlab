@@ -5,6 +5,5 @@ Makefile
 vendor/
 logs/
 app/
-config/
 public/
 build/
