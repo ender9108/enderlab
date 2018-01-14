@@ -23,9 +23,23 @@ class Installer
 
     private $rootPath;
 
+    private $logo = '
+______________________________________________________________________________________________________
+
+ /$$      /$$ /$$       /$$       /$$ /$$           /$$$$$$$$                       /$$     /$$      
+| $$$    /$$$|__/      | $$      | $$| $$          | $$_____/                      | $$    | $$      
+| $$$$  /$$$$ /$$  /$$$$$$$  /$$$$$$$| $$  /$$$$$$ | $$        /$$$$$$   /$$$$$$  /$$$$$$  | $$$$$$$ 
+| $$ $$/$$ $$| $$ /$$__  $$ /$$__  $$| $$ /$$__  $$| $$$$$    |____  $$ /$$__  $$|_  $$_/  | $$__  $$
+| $$  $$$| $$| $$| $$  | $$| $$  | $$| $$| $$$$$$$$| $$__/     /$$$$$$$| $$  \__/  | $$    | $$  \ $$
+| $$\  $ | $$| $$| $$  | $$| $$  | $$| $$| $$_____/| $$       /$$__  $$| $$        | $$ /$$| $$  | $$
+| $$ \/  | $$| $$|  $$$$$$$|  $$$$$$$| $$|  $$$$$$$| $$$$$$$$|  $$$$$$$| $$        |  $$$$/| $$  | $$
+|__/     |__/|__/ \_______/ \_______/|__/ \_______/|________/ \_______/|__/         \___/  |__/  |__/
+______________________________________________________________________________________________________
+';
+
     public static function postCreateProject(Event $event)
     {
-        $event->getIO()->write('<info>' . $event->getName() . ' - Configuration MiddleEarth !!</info>');
+        $event->getIO()->write('<info>' . $this->logo . '</info>');
         $installer = new self($event->getIO(), $event->getComposer());
 
         $installer->createDirectories();
@@ -35,11 +49,13 @@ class Installer
     public static function event(Event $event)
     {
         $event->getIO()->write('<info>' . $event->getName() . ' - Configuration MiddleEarth !!</info>');
+        $event->getIO()->write('<info>' . $event->getName() . ' - Configuration MiddleEarth !!</info>');
         $installer = new self($event->getIO(), $event->getComposer());
 
         switch ($event->getName()) {
             case 'post-install-cmd':
                 $event->getIO()->info('Event post-install-cmd');
+                $event->getIO()
                 break;
             case 'post-update-cmd':
                 $event->getIO()->info('Event post-update-cmd');
