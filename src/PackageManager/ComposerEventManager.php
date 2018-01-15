@@ -1,13 +1,13 @@
 <?php
 
-namespace EnderLab\MiddleEarth\Installer;
+namespace EnderLab\MiddleEarth\PackageManager;
 
 use Composer\Composer;
 use Composer\Factory;
 use Composer\IO\IOInterface;
 use Composer\Script\Event;
 
-class Installer
+class ComposerEventManager
 {
     /**
      * @var IOInterface
@@ -22,44 +22,6 @@ class Installer
     private $config;
 
     private $rootPath;
-
-    private static $logo = '
--------------------------------------------------------------------------------------------------------------
-||                                                                                                         ||
-||   /$$      /$$ /$$       /$$       /$$ /$$           /$$$$$$$$                       /$$     /$$        ||
-||  | $$$    /$$$|__/      | $$      | $$| $$          | $$_____/                      | $$    | $$        ||
-||  | $$$$  /$$$$ /$$  /$$$$$$$  /$$$$$$$| $$  /$$$$$$ | $$        /$$$$$$   /$$$$$$  /$$$$$$  | $$$$$$$   ||
-||  | $$ $$/$$ $$| $$ /$$__  $$ /$$__  $$| $$ /$$__  $$| $$$$$    |____  $$ /$$__  $$|_  $$_/  | $$__  $$  ||
-||  | $$  $$$| $$| $$| $$  | $$| $$  | $$| $$| $$$$$$$$| $$__/     /$$$$$$$| $$  \__/  | $$    | $$  \ $$  ||
-||  | $$\  $ | $$| $$| $$  | $$| $$  | $$| $$| $$_____/| $$       /$$__  $$| $$        | $$ /$$| $$  | $$  ||
-||  | $$ \/  | $$| $$|  $$$$$$$|  $$$$$$$| $$|  $$$$$$$| $$$$$$$$|  $$$$$$$| $$        |  $$$$/| $$  | $$  ||
-||  |__/     |__/|__/ \_______/ \_______/|__/ \_______/|________/ \_______/|__/         \___/  |__/  |__/  ||
-||                                                                                                         ||
--------------------------------------------------------------------------------------------------------------
-';
-
-    /**
-     * @todo project creator a mettre dans le depot skeleton
-     * @todo package installer dans framework uniquement pour l'ajout d'un nouveau package
-     * @todo voir pour poser des questions
-     */
-
-    public static function createProject(Event $event)
-    {
-        $event->getIO()->write('<info>' . self::$logo . '</info>');
-        $installer = new self($event->getIO(), $event->getComposer());
-
-        $event->getIO()->write('Creation directory tree');
-        $installer->createDirectories();
-
-        $event->getIO()->write('Creation configuration files');
-        $installer->createConfigFiles();
-    }
-
-    public static function postCreateProject(Event $event)
-    {
-        //
-    }
 
     public static function event(Event $event)
     {
