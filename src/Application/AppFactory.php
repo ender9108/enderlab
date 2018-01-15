@@ -67,6 +67,12 @@ final class AppFactory
     {
         if (is_string($containerConfig)) {
             $containerBuilder = new ContainerBuilder();
+            $env = $_ENV['ENV'] ?? App::ENV_PROD;
+
+            if ($env === App::ENV_PROD) {
+                $containerBuilder->setDefinitionCache('tmp/di');
+                $containerBuilder->writeProxiesToFile(true, 'tmp/proxies');
+            }
 
             if (is_dir($containerConfig)) {
                 $iterator = new FilesystemIterator($containerConfig, FilesystemIterator::SKIP_DOTS);
