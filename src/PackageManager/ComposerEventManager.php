@@ -57,4 +57,9 @@ class ComposerEventManager
 
         //$this->config = include __DIR__ . '/config/config.php';
     }
+
+    public function clearCache()
+    {
+
+    }
 }
