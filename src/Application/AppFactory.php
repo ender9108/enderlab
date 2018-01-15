@@ -70,7 +70,7 @@ final class AppFactory
             $containerBuilder = new ContainerBuilder();
             $env = $_ENV['ENV'] ?? App::ENV_PROD;
 
-            if ($env === App::ENV_PROD) {
+            if (App::ENV_PROD === $env) {
                 $containerBuilder->setDefinitionCache(new FilesystemCache('tmp/di'));
                 $containerBuilder->writeProxiesToFile(true, 'tmp/proxies');
             }

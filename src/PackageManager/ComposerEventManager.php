@@ -53,13 +53,12 @@ class ComposerEventManager
         $this->composer = $composer;
         $this->composerJsonPath = Factory::getComposerFile();
         $this->composerJson = new JsonFile($this->composerJsonPath);
-        $this->rootPath = rtrim(realpath(dirname($this->composerJsonPath)), '/').'/';
+        $this->rootPath = rtrim(realpath(dirname($this->composerJsonPath)), '/') . '/';
 
         //$this->config = include __DIR__ . '/config/config.php';
     }
 
     public function clearCache()
     {
-
     }
 }
