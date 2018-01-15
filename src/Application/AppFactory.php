@@ -71,8 +71,8 @@ final class AppFactory
             $env = $_ENV['ENV'] ?? App::ENV_PROD;
 
             if (App::ENV_PROD === $env) {
-                $containerBuilder->setDefinitionCache(new FilesystemCache('tmp/di'));
-                $containerBuilder->writeProxiesToFile(true, 'tmp/proxies');
+                $containerBuilder->setDefinitionCache(new FilesystemCache('tmp/cache/di'));
+                $containerBuilder->writeProxiesToFile(true, 'tmp/cache/proxies');
             }
 
             if (is_dir($containerConfig)) {
