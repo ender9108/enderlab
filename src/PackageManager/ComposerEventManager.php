@@ -19,14 +19,22 @@ class ComposerEventManager
      */
     private $composer;
 
-    private $config;
+    //private $config;
 
+    /**
+     * @var string
+     */
     private $rootPath;
+
+    /**
+     * @var string
+     */
+    private $composerJsonPath;
+
+    private $composerJson;
 
     public static function event(Event $event)
     {
-        $event->getIO()->write('<info>' . $event->getName() . ' - Configuration MiddleEarth !!</info>');
-        $event->getIO()->write('<info>' . $event->getName() . ' - Configuration MiddleEarth !!</info>');
         $installer = new self($event->getIO(), $event->getComposer());
 
         switch ($event->getName()) {
@@ -43,33 +51,10 @@ class ComposerEventManager
     {
         $this->io = $io;
         $this->composer = $composer;
-        $this->rootPath = rtrim(realpath(dirname(Factory::getComposerFile())), '/').'/';
-        $this->config = include __DIR__ . '/config/config.php';
-    }
+        $this->composerJsonPath = Factory::getComposerFile();
+        $this->composerJson = new JsonFile($this->composerJsonPath);
+        $this->rootPath = rtrim(realpath(dirname($this->composerJsonPath)), '/').'/';
 
-    public function createDirectories(bool $verbose = true)
-    {
-        foreach ($this->config['directories'] as $directory) {
-            if (!is_dir($this->rootPath . $directory)) {
-                if (true == mkdir($this->rootPath . $directory)) {
-                    $this->io->write("\t".'- [<info>OK</info>] Create directory "<info>' . $directory . '</info>".');
-                } else {
-                    $this->io->write("\t".'- [<error>ERR</error>] Cannot create directory "<error>' . $directory . '</error>".');
-                }
-            }
-        }
-    }
-
-    public function createConfigFiles(bool $verbose = true)
-    {
-        foreach ($this->config['template-file'] as $source => $dest) {
-            if (!is_file($this->rootPath . $dest)) {
-                if (true == copy(__DIR__ . '/' . $source, $this->rootPath . $dest)) {
-                    $this->io->write("\t".'- [<info>OK</info>] Create file "<info>' . $dest . '</info>".');
-                } else {
-                    $this->io->write("\t".'- [<error>ERR</error>] Cannot create file "<error>' . $dest . '</error>".');
-                }
-            }
-        }
+        //$this->config = include __DIR__ . '/config/config.php';
     }
 }
