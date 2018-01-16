@@ -60,5 +60,23 @@ class ComposerEventManager
 
     public function clearCache()
     {
+        $directory = $this->rootPath.'tmp/cache';
+
+        if (! is_dir($directory)) {
+            return;
+        }
+
+        $rdi = new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS);
+        $rii = new \RecursiveIteratorIterator($rdi, \RecursiveIteratorIterator::CHILD_FIRST);
+
+        foreach ($rii as $filename => $fileInfo) {
+            if ($fileInfo->isDir()) {
+                rmdir($filename);
+                continue;
+            }
+            unlink($filename);
+        }
+
+        $this->io->write("\t".'[<info>OK</info>] Clean "<info>tmp/cache</info>".');
     }
 }
