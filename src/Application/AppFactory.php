@@ -66,15 +66,15 @@ final class AppFactory
      */
     private static function buildContainer($containerConfig = null): ContainerInterface
     {
+        $containerBuilder = new ContainerBuilder();
+        /*$env = $_ENV['ENV'] ?? App::ENV_PROD;
+
+        if (App::ENV_PROD === $env) {
+            $containerBuilder->setDefinitionCache(new FilesystemCache('tmp/cache/di'));
+            $containerBuilder->writeProxiesToFile(true, 'tmp/cache/proxies');
+        }*/
+
         if (is_string($containerConfig)) {
-            $containerBuilder = new ContainerBuilder();
-            $env = $_ENV['ENV'] ?? App::ENV_PROD;
-
-            if (App::ENV_PROD === $env) {
-                $containerBuilder->setDefinitionCache(new FilesystemCache('tmp/cache/di'));
-                $containerBuilder->writeProxiesToFile(true, 'tmp/cache/proxies');
-            }
-
             if (is_dir($containerConfig)) {
                 $iterator = new FilesystemIterator($containerConfig, FilesystemIterator::SKIP_DOTS);
 
@@ -89,14 +89,10 @@ final class AppFactory
 
             $container = $containerBuilder->build();
         } elseif (is_array($containerConfig)) {
-            $containerBuilder = new ContainerBuilder();
             $containerBuilder->addDefinitions($containerConfig);
             $container = $containerBuilder->build();
-        } elseif (null === $containerConfig || !$containerConfig instanceof ContainerInterface) {
-            $containerBuilder = new ContainerBuilder();
-            $container = $containerBuilder->build();
         } else {
-            $container = $containerConfig;
+            $container = $containerBuilder->build();
         }
 
         return $container;
