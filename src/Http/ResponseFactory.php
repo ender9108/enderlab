@@ -26,8 +26,8 @@ class ResponseFactory
 
         return new Response(
             $status,
-            $body,
             array_merge($headers, ['Content-Type' => 'application/json']),
+            $body,
             $version,
             $reason
         );
@@ -42,8 +42,8 @@ class ResponseFactory
     ) {
         return new Response(
             $status,
-            $body,
             array_merge($headers, ['Content-Type' => 'text/plain; charset=utf-8']),
+            $body,
             $version,
             $reason
         );
@@ -58,8 +58,8 @@ class ResponseFactory
     ) {
         return new Response(
             $status,
-            $body,
             array_merge($headers, ['Content-Type' => 'text/html; charset=utf-8']),
+            $body,
             $version,
             $reason
         );
