@@ -3,12 +3,13 @@
 namespace EnderLab\MiddleEarth\Http;
 
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class ResponseFactory
 {
     public static function toJson(
-        int $status = 200,
         $body = null,
+        int $status = 200,
         array $headers = [],
         string $version = '1.1',
         string $reason = null
@@ -33,8 +34,8 @@ class ResponseFactory
     }
 
     public static function toText(
-        int $status = 200,
         $body = null,
+        int $status = 200,
         array $headers = [],
         string $version = '1.1',
         string $reason = null
@@ -49,8 +50,8 @@ class ResponseFactory
     }
 
     public static function toHtml(
-        int $status = 200,
         $body = null,
+        int $status = 200,
         array $headers = [],
         string $version = '1.1',
         string $reason = null
