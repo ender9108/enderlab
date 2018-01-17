@@ -42,5 +42,5 @@ git-push:
 build: install phpcbf php-cs-fixer test git-commit git-push ## Build for git push
 
 server: install ## Lance le serveur interne de PHP
-	echo -e "Lancement du serveur sur $(OK_COLOR)http://$(HOST):$(PORT)$(NO_COLOR)"
+	echo -e "Lancement du serveur sur http://$(HOST):$(PORT)"
 	ENV=dev php -S $(HOST):$(PORT) -d display_errors=1
