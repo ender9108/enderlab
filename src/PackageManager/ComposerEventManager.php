@@ -60,9 +60,9 @@ class ComposerEventManager
 
     public function clearCache()
     {
-        $directory = $this->rootPath.'tmp/cache';
+        $directory = $this->rootPath . 'tmp/cache';
 
-        if (! is_dir($directory)) {
+        if (!is_dir($directory)) {
             return;
         }
 
@@ -77,6 +77,6 @@ class ComposerEventManager
             unlink($filename);
         }
 
-        $this->io->write("\t".'[<info>OK</info>] Clean "<info>tmp/cache</info>".');
+        $this->io->write("\t" . '[<info>OK</info>] Clean "<info>tmp/cache</info>".');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Tests\EnderLab\MiddleEarth\Application;
 
-use DI\ContainerBuilder;
 use EnderLab\MiddleEarth\Application\App;
 use EnderLab\MiddleEarth\Application\AppFactory;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
@@ -75,10 +74,7 @@ class AppFactoryTest extends TestCase
 
     public function testCreateAppWithValidContainerObject(): void
     {
-        $containerBuilder = new ContainerBuilder();
-        $containerBuilder->addDefinitions(['app.name' => 'MyAppTest']);
-        $container = $containerBuilder->build();
-        $app = AppFactory::create($container);
+        $app = AppFactory::create(['app.name' => 'MyAppTest']);
         $this->assertInstanceOf(App::class, $app);
         $this->assertSame('MyAppTest', $app->getContainer()->get('app.name'));
     }
