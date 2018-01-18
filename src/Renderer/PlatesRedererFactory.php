@@ -44,7 +44,7 @@ class PlatesRedererFactory
             $loader = new LazyLoading($this->container);
             $plugins = $this->container->get('renderer.template.plugin');
 
-            if (false == is_array($plugins)) {
+            if (false === is_array($plugins)) {
                 $plugins = [$plugins];
             }
 

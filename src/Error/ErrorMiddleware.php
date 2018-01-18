@@ -2,6 +2,7 @@
 
 namespace EnderLab\MiddleEarth\Error;
 
+use GuzzleHttp\Psr7\Response;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -9,21 +10,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ErrorMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var ResponseInterface
-     */
-    private $response;
-
-    /**
-     * ErrorMiddleware constructor.
-     *
-     * @param ResponseInterface $response
-     */
-    public function __construct(ResponseInterface $response)
-    {
-        $this->response = $response;
-    }
-
     /**
      * @param ServerRequestInterface  $request
      * @param RequestHandlerInterface $requestHandler
@@ -57,7 +43,7 @@ class ErrorMiddleware implements MiddlewareInterface
                 throw new \Exception('Application did not return a response', 500);
             }
         } catch (\Exception | \Throwable | \ErrorException $e) {
-            $response = $this->response;
+            $response = new Response();
             $response = $response->withStatus($e->getCode());
 
             $message = 'Error : <br>';

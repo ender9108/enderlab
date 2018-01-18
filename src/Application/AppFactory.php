@@ -57,7 +57,7 @@ final class AppFactory
             $app->setEnv($container->get('app.env'));
         }
 
-        if ($container->has('app.enableErrorHandler') && true === $container->get('app.enableErrorHandler')) {
+        if ($container->has('app.error.handler') && true === (bool) $container->get('app.error.handler')) {
             $app->enableErrorHandler();
         }
 
