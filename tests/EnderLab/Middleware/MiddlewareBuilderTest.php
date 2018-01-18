@@ -112,7 +112,7 @@ class MiddlewareBuilderTest extends TestCase
     public function testMiddlewareInstance(): void
     {
         $container = ContainerBuilder::buildDevContainer();
-        $container->set('logger', new Logger(
+        $container->set('logger.engine', new Logger(
             'test',
             [new NullHandler()]
         ));

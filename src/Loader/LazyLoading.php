@@ -28,7 +28,6 @@ class LazyLoading
 
         $reflection = new ReflectionClass($classname);
         $args = $this->getParameters($reflection);
-
         $instance = $reflection->newInstanceArgs($args);
 
         return $instance;
@@ -63,16 +62,17 @@ class LazyLoading
                 $args[] = $this->container->get('logger.engine');
             } elseif ($this->container->has(Router::class) &&
                 $param->getClass() &&
-                $param->getClass()->isInstance(Router::class)
+                $param->getClass()->isInstance($this->container->get(Router::class))
             ) {
                 $args[] = $this->container->get(Router::class);
-            } elseif ($param->getClass() &&
-                $param->getClass()->isInstance(Dispatcher::class)
+            } elseif ($this->container->has(Dispatcher::class) &&
+                $param->getClass() &&
+                $param->getClass()->isInstance($this->container->get(Dispatcher::class))
             ) {
                 $args[] = $this->container->get(Dispatcher::class);
             } elseif ($this->container->has(Response::class) &&
                 $param->getClass() &&
-                $param->getClass()->isInstance(Response::class)
+                $param->getClass()->isInstance($this->container->get(Response::class))
             ) {
                 $args[] = $this->container->get(Response::class);
             } else {

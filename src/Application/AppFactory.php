@@ -12,6 +12,7 @@ use FilesystemIterator;
 use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class AppFactory
 {
@@ -32,10 +33,11 @@ final class AppFactory
         $containerConfig = null,
         ?RouterInterface $router = null,
         ?DispatcherInterface $dispatcher = null,
-        ?Response $defaultResponse = null
+        ?ResponseInterface $defaultResponse = null
     ): App {
         $container = self::buildContainer($containerConfig);
         $dispatcher = $dispatcher ?: new Dispatcher();
+        $defaultResponse = $defaultResponse ?: new Response();
         $router = $router ?: new Router(
             [],
             ($container->has('router.options') ? $container->get('router.options') : [])
@@ -49,7 +51,7 @@ final class AppFactory
         $container->set(Router::class, $router);
         $container->set(Response::class, $defaultResponse);
 
-        $app = new App($container, $router, $dispatcher);
+        $app = new App($container, $router, $dispatcher, $defaultResponse);
 
         if ($container->has('app.env') && is_string($container->get('app.env'))) {
             $app->setEnv($container->get('app.env'));

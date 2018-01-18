@@ -10,10 +10,10 @@ use EnderLab\MiddleEarth\Middleware\MiddlewareBuilder;
 use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\RouterInterface;
 use EnderLab\MiddleEarth\Router\RouterMiddleware;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class App extends MiddlewareBuilder
@@ -43,12 +43,13 @@ class App extends MiddlewareBuilder
      * @param ContainerInterface  $container
      * @param RouterInterface     $router
      * @param DispatcherInterface $dispatcher
+     * @param ResponseInterface   $defaultResponse
      */
     public function __construct(
         ContainerInterface $container,
         RouterInterface $router,
         DispatcherInterface $dispatcher,
-        Response $defaultResponse
+        ResponseInterface $defaultResponse
     ) {
         parent::__construct($container, $router, $dispatcher, $defaultResponse);
     }

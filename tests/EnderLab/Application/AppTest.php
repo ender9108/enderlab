@@ -57,7 +57,7 @@ class AppTest extends TestCase
             'logger.name'      => 'default-logger',
             'logger.handler'   => [\DI\object(NullHandler::class)],
             'logger.processor' => [],
-            'logger'           => \DI\object(Logger::class)->constructor(
+            'logger.engine'    => \DI\object(Logger::class)->constructor(
                 \DI\get('logger.name'),
                 \DI\get('logger.handler'),
                 \DI\get('logger.processor')
