@@ -3,7 +3,6 @@
 namespace EnderLab\MiddleEarth\Http;
 
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
 
 class ResponseFactory
 {

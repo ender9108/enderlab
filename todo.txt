@@ -1,4 +1,3 @@
-Création du package NotFoundMiddleware
 Gestion du cache
     OK php-di
     plates

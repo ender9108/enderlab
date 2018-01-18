@@ -39,6 +39,10 @@ class PlatesRedererFactory
             }
         }
 
+        if ($this->container->has('renderer.template.plugin')) {
+            //$engine->loadExtension(new ChangeCase());
+        }
+
         return $engine;
     }
 }

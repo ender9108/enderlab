@@ -9,6 +9,7 @@ use EnderLab\MiddleEarth\Dispatcher\DispatcherInterface;
 use EnderLab\MiddleEarth\Router\Router;
 use EnderLab\MiddleEarth\Router\RouterInterface;
 use FilesystemIterator;
+use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
@@ -30,7 +31,8 @@ final class AppFactory
     public static function create(
         $containerConfig = null,
         ?RouterInterface $router = null,
-        ?DispatcherInterface $dispatcher = null
+        ?DispatcherInterface $dispatcher = null,
+        ?Response $defaultResponse = null
     ): App {
         $container = self::buildContainer($containerConfig);
         $dispatcher = $dispatcher ?: new Dispatcher();
@@ -45,6 +47,7 @@ final class AppFactory
 
         $container->set(Dispatcher::class, $dispatcher);
         $container->set(Router::class, $router);
+        $container->set(Response::class, $defaultResponse);
 
         $app = new App($container, $router, $dispatcher);
 

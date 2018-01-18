@@ -3,9 +3,9 @@
 namespace EnderLab\MiddleEarth\Middleware;
 
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Loader\LazyLoading;
 use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\RouterInterface;
-use GuzzleHttp\Psr7\ServerRequest;
 use Interop\Http\Server\MiddlewareInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
@@ -76,10 +76,8 @@ class MiddlewareBuilder
                 );
             }
 
-            $reflection = new ReflectionClass($middlewares);
-            $args = $this->getParameters($reflection);
-
-            $instance = $reflection->newInstanceArgs($args);
+            $loader = new LazyLoading($this->container);
+            $instance = $loader->load($middlewares);
 
             if ($instance instanceof MiddlewareInterface) {
                 return $instance;
@@ -147,71 +145,5 @@ class MiddlewareBuilder
         }
 
         return 2 === $reflection->getNumberOfParameters();
-    }
-
-    /**
-     * @param ReflectionClass $reflection
-     *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     *
-     * @return array
-     */
-    private function getParameters(ReflectionClass $reflection): array
-    {
-        if (null === $reflection->getConstructor()) {
-            return [];
-        }
-
-        $params = $reflection->getConstructor()->getParameters();
-        $args = [];
-
-        foreach ($params as $param) {
-            if ($param->getClass() &&
-                $param->getClass()->isInstance($this->container)
-            ) {
-                $args[] = $this->container;
-            } elseif ($param->getClass() &&
-                $this->container->get('logger') &&
-                $param->getClass()->implementsInterface('Psr\\Log\\LoggerInterface')
-            ) {
-                $args[] = $this->container->get('logger');
-            } elseif ($this->router &&
-                $param->getClass() &&
-                $param->getClass()->isInstance($this->router)
-            ) {
-                $args[] = $this->router;
-            } elseif ($param->getClass() &&
-                $param->getClass()->isInstance($this->dispatcher)
-            ) {
-                $args[] = $this->dispatcher;
-            } elseif ($this->response &&
-                $param->getClass() &&
-                $param->getClass()->isInstance($this->response)
-            ) {
-                $args[] = $this->response;
-            } else {
-                $request = ServerRequest::fromGlobals();
-                $attributes = $request->getQueryParams();
-
-                foreach ($attributes as $name => $value) {
-                    if (array_key_exists($param->getName(), $name)) {
-                        if ($param->isVariadic() && is_array($value)) {
-                            $args[] = array_merge($args, array_values($value));
-                        } else {
-                            $args[] = $value;
-                        }
-                    } elseif ($param->isDefaultValueAvailable()) {
-                        $args[] = $param->getDefaultValue();
-                    } else {
-                        if ($param->hasType() && $param->allowsNull()) {
-                            $args[] = null;
-                        }
-                    }
-                } // endforeach $attributes
-            } // endif $param type
-        } // endforeach $params
-
-        return $args;
     }
 }

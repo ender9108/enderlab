@@ -47,9 +47,10 @@ class App extends MiddlewareBuilder
     public function __construct(
         ContainerInterface $container,
         RouterInterface $router,
-        DispatcherInterface $dispatcher
+        DispatcherInterface $dispatcher,
+        Response $defaultResponse
     ) {
-        parent::__construct($container, $router, $dispatcher, new Response());
+        parent::__construct($container, $router, $dispatcher, $defaultResponse);
     }
 
     /**
