@@ -2,6 +2,7 @@
 
 namespace EnderLab\MiddleEarth\Renderer;
 
+use EnderLab\MiddleEarth\Loader\LazyLoading;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
@@ -40,7 +41,17 @@ class PlatesRedererFactory
         }
 
         if ($this->container->has('renderer.template.plugin')) {
-            //$engine->loadExtension(new ChangeCase());
+            $loader = new LazyLoading($this->container);
+            $plugins = $this->container->get('renderer.template.plugin');
+
+            if (false == is_array($plugins)) {
+                $plugins = [$plugins];
+            }
+
+            foreach ($plugins as $plugin) {
+                $instance = $loader->load($plugin);
+                $engine->loadExtension($instance);
+            }
         }
 
         return $engine;
