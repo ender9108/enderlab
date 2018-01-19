@@ -62,10 +62,6 @@ final class AppFactory
             $app->enableErrorHandler();
         }
 
-        if (false === $container->has('app.env')) {
-            throw new \RuntimeException('You must declare the app.env variable in the configuration file.');
-        }
-
         return $app;
     }
 

@@ -10,7 +10,7 @@ trait LoggerDebugTrait
 {
     public function log(ContainerInterface $container, $message, array $context = [])
     {
-        if (App::ENV_DEBUG === $container->get('app.env')) {
+        if ($container->has('app.env') && App::ENV_DEBUG === $container->get('app.env')) {
             if (true === $container->has('logger.engine') &&
                 $container->get('logger.engine') instanceof LoggerInterface
             ) {
