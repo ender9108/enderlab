@@ -247,6 +247,15 @@ class App extends MiddlewareBuilder
         $request = $request->withAttribute('originalResponse', $this->response);
         $response = $this->dispatcher->handle($request);
 
+        $this->log(
+            $this->container,
+            sprintf(
+                'App::run - Response [%d] %s',
+                $response->getStatusCode(),
+                $response->getReasonPhrase()
+            )
+        );
+
         if (true === $returnResponse) {
             return $response;
         }
@@ -258,7 +267,10 @@ class App extends MiddlewareBuilder
         }
     }
 
-    public function setEnv($env)
+    /**
+     * @param $env
+     */
+    public function setEnv($env): void
     {
         if (!in_array(mb_strtolower($env), [self::ENV_PROD, self::ENV_DEV, self::ENV_TEST, self::ENV_DEBUG], true)) {
             throw new \InvalidArgumentException(
