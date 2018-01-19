@@ -2,8 +2,8 @@
 
 namespace EnderLab\MiddleEarth\Application;
 
+use DI\Cache\ArrayCache;
 use DI\ContainerBuilder;
-use Doctrine\Common\Cache\FilesystemCache;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
 use EnderLab\MiddleEarth\Dispatcher\DispatcherInterface;
 use EnderLab\MiddleEarth\Router\Router;
@@ -72,12 +72,12 @@ final class AppFactory
     private static function buildContainer($containerConfig = null): ContainerInterface
     {
         $containerBuilder = new ContainerBuilder();
-        /*$env = $_ENV['ENV'] ?? App::ENV_PROD;
+        $env = $_ENV['ENV'] ?? App::ENV_PROD;
 
         if (App::ENV_PROD === $env) {
-            $containerBuilder->setDefinitionCache(new FilesystemCache('tmp/cache/di'));
+            $containerBuilder->setDefinitionCache(new ArrayCache());
             $containerBuilder->writeProxiesToFile(true, 'tmp/cache/proxies');
-        }*/
+        }
 
         if (is_string($containerConfig)) {
             if (is_dir($containerConfig)) {
