@@ -1,4 +1,5 @@
 <?php
+
 namespace EnderLab\MiddleEarth\Logger;
 
 use EnderLab\MiddleEarth\Application\App;
@@ -7,11 +8,10 @@ use Psr\Log\LoggerInterface;
 
 trait LoggerDebugTrait
 {
-    public function log(ContainerInterface $container, $message, array $context = array())
+    public function log(ContainerInterface $container, $message, array $context = [])
     {
-        if ($container->get('app.env') == App::ENV_DEBUG) {
-            if (
-                true === $container->has('logger.engine') &&
+        if (App::ENV_DEBUG === $container->get('app.env')) {
+            if (true === $container->has('logger.engine') &&
                 $container->get('logger.engine') instanceof LoggerInterface
             ) {
                 $container->get('logger.engine')->debug($message, $context);

@@ -142,7 +142,7 @@ class App extends MiddlewareBuilder
                 'Add route %s %s (%s)',
                 $route->getMethod(),
                 $route->getPath(),
-                is_null($route->getName()) ? 'no name' : $route->getName()
+                null === $route->getName() ? 'no name' : $route->getName()
             )
         );
 

@@ -20,9 +20,9 @@ final class AppFactory
      * Build App object and load config.
      *
      * @param string|ContainerInterface|null $containerConfig
-     * @param RouterInterface|null $router
-     * @param DispatcherInterface|null $dispatcher
-     * @param null|ResponseInterface $defaultResponse
+     * @param RouterInterface|null           $router
+     * @param DispatcherInterface|null       $dispatcher
+     * @param null|ResponseInterface         $defaultResponse
      *
      * @throws \EnderLab\MiddleEarth\Router\RouterException
      * @throws \Psr\Container\ContainerExceptionInterface
