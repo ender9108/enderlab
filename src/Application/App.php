@@ -216,7 +216,19 @@ class App extends MiddlewareBuilder
             $middlewares = $this->buildMiddleware($middlewares);
         }
 
-        $this->dispatcher->pipe(new Route($path, $middlewares));
+        $route = new Route($path, $middlewares);
+
+        $this->dispatcher->pipe($route);
+
+        $this->log(
+            $this->container,
+            sprintf(
+                'Pipe middleware %s %s - %s',
+                $route->getMethod(),
+                $route->getPath(),
+                get_class($middlewares)
+            )
+        );
 
         return $this;
     }
