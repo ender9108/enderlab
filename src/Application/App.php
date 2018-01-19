@@ -139,7 +139,7 @@ class App extends MiddlewareBuilder
         $this->log(
             $this->container,
             sprintf(
-                'Add route %s %s (%s)',
+                'App::addRoute - Add route %s %s (%s)',
                 implode(',', $route->getMethod()),
                 $route->getPath(),
                 null === $route->getName() ? 'no name' : $route->getName()
@@ -223,7 +223,7 @@ class App extends MiddlewareBuilder
         $this->log(
             $this->container,
             sprintf(
-                'Pipe middleware %s %s - %s',
+                'App::pipe - Pipe middleware %s %s - %s',
                 implode(',', $route->getMethod()),
                 $route->getPath(),
                 get_class($middlewares)
