@@ -6,6 +6,7 @@ use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
 use EnderLab\MiddleEarth\Dispatcher\DispatcherInterface;
 use EnderLab\MiddleEarth\Dispatcher\DispatcherMiddleware;
 use EnderLab\MiddleEarth\Error\ErrorMiddleware;
+use EnderLab\MiddleEarth\Logger\LoggerDebugTrait;
 use EnderLab\MiddleEarth\Middleware\MiddlewareBuilder;
 use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\RouterInterface;
@@ -18,9 +19,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class App extends MiddlewareBuilder
 {
+    use LoggerDebugTrait;
+
     const ENV_DEV = 'dev';
     const ENV_TEST = 'test';
     const ENV_PROD = 'prod';
+    const ENV_DEBUG = 'debug';
 
     /**
      * @var string
@@ -131,6 +135,16 @@ class App extends MiddlewareBuilder
         }
 
         $this->router->addRoute($route);
+
+        $this->log(
+            $this->container,
+            sprintf(
+                'Add route %s %s (%s)',
+                $route->getMethod(),
+                $route->getPath(),
+                is_null($route->getName()) ? 'no name' : $route->getName()
+            )
+        );
 
         return $route;
     }

@@ -20,8 +20,9 @@ final class AppFactory
      * Build App object and load config.
      *
      * @param string|ContainerInterface|null $containerConfig
-     * @param RouterInterface|null           $router
-     * @param DispatcherInterface|null       $dispatcher
+     * @param RouterInterface|null $router
+     * @param DispatcherInterface|null $dispatcher
+     * @param null|ResponseInterface $defaultResponse
      *
      * @throws \EnderLab\MiddleEarth\Router\RouterException
      * @throws \Psr\Container\ContainerExceptionInterface
@@ -59,6 +60,10 @@ final class AppFactory
 
         if ($container->has('app.error.handler') && true === (bool) $container->get('app.error.handler')) {
             $app->enableErrorHandler();
+        }
+
+        if (false === $container->has('app.env')) {
+            throw new \RuntimeException('You must declare the app.env variable in the configuration file.');
         }
 
         return $app;
