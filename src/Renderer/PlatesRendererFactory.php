@@ -6,7 +6,7 @@ use EnderLab\MiddleEarth\Loader\LazyLoading;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
-class PlatesRedererFactory
+class PlatesRendererFactory
 {
     private $container;
 
