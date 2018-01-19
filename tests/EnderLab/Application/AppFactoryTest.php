@@ -24,7 +24,7 @@ class AppFactoryTest extends TestCase
         $app = AppFactory::create(
             [
                 'app.env'                => \DI\env('global_env', 'dev'),
-                'app.enableErrorHandler' => \DI\env('ERROR', true),
+                'app.error.handler'      => \DI\env('ERROR', true),
                 'logger.name'            => 'default-logger',
                 'logger.handler'         => [\DI\object(NullHandler::class)],
                 'logger.processor'       => [],
