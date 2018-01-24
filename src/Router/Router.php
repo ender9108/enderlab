@@ -28,6 +28,7 @@ class Router implements RouterInterface
      *
      * @param array $routes
      * @param array $config
+     * @throws RouterException
      */
     public function __construct(array $routes = [], array $config = [])
     {
