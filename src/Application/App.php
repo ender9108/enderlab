@@ -12,10 +12,10 @@ use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\RouterInterface;
 use EnderLab\MiddleEarth\Router\RouterMiddleware;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\Server\MiddlewareInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 class App extends MiddlewareBuilder
 {

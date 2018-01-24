@@ -8,9 +8,9 @@ use EnderLab\MiddleEarth\Middleware\CallableMiddlewareDecorator;
 use EnderLab\MiddleEarth\Router\Route;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\Server\RequestHandlerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class ErrorMiddlewareTest extends TestCase
 {

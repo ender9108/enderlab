@@ -2,7 +2,7 @@
 
 namespace EnderLab\MiddleEarth\Dispatcher;
 
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 interface DispatcherInterface extends RequestHandlerInterface
 {

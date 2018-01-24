@@ -6,10 +6,10 @@ use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
 use EnderLab\MiddleEarth\Loader\LazyLoading;
 use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\RouterInterface;
-use Interop\Http\Server\MiddlewareInterface;
 use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use ReflectionClass;
 
 class MiddlewareBuilder

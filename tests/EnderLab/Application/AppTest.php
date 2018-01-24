@@ -8,13 +8,13 @@ use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
 use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\Server\RequestHandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class AppTest extends TestCase
 {

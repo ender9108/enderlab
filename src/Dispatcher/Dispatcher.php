@@ -4,11 +4,11 @@ namespace EnderLab\MiddleEarth\Dispatcher;
 
 use EnderLab\MiddleEarth\Router\RouteInterface;
 use GuzzleHttp\Psr7\Response;
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use SplQueue;
 
 class Dispatcher implements DispatcherInterface

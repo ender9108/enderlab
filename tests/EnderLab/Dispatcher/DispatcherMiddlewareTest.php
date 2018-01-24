@@ -8,10 +8,10 @@ use EnderLab\MiddleEarth\Dispatcher\DispatcherMiddleware;
 use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
-use Interop\Http\Server\RequestHandlerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class DispatcherMiddlewareTest extends TestCase
 {
