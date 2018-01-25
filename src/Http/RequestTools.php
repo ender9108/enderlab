@@ -6,6 +6,16 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class RequestTools
 {
+    public static function buildHost(ServerRequestInterface $request): string
+    {
+        $url = $request->getUri()->getScheme() . '://';
+        $url .= $request->getUri()->getHost();
+        $url .= ('' === $request->getUri()->getPort() ? '' : $request->getUri()->getPort());
+        $url .= '/';
+
+        return $url;
+    }
+
     public static function buildUrl(ServerRequestInterface $request): string
     {
         $url = $request->getUri()->getScheme() . '://';
