@@ -56,7 +56,7 @@ class LazyLoading
             ) {
                 $args[] = $this->container;
             } elseif ($param->getClass() &&
-                $this->container->get('logger.engine') &&
+                $this->container->has('logger.engine') &&
                 $param->getClass()->implementsInterface('Psr\\Log\\LoggerInterface')
             ) {
                 $args[] = $this->container->get('logger.engine');
