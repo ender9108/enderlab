@@ -129,7 +129,7 @@ class MiddlewareBuilder
 
             $reflection = new ReflectionClass($middleware);
 
-            if ($reflection->implementsInterface('Interop\\Http\\Server\\MiddlewareInterface')) {
+            if ($reflection->implementsInterface('Psr\\Http\\Server\\MiddlewareInterface')) {
                 return true;
             }
 
