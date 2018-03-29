@@ -69,6 +69,7 @@ final class AppFactory
      * @param null $containerConfig
      *
      * @return ContainerInterface
+     * @throws \Exception
      */
     private static function buildContainer($containerConfig = null): ContainerInterface
     {
@@ -76,8 +77,8 @@ final class AppFactory
         $env = $_ENV['ENV'] ?? App::ENV_PROD;
 
         if (App::ENV_PROD === $env) {
-            $containerBuilder->setDefinitionCache(new ArrayCache());
-            $containerBuilder->writeProxiesToFile(true, 'tmp/cache/proxies');
+            $containerBuilder->enableCompilation('tmp/cache');
+            $containerBuilder->enableDefinitionCache();
         }
 
         if (is_string($containerConfig)) {
