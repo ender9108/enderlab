@@ -25,7 +25,7 @@ help:
 install: vendor ## Application install
 
 test: install ## Start unit tests
-	php ENV=dev ./vendor/bin/phpunit --colors
+	php ./vendor/bin/phpunit --colors
 
 phpcbf:
 	php ./vendor/bin/phpcbf

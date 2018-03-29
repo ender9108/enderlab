@@ -20,15 +20,16 @@ final class AppFactory
      * Build App object and load config.
      *
      * @param string|ContainerInterface|null $containerConfig
-     * @param RouterInterface|null           $router
-     * @param DispatcherInterface|null       $dispatcher
-     * @param null|ResponseInterface         $defaultResponse
+     * @param RouterInterface|null $router
+     * @param DispatcherInterface|null $dispatcher
+     * @param null|ResponseInterface $defaultResponse
      *
      * @throws \EnderLab\MiddleEarth\Router\RouterException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      *
      * @return App
+     * @throws \Exception
      */
     public static function create(
         $containerConfig = null,
@@ -78,7 +79,10 @@ final class AppFactory
 
         if (App::ENV_PROD === $env) {
             $containerBuilder->enableCompilation('tmp/cache');
-            $containerBuilder->enableDefinitionCache();
+
+            if (extension_loaded('acpu')) {
+                $containerBuilder->enableDefinitionCache();
+            }
         }
 
         if (is_string($containerConfig)) {
