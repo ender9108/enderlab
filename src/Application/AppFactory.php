@@ -78,11 +78,11 @@ final class AppFactory
         $env = $_ENV['ENV'] ?? App::ENV_PROD;
 
         if (App::ENV_PROD === $env) {
-            $containerBuilder->enableCompilation('tmp/cache');
+            /*$containerBuilder->enableCompilation('tmp/cache');
 
             if (extension_loaded('acpu')) {
                 $containerBuilder->enableDefinitionCache();
-            }
+            }*/
         }
 
         if (is_string($containerConfig)) {
