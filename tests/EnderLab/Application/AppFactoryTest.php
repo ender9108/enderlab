@@ -2,9 +2,6 @@
 
 namespace Tests\EnderLab\MiddleEarth\Application;
 
-use function DI\create;
-use function DI\env;
-use function DI\get;
 use EnderLab\MiddleEarth\Application\App;
 use EnderLab\MiddleEarth\Application\AppFactory;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
@@ -17,6 +14,9 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use function DI\create;
+use function DI\env;
+use function DI\get;
 
 class AppFactoryTest extends TestCase
 {

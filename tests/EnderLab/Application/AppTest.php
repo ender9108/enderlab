@@ -2,8 +2,6 @@
 
 namespace Tests\EnderLab\MiddleEarth\Application;
 
-use function DI\create;
-use function DI\get;
 use EnderLab\MiddleEarth\Application\App;
 use EnderLab\MiddleEarth\Application\AppFactory;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
@@ -17,6 +15,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use function DI\create;
+use function DI\get;
 
 class AppTest extends TestCase
 {

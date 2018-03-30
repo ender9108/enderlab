@@ -19,16 +19,16 @@ final class AppFactory
      * Build App object and load config.
      *
      * @param string|ContainerInterface|null $containerConfig
-     * @param RouterInterface|null $router
-     * @param DispatcherInterface|null $dispatcher
-     * @param null|ResponseInterface $defaultResponse
+     * @param RouterInterface|null           $router
+     * @param DispatcherInterface|null       $dispatcher
+     * @param null|ResponseInterface         $defaultResponse
      *
      * @throws \EnderLab\MiddleEarth\Router\RouterException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Exception
      *
      * @return App
-     * @throws \Exception
      */
     public static function create(
         $containerConfig = null,
@@ -68,8 +68,9 @@ final class AppFactory
     /**
      * @param null $containerConfig
      *
-     * @return ContainerInterface
      * @throws \Exception
+     *
+     * @return ContainerInterface
      */
     private static function buildContainer($containerConfig = null): ContainerInterface
     {
