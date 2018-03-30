@@ -2,6 +2,7 @@
 
 namespace EnderLab\MiddleEarth\Router;
 
+use EnderLab\MiddleEarth\Middleware\CallableMiddlewareDecorator;
 use Psr\Http\Server\MiddlewareInterface;
 
 class Route implements RouteInterface
@@ -92,5 +93,14 @@ class Route implements RouteInterface
     public function getParams(): array
     {
         return $this->params;
+    }
+
+    private function setMiddleware($middleware)
+    {
+        if ($middleware instanceof \Closure) {
+            $middleware = new CallableMiddlewareDecorator($middleware);
+        }
+
+        $this->middlewares = $middleware;
     }
 }

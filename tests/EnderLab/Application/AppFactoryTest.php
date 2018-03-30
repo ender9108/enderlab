@@ -2,6 +2,9 @@
 
 namespace Tests\EnderLab\MiddleEarth\Application;
 
+use function DI\create;
+use function DI\env;
+use function DI\get;
 use EnderLab\MiddleEarth\Application\App;
 use EnderLab\MiddleEarth\Application\AppFactory;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
@@ -10,6 +13,8 @@ use EnderLab\MiddleEarth\Router\Router;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class AppFactoryTest extends TestCase
 {
@@ -23,15 +28,15 @@ class AppFactoryTest extends TestCase
     {
         $app = AppFactory::create(
             [
-                'app.env'                => \DI\env('global_env', 'dev'),
-                'app.error.handler'      => \DI\env('ERROR', true),
+                'app.env'                => env('global_env', 'dev'),
+                'app.error.handler'      => env('ERROR', true),
                 'logger.name'            => 'default-logger',
-                'logger.handler'         => [\DI\object(NullHandler::class)],
+                'logger.handler'         => [create(NullHandler::class)],
                 'logger.processor'       => [],
-                'logger'                 => \DI\object(Logger::class)->constructor(
-                    \DI\get('logger.name'),
-                    \DI\get('logger.handler'),
-                    \DI\get('logger.processor')
+                'logger'                 => create(Logger::class)->constructor(
+                    get('logger.name'),
+                    get('logger.handler'),
+                    get('logger.processor')
                 )
             ],
             new Router(),
@@ -89,10 +94,10 @@ class AppFactoryTest extends TestCase
     {
         $app = AppFactory::create([
             'router.routes' => [
-                \DI\object(Route::class)->constructor(
+                create(Route::class)->constructor(
                     '/blog/:id/:pouette',
-                    function (ServerRequestInterface $request, DelegateInterface $delegate) {
-                        $response = $delegate->handle($request);
+                    function (ServerRequestInterface $request, RequestHandlerInterface $requestHandler) {
+                        $response = $requestHandler->handle($request);
                         $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                         return $response;

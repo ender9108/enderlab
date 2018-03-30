@@ -2,6 +2,8 @@
 
 namespace Tests\EnderLab\MiddleEarth\Application;
 
+use function DI\create;
+use function DI\get;
 use EnderLab\MiddleEarth\Application\App;
 use EnderLab\MiddleEarth\Application\AppFactory;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
@@ -55,12 +57,12 @@ class AppTest extends TestCase
     {
         $app = $this->makeInstanceApp([
             'logger.name'      => 'default-logger',
-            'logger.handler'   => [\DI\object(NullHandler::class)],
+            'logger.handler'   => [create(NullHandler::class)],
             'logger.processor' => [],
-            'logger.engine'    => \DI\object(Logger::class)->constructor(
-                \DI\get('logger.name'),
-                \DI\get('logger.handler'),
-                \DI\get('logger.processor')
+            'logger.engine'    => create(Logger::class)->constructor(
+                get('logger.name'),
+                get('logger.handler'),
+                get('logger.processor')
             )
         ]);
         $app->pipe('EnderLab\MiddleEarth\\Error\\ErrorMiddleware');
