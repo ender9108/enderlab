@@ -115,7 +115,7 @@ class Router implements RouterInterface
         if ($result->isSuccess()) {
             return new Route(
                 $result->getMatchedRoute()->getPath(),
-                $result->getMatchedMiddleware(),
+                $result->getMatchedRoute()->getMiddleware(),
                 $result->getMatchedRoute()->getAllowedMethods(),
                 $result->getMatchedRouteName(),
                 $result->getMatchedParams()

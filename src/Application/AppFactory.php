@@ -2,7 +2,6 @@
 
 namespace EnderLab\MiddleEarth\Application;
 
-use DI\Cache\ArrayCache;
 use DI\ContainerBuilder;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
 use EnderLab\MiddleEarth\Dispatcher\DispatcherInterface;

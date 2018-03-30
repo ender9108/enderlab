@@ -8,11 +8,13 @@ use function DI\get;
 use EnderLab\MiddleEarth\Application\App;
 use EnderLab\MiddleEarth\Application\AppFactory;
 use EnderLab\MiddleEarth\Dispatcher\Dispatcher;
+use EnderLab\MiddleEarth\Middleware\CallableMiddlewareDecorator;
 use EnderLab\MiddleEarth\Router\Route;
 use EnderLab\MiddleEarth\Router\Router;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
@@ -96,12 +98,12 @@ class AppFactoryTest extends TestCase
             'router.routes' => [
                 create(Route::class)->constructor(
                     '/blog/:id/:pouette',
-                    function (ServerRequestInterface $request, RequestHandlerInterface $requestHandler) {
+                    new CallableMiddlewareDecorator(function (ServerRequestInterface $request, RequestHandlerInterface $requestHandler): ResponseInterface {
                         $response = $requestHandler->handle($request);
                         $response->getBody()->write('<br>Middleware callable !!!<br>');
 
                         return $response;
-                    },
+                    }),
                     'GET',
                     'first_route_test'
                 )

@@ -50,9 +50,11 @@ class Route implements RouteInterface
     ) {
         $this->path = ('/' !== trim($path)) ? rtrim($path, '/') : $path;
         $this->method = (is_string($method) ? [$method] : (null === $method ? [] : $method));
-        $this->middlewares = $middlewares;
+        //$this->middlewares = $middlewares;
         $this->name = $name;
         $this->params = $params;
+
+        $this->setMiddleware($middlewares);
     }
 
     /**
@@ -95,12 +97,26 @@ class Route implements RouteInterface
         return $this->params;
     }
 
-    private function setMiddleware($middleware)
+    private function setMiddleware($middlewares)
     {
-        if ($middleware instanceof \Closure) {
-            $middleware = new CallableMiddlewareDecorator($middleware);
+        if ($middlewares instanceof \Closure) {
+            $middlewares = new CallableMiddlewareDecorator($middlewares);
         }
 
-        $this->middlewares = $middleware;
+        if (is_array($middlewares)) {
+            $temp = [];
+
+            foreach ($middlewares as $middleware) {
+                if ($middleware instanceof \Closure) {
+                    $middleware = new CallableMiddlewareDecorator($middlewares);
+                }
+
+                $temp[] = $middleware;
+            }
+
+            $middlewares = $temp;
+        }
+
+        $this->middlewares = $middlewares;
     }
 }
